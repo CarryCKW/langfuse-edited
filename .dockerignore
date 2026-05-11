@@ -6,3 +6,5 @@ README.md
 **/.next
 .git
 **/node_modules
+# 但保留 web/.npmrc 用于 Docker 构建
+!web/.npmrc

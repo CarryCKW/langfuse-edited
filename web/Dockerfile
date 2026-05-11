@@ -27,6 +27,8 @@ WORKDIR /app
 COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
 COPY --from=pruner /app/out/json/ .
+# 复制 npm 配置文件以使用镜像源和重试设置
+COPY web/.npmrc ./.npmrc
 
 RUN pnpm install --frozen-lockfile
 
@@ -141,7 +143,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/packages/shared/clickhouse ./pack
 
 COPY --chown=nextjs:nodejs ./web/entrypoint.sh ./web/entrypoint.sh
 COPY --chown=nextjs:nodejs ./packages/shared/scripts/cleanup.sql ./packages/shared/scripts/cleanup.sql
-RUN chmod +x ./web/entrypoint.sh
+RUN sed -i 's/\r$//' ./web/entrypoint.sh && chmod +x ./web/entrypoint.sh && \
+    find ./packages/shared/clickhouse -name "*.sh" -exec sed -i 's/\r$//' {} \; && \
+    find ./packages/shared/clickhouse -name "*.sh" -exec chmod +x {} \;
 
 USER nextjs
 
@@ -150,7 +154,7 @@ ENV PORT 3000
 
 # Docker ENTRYPOINT (dumb-init) is covered by semantic versioning, not the entrypoint.sh itself
 # Reasoning: ENTRYPOINT is overridden by some self-hosted deployments, thus changing this is breaking
-ENTRYPOINT ["dumb-init", "--", "./web/entrypoint.sh"]
+ENTRYPOINT ["dumb-init", "--", "/app/web/entrypoint.sh"]
 
 # startup command - use dd-trace if NEXT_PUBLIC_LANGFUSE_CLOUD_REGION is configured
 CMD if [ -n "$NEXT_PUBLIC_LANGFUSE_CLOUD_REGION" ]; then \

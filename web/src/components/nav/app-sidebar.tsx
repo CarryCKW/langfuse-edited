@@ -48,13 +48,13 @@ export function AppSidebar({
 }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" variant="sidebar" {...props}>
-      <SidebarHeader>
-        <div className="flex min-h-9 items-center gap-2 py-2 pl-2 pr-0 group-data-[collapsible=icon]:p-3">
-          <LangfuseLogo version />
-        </div>
-        <div className="h-1 flex-1 border-b" />
-        <DemoBadge />
-      </SidebarHeader>
+      {/*<SidebarHeader>*/}
+      {/*  <div className="flex min-h-9 items-center gap-2 py-2 pl-2 pr-0 group-data-[collapsible=icon]:p-3">*/}
+      {/*    <LangfuseLogo version />*/}
+      {/*  </div>*/}
+      {/*  <div className="h-1 flex-1 border-b" />*/}
+      {/*  <DemoBadge />*/}
+      {/*</SidebarHeader>*/}
       <SidebarContent>
         <NavMain items={navItems} />
         <div className="flex-1" />
@@ -63,9 +63,9 @@ export function AppSidebar({
         </div>
         <NavMain items={secondaryNavItems} />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser {...userNavProps} />
-      </SidebarFooter>
+      {/*<SidebarFooter>*/}
+      {/*  <NavUser {...userNavProps} />*/}
+      {/*</SidebarFooter>*/}
       <SidebarRail />
     </Sidebar>
   );

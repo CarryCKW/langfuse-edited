@@ -128,7 +128,8 @@ export const getScoreDataTypeIcon = (dataType: ScoreDataTypeType): string => {
     case "BOOLEAN":
       return "Ⓑ";
     case "CORRECTION":
-      throw new Error("CORRECTION type not supported");
+      return "N"
+      // throw new Error("CORRECTION type not supported");
   }
 };
 

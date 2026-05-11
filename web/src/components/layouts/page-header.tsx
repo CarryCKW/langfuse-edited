@@ -77,29 +77,29 @@ const PageHeader = ({
     >
       <div className="flex flex-col justify-center">
         {/* Top Row */}
-        <div className="border-b">
-          <div
-            className={cn(
-              "flex min-h-11 items-center gap-3 px-3 py-2",
-              container && "lg:container",
-            )}
-          >
-            {showSidebarTrigger ? (
-              <SidebarTrigger />
-            ) : (
-              leadingControl && (
-                <div className="flex items-center">{leadingControl}</div>
-              )
-            )}
-            <div>
-              <EnvLabel />
-            </div>
-            <div className="flex items-center gap-2">
-              <BreadcrumbComponent items={breadcrumb} />
-              {breadcrumbBadges}
-            </div>
-          </div>
-        </div>
+        {/*<div className="border-b">*/}
+        {/*  <div*/}
+        {/*    className={cn(*/}
+        {/*      "flex min-h-11 items-center gap-3 px-3 py-2",*/}
+        {/*      container && "lg:container",*/}
+        {/*    )}*/}
+        {/*  >*/}
+        {/*    {showSidebarTrigger ? (*/}
+        {/*      <SidebarTrigger />*/}
+        {/*    ) : (*/}
+        {/*      leadingControl && (*/}
+        {/*        <div className="flex items-center">{leadingControl}</div>*/}
+        {/*      )*/}
+        {/*    )}*/}
+        {/*    <div>*/}
+        {/*      <EnvLabel />*/}
+        {/*    </div>*/}
+        {/*    <div className="flex items-center gap-2">*/}
+        {/*      <BreadcrumbComponent items={breadcrumb} />*/}
+        {/*      {breadcrumbBadges}*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
 
         {/* Bottom Row */}
         <div className="bg-header">

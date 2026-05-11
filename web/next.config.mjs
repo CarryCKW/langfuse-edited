@@ -80,6 +80,12 @@ const nextConfig = {
     // turbopackPersistentCaching: true,
   },
 
+  // Disable Next.js dev tools overlay
+  devIndicators: {
+    buildActivity: false,
+    buildActivityPosition: 'bottom-right',
+  },
+
   /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
    * out.

@@ -61,16 +61,17 @@ export function SidebarNotifications() {
   };
 
   // Find the oldest non-dismissed notification on mount or when dismissed list changes
-  useEffect(() => {
-    const firstAvailableIndex = notifications.findIndex(
-      (notif) =>
-        !dismissedNotifications.includes(notif.id) && !isExpired(notif),
-    );
-
-    setCurrentNotificationIndex(
-      firstAvailableIndex === -1 ? null : firstAvailableIndex,
-    );
-  }, [dismissedNotifications]);
+  // 去除star渲染
+  // useEffect(() => {
+  //   const firstAvailableIndex = notifications.findIndex(
+  //     (notif) =>
+  //       !dismissedNotifications.includes(notif.id) && !isExpired(notif),
+  //   );
+  //
+  //   setCurrentNotificationIndex(
+  //     firstAvailableIndex === -1 ? null : firstAvailableIndex,
+  //   );
+  // }, [dismissedNotifications]);
 
   const dismissNotification = (id: string) => {
     setDismissedNotifications([...dismissedNotifications, id]);

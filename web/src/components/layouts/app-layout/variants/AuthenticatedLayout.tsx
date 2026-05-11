@@ -71,13 +71,13 @@ export function AuthenticatedLayout({
   const userNavProps = {
     user: {
       name: user.name ?? "",
-      email: user.email ?? "",
-      avatar: user.image ?? "",
+      // email: user.email ?? "",
+      // avatar: user.image ?? "",
     },
     items: [
-      { name: "Account Settings", href: "/account/settings" },
+      // { name: "Account Settings", href: "/account/settings" },
       { name: "Theme", onClick: () => {}, content: <ThemeToggle /> },
-      { name: "Sign out", onClick: onSignOut },
+      // { name: "Sign out", onClick: onSignOut },
     ],
   };
 
