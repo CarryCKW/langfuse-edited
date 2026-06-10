@@ -18,6 +18,8 @@ export function useTraceData({
       projectId,
     },
     {
+      // 排查前端报错
+      enabled: !!traceId && !!projectId,
       retry(failureCount, error) {
         if (
           error.data?.code === "UNAUTHORIZED" ||

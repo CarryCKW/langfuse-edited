@@ -152,7 +152,7 @@ export function ObservationDetailView({
       >
         <TabsBarList>
           <TabsBarTrigger value="preview">Preview</TabsBarTrigger>
-          <TabsBarTrigger value="scores">Scores</TabsBarTrigger>
+          {/*<TabsBarTrigger value="scores">Scores</TabsBarTrigger>*/}
 
           {/* View toggle (Formatted/JSON/JSON Beta) - show for preview tab when pretty view is available */}
           {selectedTab === "preview" && isPrettyViewAvailable && (
@@ -165,7 +165,8 @@ export function ObservationDetailView({
             >
               <TabsList className="h-fit py-0.5">
                 <TabsTrigger value="pretty" className="h-fit px-1 text-xs">
-                  Formatted
+                  格式化
+                  {/*Formatted*/}
                 </TabsTrigger>
                 <TabsTrigger value="json" className="h-fit px-1 text-xs">
                   JSON
@@ -225,26 +226,26 @@ export function ObservationDetailView({
         </TabsBarContent>
 
         {/* Scores tab content */}
-        <TabsBarContent
-          value="scores"
-          className="mb-2 mr-4 mt-0 flex h-full min-h-0 flex-1 overflow-hidden"
-        >
-          <div className="flex h-full min-h-0 w-full flex-1 flex-col overflow-hidden">
-            <ScoresTable
-              projectId={projectId}
-              traceId={traceId}
-              observationId={observation.id}
-              hiddenColumns={[
-                "traceId",
-                "observationId",
-                "traceName",
-                "jobConfigurationId",
-                "userId",
-              ]}
-              localStorageSuffix="ObservationPreview"
-            />
-          </div>
-        </TabsBarContent>
+        {/*<TabsBarContent*/}
+        {/*  value="scores"*/}
+        {/*  className="mb-2 mr-4 mt-0 flex h-full min-h-0 flex-1 overflow-hidden"*/}
+        {/*>*/}
+        {/*  <div className="flex h-full min-h-0 w-full flex-1 flex-col overflow-hidden">*/}
+        {/*    <ScoresTable*/}
+        {/*      projectId={projectId}*/}
+        {/*      traceId={traceId}*/}
+        {/*      observationId={observation.id}*/}
+        {/*      hiddenColumns={[*/}
+        {/*        "traceId",*/}
+        {/*        "observationId",*/}
+        {/*        "traceName",*/}
+        {/*        "jobConfigurationId",*/}
+        {/*        "userId",*/}
+        {/*      ]}*/}
+        {/*      localStorageSuffix="ObservationPreview"*/}
+        {/*    />*/}
+        {/*  </div>*/}
+        {/*</TabsBarContent>*/}
       </TabsBar>
     </div>
   );

@@ -53,7 +53,7 @@ export function NoDataOrLoading({
   }
 
   return (
-    <NoData noDataText="No data" className={className}>
+    <NoData noDataText="暂无观测数据" className={className}>
       {description && <DocPopup description={description} href={href} />}
     </NoData>
   );

@@ -13,6 +13,9 @@ export const config = {
   },
 };
 
+// web/src/pages/api/trpc/[trpc].ts — 每个 tRPC 请求都会进这里：
+// export default createNextApiHandler
+
 // export API handler
 export default createNextApiHandler({
   router: appRouter,

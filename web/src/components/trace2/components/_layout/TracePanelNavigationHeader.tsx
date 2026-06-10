@@ -149,7 +149,7 @@ function TracePanelNavigationHeaderExpanded({
             variant="ghost"
             size="icon"
             onClick={handleDownload}
-            title="Download trace as JSON"
+            title="下载Trace的JSON数据" //Download trace as JSON
             className="h-7 w-7"
           >
             <Download className="h-3.5 w-3.5" />
@@ -165,7 +165,10 @@ function TracePanelNavigationHeaderExpanded({
               isTimelineView && "bg-primary text-primary-foreground",
             )}
           >
-            <span className="text-xs">Timeline</span>
+            <span className="text-xs">
+              时间线
+              {/*Timeline*/}
+            </span>
           </Button>
         </div>
       </div>

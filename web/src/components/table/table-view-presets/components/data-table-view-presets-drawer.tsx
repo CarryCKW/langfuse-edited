@@ -516,30 +516,30 @@ export function TableViewPresetsDrawer({
                                 </PopoverContent>
                               </Popover>
                             </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                              <DeleteButton
-                                itemId={view.id}
-                                projectId={projectId}
-                                scope="TableViewPresets:CUD"
-                                entityToDeleteName="saved view"
-                                executeDeleteMutation={async () => {
-                                  await handleDeleteView(view.id);
-                                }}
-                                isDeleteMutationLoading={
-                                  deleteMutation.isPending
-                                }
-                                invalidateFunc={() => {
-                                  utils.TableViewPresets.invalidate();
-                                }}
-                                captureDeleteOpen={() =>
-                                  capture("saved_views:delete_form_open", {
-                                    tableName,
-                                    viewId: view.id,
-                                  })
-                                }
-                                captureDeleteSuccess={() => {}}
-                              />
-                            </DropdownMenuItem>
+                            {/*<DropdownMenuItem asChild>*/}
+                            {/*  <DeleteButton*/}
+                            {/*    itemId={view.id}*/}
+                            {/*    projectId={projectId}*/}
+                            {/*    scope="TableViewPresets:CUD"*/}
+                            {/*    entityToDeleteName="saved view"*/}
+                            {/*    executeDeleteMutation={async () => {*/}
+                            {/*      await handleDeleteView(view.id);*/}
+                            {/*    }}*/}
+                            {/*    isDeleteMutationLoading={*/}
+                            {/*      deleteMutation.isPending*/}
+                            {/*    }*/}
+                            {/*    invalidateFunc={() => {*/}
+                            {/*      utils.TableViewPresets.invalidate();*/}
+                            {/*    }}*/}
+                            {/*    captureDeleteOpen={() =>*/}
+                            {/*      capture("saved_views:delete_form_open", {*/}
+                            {/*        tableName,*/}
+                            {/*        viewId: view.id,*/}
+                            {/*      })*/}
+                            {/*    }*/}
+                            {/*    captureDeleteSuccess={() => {}}*/}
+                            {/*  />*/}
+                            {/*</DropdownMenuItem>*/}
                           </DropdownMenuContent>
                         </DropdownMenu>
                         <div className="flex items-center text-xs text-muted-foreground">

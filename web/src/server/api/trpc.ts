@@ -48,6 +48,9 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   };
 };
 
+// web/src/server/api/trpc.ts
+// 每个 tRPC 请求先建 context，里面一定会调 getServerAuthSession
+
 /**
  * This is the actual context you will use in your router. It will be used to process every request
  * that goes through your tRPC endpoint.
@@ -277,6 +280,31 @@ const enforceUserIsAuthedAndProjectMember = t.middleware(async (opts) => {
     .find((project) => project.id === projectId);
 
   if (!sessionProject) {
+    // 解决projectId 为null的情况
+    // External auth fallback: allow access to default project even without membership
+    if (
+      env.LANGFUSE_DEFAULT_PROJECT_ID &&
+      projectId === env.LANGFUSE_DEFAULT_PROJECT_ID
+    ) {
+      const dbProject = await ctx.prisma.project.findFirst({
+        select: { orgId: true },
+        where: { id: projectId, deletedAt: null },
+      });
+      if (dbProject) {
+        return next({
+          ctx: {
+            session: {
+              ...ctx.session,
+              user: ctx.session.user,
+              orgId: dbProject.orgId,
+              orgRole: Role.VIEWER,
+              projectId: projectId,
+              projectRole: Role.VIEWER,
+            },
+          },
+        });
+      }
+    }
     if (ctx.session.user.admin === true) {
       // fetch org as it is not available in the session for admins
       const dbProject = await ctx.prisma.project.findFirst({

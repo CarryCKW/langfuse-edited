@@ -1,0 +1,64 @@
+你作为一个专业的k8s专家，现在我需要将这个项目的原生docker compose方式通过k8s部署，请你参考文件“web/docs/yaml/ai-tuning-kit-agent.yaml” 中对于ai-tuning-kit-agent-backend
+、ai-tuning-kit-agent-worker 两个镜像的联合部署方式，实现对于我原生的 docker-compose-web-custom-v0608-local-validate.yml 的部署方式，镜像我会提前打好arm64的版本。里面不需要${}的占位符，直接写死。
+
+更新一个问题，langfuse可以使用clickhouse的镜像部署，但是110服务器的cpu版本不支持clickhouse需要的加速插件，导致需要自行安装clickhouse数据库后端，并且langfuse只能使用该产品，目前无代替品。
+之前是通过bin文件安装clickhouse，sudo ./clickhouse install，然后记录安装过程的用户名、密码设置、网络访问设置，所以之前的docker compose文件中会改成如下：
+services:
+  langfuse-worker:
+    # ...
+    environment: &langfuse-worker-env
+      # ...
+      CLICKHOUSE_MIGRATION_URL: clickhouse://${ip route get 1 | awk '{print $7}' | head -1}:9000
+      CLICKHOUSE_URL: http://${ip route get 1 | awk '{print $7}' | head -1}:8123
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: ${刚才安装clickhouse过程中自己设置的密码}
+      CLICKHOUSE_CLUSTER_ENABLED: ${CLICKHOUSE_CLUSTER_ENABLED:-false}
+现在请你正对这个内容，同步更改 web/docs/yaml/langfuse-k8s-deployment.yaml 文件，同时注意说明密码不能明文，得加密，请注意。
+
+
+
+
+
+--- 记录：---
+● 已完成 web/docs/yaml/langfuse-k8s-deployment.yaml 的更新。
+
+  主要变更
+
+  1. ClickHouse 配置改为外部宿主机
+
+  - 删除了 ClickHouse 的 Deployment 和 Service（不再在 k8s 中部署）
+  - 更新 ConfigMap 中的连接地址为宿主机 IP：
+  CLICKHOUSE_MIGRATION_URL: "clickhouse://YOUR_HOST_IP:9000"
+  CLICKHOUSE_URL: "http://YOUR_HOST_IP:8123"
+  CLICKHOUSE_USER: "default"
+  - 需要将 YOUR_HOST_IP 替换为实际宿主机 IP
+
+  2. 密码加密存储
+
+  - 新增 langfuse-secrets Secret 资源存储敏感信息
+  - CLICKHOUSE_PASSWORD 从 ConfigMap 移到 Secret 中
+  - 密码使用 base64 编码存储
+
+  部署前需要修改的占位符
+  ┌──────────────────────────────────────────┬───────────────────────────────┬─────────────────────────────────────────────┐
+  │                  占位符                  │             说明              │                  获取方式                   │
+  ├──────────────────────────────────────────┼───────────────────────────────┼─────────────────────────────────────────────┤
+  │ YOUR_HOST_IP                             │ 宿主机 IP 地址                │ ip route get 1 | awk '{print $7}' | head -1 │
+  ├──────────────────────────────────────────┼───────────────────────────────┼─────────────────────────────────────────────┤
+  │ WU9VUl9CQVNFNjRfRU5DT0RFRF9QQVNTV09SRA== │ ClickHouse 密码的 base64 编码 │ echo -n 'your_password' | base64            │
+  └──────────────────────────────────────────┴───────────────────────────────┴─────────────────────────────────────────────┘
+  生成 Secret 密码示例
+
+  # 将你的 ClickHouse 密码进行 base64 编码
+  echo -n 'your_clickhouse_password' | base64
+
+  # 然后替换 Secret 中的 CLICKHOUSE_PASSWORD 值
+
+  部署命令
+
+  kubectl apply -f web/docs/yaml/langfuse-k8s-deployment.yaml
+
+
+---
+
+web/docs/yaml/langfuse-k8s-deployment.yaml 中的langfuse-web是需要对外暴露访问的，对外端口是31987，如何改？是否还有其他注意修改事项？

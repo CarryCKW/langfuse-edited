@@ -1,0 +1,193 @@
+# Docker Compose 覆盖配置：Langfuse 子路径部署（使用本地文件存储）
+# 使用方式：docker-compose -f docker-compose.yml -f docker-compose.langfuse-subpath.yml up -d
+#
+# 此配置用于将 Langfuse 部署在 https://10.151.18.110:31987/langfuse/ 路径下
+# 需要与 Nginx 反向代理配合使用
+# 使用本地文件存储替代 MinIO
+name: langfuse-edited-v0608-local-validate
+
+services:
+  langfuse-worker:
+    image: langfuse-worker-custom:v0529.1
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+#    platform: linux/arm64
+    restart: always
+    user: root
+    depends_on: &langfuse-depends-on
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+      storage-init:
+        condition: service_completed_successfully
+    ports:
+      - "127.0.0.1:33030:3030"
+    volumes:
+      - langfuse_storage:/app/langfuse-storage
+    environment: &langfuse-worker-env # 子路径配置
+      NEXT_PUBLIC_BASE_PATH: "/langfuse"
+#      NEXTAUTH_URL: https://10.151.18.110:31987/langfuse # 使用外部访问地址
+      NEXTAUTH_URL: https://0.0.0.0:33001/langfuse # 使用外部访问地址
+      # 数据库配置
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      DIRECT_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      SALT: ${SALT:-mysalt}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-0000000000000000000000000000000000000000000000000000000000000000}
+      TELEMETRY_ENABLED: ${TELEMETRY_ENABLED:-true}
+      LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: ${LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES:-true}
+      # ClickHouse 配置
+      CLICKHOUSE_MIGRATION_URL: clickhouse://clickhouse:9000
+      CLICKHOUSE_URL: http://clickhouse:8123
+      CLICKHOUSE_USER: clickhouse
+      CLICKHOUSE_PASSWORD: clickhouse
+      CLICKHOUSE_CLUSTER_ENABLED: "false"
+      # 本地文件存储配置（替代 MinIO）
+      LANGFUSE_USE_AZURE_BLOB: "false"
+      # S3 bucket name is required by env schema, set dummy value when using local storage
+      LANGFUSE_S3_EVENT_UPLOAD_BUCKET: langfuse
+      LANGFUSE_USE_LOCAL_FILE_STORAGE: "true"
+      LANGFUSE_LOCAL_STORAGE_PATH: /app/langfuse-storage
+#      LANGFUSE_LOCAL_STORAGE_BASE_URL: https://10.151.18.110:31987/langfuse/api/public/files # 使用外部访问地址
+      LANGFUSE_LOCAL_STORAGE_BASE_URL: https://127.0.0.1:33001/langfuse/api/public/files # 使用外部访问地址
+      # 队列配置
+      LANGFUSE_INGESTION_QUEUE_DELAY_MS: ${LANGFUSE_INGESTION_QUEUE_DELAY_MS:-}
+      LANGFUSE_INGESTION_CLICKHOUSE_WRITE_INTERVAL_MS: ${LANGFUSE_INGESTION_CLICKHOUSE_WRITE_INTERVAL_MS:-}
+      # Redis 配置
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_AUTH: myredissecret
+      REDIS_TLS_ENABLED: "false"
+      # 邮件配置
+      EMAIL_FROM_ADDRESS: ${EMAIL_FROM_ADDRESS:-}
+      SMTP_CONNECTION_URL: ${SMTP_CONNECTION_URL:-}
+      # Events table
+#      LANGFUSE_ENABLE_EVENTS_TABLE_OBSERVATIONS: "true"
+#      LANGFUSE_ENABLE_EVENTS_TABLE_FLAGS: "true"
+#      LANGFUSE_ENABLE_EVENTS_TABLE_V2_APIS: "true"
+      # External auth bridge (micro-frontend)
+      EXTERNAL_AUTH_ENABLED: ${EXTERNAL_AUTH_ENABLED:-true}
+#      EXTERNAL_AUTH_VALIDATE_URL: ${EXTERNAL_AUTH_VALIDATE_URL:-http://aiops-ai-backend-service-svc.infra.svc.cluster.local:80/internal/auth/validate}
+      EXTERNAL_AUTH_VALIDATE_URL: ${EXTERNAL_AUTH_VALIDATE_URL:-http://host.docker.internal:28801/internal/auth/validate}
+      EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE: ${EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE:-access_token}
+      EXTERNAL_AUTH_LOGIN_REDIRECT_URL: ${EXTERNAL_AUTH_LOGIN_REDIRECT_URL:-https://10.151.18.110:31987/databoard}
+      NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED: ${NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED:-true}
+      NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL: ${NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL:-https://10.151.18.110:31987/databoard}
+      LANGFUSE_DEFAULT_PROJECT_ID: ${LANGFUSE_DEFAULT_PROJECT_ID:-cmk0uyvyj0006pk07ml635l8g}
+      LANGFUSE_DEFAULT_PROJECT_ROLE: ${LANGFUSE_DEFAULT_PROJECT_ROLE:-VIEWER}
+      EXTERNAL_AUTH_VALIDATION_MODE: ${EXTERNAL_AUTH_VALIDATION_MODE:-per_request}
+      NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE: ${NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE:-per_request}
+      NEXT_PUBLIC_EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE: ${NEXT_PUBLIC_EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE:-access_token}
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+
+  langfuse-web:
+    image: langfuse-web-custom:v0608.1
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+      args:
+        NEXT_PUBLIC_BASE_PATH: "/langfuse"
+        NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED: "true"
+        NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL: "https://10.151.18.110:31987/databoard"
+        NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE: "per_request"
+#    platform: linux/arm64
+    restart: always
+    user: root
+    depends_on: *langfuse-depends-on
+    ports:
+#      - "0.0.0.0:31987:3000" # 绑定所有接口，让 K8s 集群可访问
+      - "0.0.0.0:33001:3000" # 绑定所有接口，让 K8s 集群可访问
+    volumes:
+      - langfuse_storage:/app/langfuse-storage
+    environment:
+      <<: *langfuse-worker-env
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-mysecret}
+      # 初始化配置
+      LANGFUSE_INIT_ORG_ID: ${LANGFUSE_INIT_ORG_ID:-cmpdsy6qk0000udwobojvitba}
+      LANGFUSE_INIT_ORG_NAME: ${LANGFUSE_INIT_ORG_NAME:-llm-test-001}
+      LANGFUSE_INIT_PROJECT_ID: ${LANGFUSE_INIT_PROJECT_ID:-cmk0uyvyj0006pk07ml635l8g}
+      LANGFUSE_INIT_PROJECT_NAME: ${LANGFUSE_INIT_PROJECT_NAME:-llm-agent}
+      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: ${LANGFUSE_INIT_PROJECT_PUBLIC_KEY:-pk-lf-acc3323c-20d0-4d0e-bd0d-b259d2708152}
+      LANGFUSE_INIT_PROJECT_SECRET_KEY: ${LANGFUSE_INIT_PROJECT_SECRET_KEY:-sk-lf-fb3e287e-d635-4582-8752-df63bdaf9f08}
+      LANGFUSE_INIT_USER_EMAIL: ${LANGFUSE_INIT_USER_EMAIL:-admin2@example.com}
+      LANGFUSE_INIT_USER_NAME: ${LANGFUSE_INIT_USER_NAME:-admin2}
+      LANGFUSE_INIT_USER_PASSWORD: ${LANGFUSE_INIT_USER_PASSWORD:-R9eDuck$!mpleM00n1}
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+
+  clickhouse:
+    image: docker.io/clickhouse/clickhouse-server
+    restart: always
+    environment:
+      CLICKHOUSE_DB: default
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER:-clickhouse}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-clickhouse} # CHANGEME
+    volumes:
+      - langfuse_clickhouse_data:/var/lib/clickhouse
+      - langfuse_clickhouse_logs:/var/log/clickhouse-server
+    ports:
+      - 127.0.0.1:38123:8123
+      - 127.0.0.1:39000:9000
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8123/ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+
+  redis:
+    image: docker.io/redis:7
+    restart: always
+    # CHANGEME: row below to secure redis password
+    command: >
+      --requirepass ${REDIS_AUTH:-myredissecret}
+      --maxmemory-policy noeviction
+    ports:
+      - 127.0.0.1:36379:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 10s
+      retries: 10
+
+  postgres:
+    image: docker.io/postgres:${POSTGRES_VERSION:-17}
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres} # CHANGEME
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      TZ: UTC
+      PGTZ: UTC
+    ports:
+      - 127.0.0.1:35432:5432
+    volumes:
+      - langfuse_postgres_data:/var/lib/postgresql/data
+  # Initialize storage volume with correct permissions
+  storage-init:
+    image: alpine:latest
+    restart: "no"
+    volumes:
+      - langfuse_storage:/app/langfuse-storage
+    command: sh -c "mkdir -p /app/langfuse-storage && chmod -R 777 /app/langfuse-storage && echo 'Storage volume initialized with open permissions'"
+
+
+volumes:
+  langfuse_postgres_data:
+    driver: local
+  langfuse_clickhouse_data:
+    driver: local
+  langfuse_clickhouse_logs:
+    driver: local
+  langfuse_storage:
+    driver: local
+

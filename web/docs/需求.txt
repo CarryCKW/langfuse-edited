@@ -1,0 +1,28 @@
+帮我看下目前因为安全考虑不应该支持自动登录，需要接入外部认证接口，并且和其他同域名和同部分前缀的应用对接
+，然后初步设想的是别人跳转链接的时候本应该需要鉴权langfuse自己的登录信息，现在能否改成别人请求时携带外部应用的cookie和cookie中的accesskey，
+然后我这里请求外部的认证接口，调用接口： http://aiops-ai-backend-service-svc.infra.svc.cluster.local:80/internal/auth/validate
+这个接口信息如下：public ResponseEntity<CommonPrincipal> validateToken(String accessKey)  同时：
+@Data
+@Schema(description = "通用用户主体")
+public class CommonPrincipal {
+
+    @Schema(description = "当前登录用户的账号 登录名")
+    private String userName;
+
+    @Schema(description = "账号 Id")
+    private String userId;
+}
+
+也就是这个方法传递accessKey然后返回userName、userId作为认证信息。如果accessKey过期了，调用接口无法返回正常的userName、userId。
+
+现在这个Langfuse项目有自己的认证系统，如何结合给定的要求，调用外部的这个认证接口，实现这个系统的不同登录并且外部鉴权逻辑。
+
+我想的是我这里去掉本事的认证不通过的登录逻辑，直接调用外部接口/internal/auth/validate，毕竟主应用登录过的情况下，访问我的路由会携带cookie和cookie中的accesskey，
+然后如果这个接口通过了，就算通过，但是这样由于langfuse修改前本事因为需要登录然后有认证信息，所以现在你需要一方面看看原来的登录逻辑，在登录成功后会返回哪些信息用户和认证信息，另一方面看如何将
+接口/internal/auth/validate的信息和langfuse自身的信息打通，比如cookie入侵和用户信息对等化。
+
+---
+1、外部接口返回 userName 和 userId，这个 userId 是什么？
+是外部系统的用户ID，
+2、用户不存在时的处理，拒绝访问
+但是重要的是，目前想的是不对等方案，langfuse保持自己的用户信息，外部的user信息是外部的，接口返回只用来做鉴权放不放行

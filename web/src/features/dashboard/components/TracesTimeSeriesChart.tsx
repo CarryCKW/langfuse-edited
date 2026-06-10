@@ -15,6 +15,7 @@ import {
   type QueryType,
   mapLegacyUiTableFilterToView,
 } from "@/src/features/query";
+import DocPopup from "@/src/components/layouts/doc-popup";
 
 export const TracesAndObservationsTimeSeriesChart = ({
   className,
@@ -143,25 +144,28 @@ export const TracesAndObservationsTimeSeriesChart = ({
 
   const data = [
     {
-      tabTitle: "Traces",
+      tabTitle: "Traces", //Traces
       data: transformedTraces,
       totalMetric: total,
-      metricDescription: `Traces tracked`,
+      metricDescription: `条追踪记录`, //Traces tracked
     },
     {
-      tabTitle: "Observations by Level",
+      tabTitle: "按级别列出观测性", //Observations by Level
       data: transformedObservations,
       totalMetric: totalObservations,
-      metricDescription: `Observations tracked`,
+      metricDescription: `条观测记录`, //Observations tracked
     },
   ];
 
   return (
     <DashboardCard
       className={className}
-      title="Traces by time"
+      title="按时间追踪" //Traces by time
       isLoading={isLoading || traces.isPending}
       cardContentClassName="flex flex-col content-end "
+      headerRight={
+        <DocPopup description="当前筛选条件下，分级统计Traces数量" />
+      }
     >
       <TabComponent
         tabs={data.map((item) => {
@@ -188,8 +192,8 @@ export const TracesAndObservationsTimeSeriesChart = ({
                 ) : (
                   <NoDataOrLoading
                     isLoading={isLoading || traces.isPending}
-                    description="Traces contain details about LLM applications and can be created using the SDK."
-                    href="https://langfuse.com/docs/observability/overview"
+                    // description="Traces contain details about LLM applications and can be created using the SDK."
+                    // href="https://langfuse.com/docs/observability/overview"
                   />
                 )}
               </>

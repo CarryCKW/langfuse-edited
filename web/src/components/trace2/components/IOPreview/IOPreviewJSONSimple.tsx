@@ -83,7 +83,7 @@ export function IOPreviewJSONSimple({
     <div className="[&_.io-message-content]:px-2 [&_.io-message-header]:px-2">
       {showInput && (
         <PrettyJsonView
-          title="Input"
+          title="输入" //Input
           json={input}
           parsedJson={effectiveInput}
           isLoading={isLoading}
@@ -96,7 +96,7 @@ export function IOPreviewJSONSimple({
       )}
       {showOutput && (
         <PrettyJsonView
-          title="Output"
+          title="输出" //Output
           json={output}
           parsedJson={effectiveOutput}
           isLoading={isLoading}
@@ -117,7 +117,7 @@ export function IOPreviewJSONSimple({
       />
       {showMetadata && (
         <PrettyJsonView
-          title="Metadata"
+          title="元数据" //Metadata
           json={metadata}
           parsedJson={effectiveMetadata}
           isLoading={isLoading}

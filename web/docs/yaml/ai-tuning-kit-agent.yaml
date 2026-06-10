@@ -1,0 +1,264 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${NAMESPACE}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-tuning-kit-agent-config
+  namespace: ${NAMESPACE}
+data:
+  config.yaml: |
+    database_url:
+      "mysql+pymysql://root:gAAAAABlp4b4c59FeVGF_OQRVf6NOUIGdxq8246EBD-b0hdK_jVKRs1x4PoAn0A6C5S6IiFKmWn0Nm5eBUWu-7jxcqw6TiVjQA==@10.64.7.77:23306/ATKAgent?charset=utf8mb4"
+
+    # 缓存配置  redis://[[username]:[password]]@localhost:6379/0
+    # 普通模式:
+    redis_url: "redis://10.64.7.77:16379/1"
+
+    # celery的broken地址
+    celery_redis_url: "redis://10.64.7.77:16379/2"
+    celery_task:
+      task_routers:
+        src.worker.knowledge.*: # 知识库相关任务
+          queue: knowledge_celery
+        src.worker.workflow.*: # 工作流相关任务
+          queue: workflow_celery
+
+    # 知识库的milvus和es配置  支持使用 !env ${PATH} 填写环境变量的值, 若环境变量不存在则会报错
+    vector_stores:
+      milvus:
+        connection_args: {"host":"10.64.7.77","port":"19530","user":"","password":"","secure":false}
+        is_partition: true
+        partition_suffix: "1"
+      elasticsearch:
+        url: http://10.64.7.77:19200
+        ssl_verify: {}
+
+    # 存储，目前使用本地存储
+    object_storage:
+      type: filesystem
+      filesystem:
+        root_dir: ./data/storage
+        public_base_url:
+        public_bucket: public
+        tmp_bucket: tmp-dir
+
+    auth:
+      enabled: true
+      base_url: http://aiops-ai-backend-service-svc
+      validate_uri: /internal/auth/validate
+      cookie_name: access_token
+      timeout: 5
+      cache_ttl: 300
+
+    environment:
+      env: dev
+
+    # 可根据loguru的文档配置不同 handlers
+    logger_conf:
+      # 默认输出到sys.stdout的日志级别, 大于等于此级别都会输出
+      level: DEBUG
+      # 默认输出格式
+      format: '<level>[{time:YYYY-MM-DD HH:mm:ss.SSSSSS}] [{level.name} process-{process.id}-{thread.id} {name}:{line}]</level> - <level>trace={extra[trace_id]} {message}</level>'
+      # 参考loguru.add()中的参数可以配置多个handler
+      handlers:
+        - sink: "./data/agent.txt"
+          # 日志级别
+          level: INFO
+          # 日志格式化函数，extra内支持trace_id
+          format: '<level>[{time:YYYY-MM-DD HH:mm:ss.SSSSSS}] [{level.name} process-{process.id}-{thread.id} {name}:{line}]</level> - <level>trace={extra[trace_id]} {message}</level>'
+          # 每天的几点进行切割
+          rotation: "00:00"
+          retention: "90 Days"
+          enqueue: true
+        - sink: "./data/statistic.txt"
+          level: INFO
+          filter: "lambda record: record['level'].name == 'INFO' and record['message'].startswith('k=s')"
+          format: "[{time:YYYY-MM-DD HH:mm:ss.SSSSSS}]|{level}|{extra[trace_id]}||{process.id}|{thread.id}|||#EX_ERR:POS={name},line {line},ERR=500,EMSG={message}"
+          rotation: "00:00"
+          retention: "90 Days"
+          enqueue: true
+
+  initdb_config.yaml: |
+    knowledges: # 知识库相关配置
+      etl4lm:
+        # 文档解析模型服务配置，包括OCR、版式分析、表格识别、公式识别等
+        url: "http://10.151.18.110:18003"
+        timeout: 600
+
+    # 会话窗口底部提示文案
+    dialog_tips:
+      "内容由AI生成，仅供参考！"
+
+    env:
+      # onlyoffice 组件地址，需要浏览器能直接访问
+      office_url: http://IP:8701
+      # 前端和后端上传文件支持的基础格式；图片格式会在 etl4lm.url 配置后自动追加
+      uns_support: ['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'txt', 'md', 'html', 'pdf', 'csv']
+      # 前端和后端上传文件的最大限制，单位MB
+      uploaded_files_maximum_size: 20
+
+    workflow:
+      # 节点运行最大步数
+      max_steps: 50
+      # 等待用户输入的超时时间，单位分钟
+      timeout: 5
+      # WebSocket 最大连接时长，单位秒；0 表示不限制
+      max_websocket_connection_seconds: 43200
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-tuning-kit-agent-backend
+  namespace: ${NAMESPACE}
+  labels:
+    app: ai-tuning-kit-agent
+    component: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-tuning-kit-agent
+      component: api
+  template:
+    metadata:
+      labels:
+        app: ai-tuning-kit-agent
+        component: api
+    spec:
+      containers:
+        - name: api
+          image: ${IMAGE}
+          imagePullPolicy: IfNotPresent
+          workingDir: /app
+          command:
+            - /bin/bash
+            - /app/entrypoint.sh
+          args:
+            - api
+          ports:
+            - name: http
+              containerPort: 7860
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 8
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 5
+          volumeMounts:
+            - name: app-config
+              mountPath: /app/config/config.yaml
+              subPath: config.yaml
+            - name: app-config
+              mountPath: /app/config/initdb_config.yaml
+              subPath: initdb_config.yaml
+            - name: app-data
+              mountPath: /app/data
+          resources:
+            requests:
+              cpu: "4"
+              memory: "8Gi"
+            limits:
+              cpu: "4"
+              memory: "8Gi"
+      volumes:
+        - name: app-config
+          configMap:
+            name: ai-tuning-kit-agent-config
+        - name: app-data
+          hostPath:
+            path: /mnt/xlh/data/app_data
+            type: DirectoryOrCreate
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-tuning-kit-agent-worker
+  namespace: ${NAMESPACE}
+  labels:
+    app: ai-tuning-kit-agent
+    component: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-tuning-kit-agent
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: ai-tuning-kit-agent
+        component: worker
+    spec:
+      containers:
+        - name: worker
+          image: ${IMAGE}
+          imagePullPolicy: IfNotPresent
+          workingDir: /app
+          command:
+            - /bin/bash
+            - /app/entrypoint.sh
+          args:
+            - worker
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+          volumeMounts:
+            - name: app-config
+              mountPath: /app/config/config.yaml
+              subPath: config.yaml
+            - name: app-config
+              mountPath: /app/config/initdb_config.yaml
+              subPath: initdb_config.yaml
+            - name: app-data
+              mountPath: /app/data
+          resources:
+            requests:
+              cpu: "8"
+              memory: "16Gi"
+            limits:
+              cpu: "16"
+              memory: "32Gi"
+      volumes:
+        - name: app-config
+          configMap:
+            name: ai-tuning-kit-agent-config
+        - name: app-data
+          hostPath:
+            path: /mnt/xlh/data/app_data
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-tuning-kit-agent-backend
+  namespace: ${NAMESPACE}
+  labels:
+    app: ai-tuning-kit-agent
+    component: api
+spec:
+  type: NodePort
+  selector:
+    app: ai-tuning-kit-agent
+    component: api
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http
+      nodePort: 30080

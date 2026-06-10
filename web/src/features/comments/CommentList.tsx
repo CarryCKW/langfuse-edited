@@ -440,20 +440,21 @@ export function CommentList({
     >
       {cardView && (
         <div className="flex-shrink-0 border-b px-2 py-1 text-sm font-medium">
-          Comments ({comments.data?.length ?? 0})
+          评论 ({comments.data?.length ?? 0})
         </div>
       )}
       <div className="flex min-h-0 flex-1 flex-col">
         {!cardView && (
           <div className="flex-shrink-0 border-b">
             <div className="flex items-center justify-between gap-2 px-2 py-1.5">
-              <div className="text-sm font-medium">Comments</div>
+              <div className="text-sm font-medium">评论列表</div>
+              {/*Comments*/}
               <div className="relative max-w-xs flex-1">
                 <Search className="absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   ref={searchInputRef}
                   type="text"
-                  placeholder="Search comments..."
+                  placeholder="搜索评论内容" //Search comments...
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="h-7 pl-7 pr-7 text-xs"
@@ -486,9 +487,9 @@ export function CommentList({
             <div className="px-2 pb-1 text-xs text-muted-foreground">
               {searchQuery.trim()
                 ? filteredComments && filteredComments.length > 0
-                  ? `Showing ${filteredComments.length} of ${comments.data?.length ?? 0} comments`
-                  : "No comments match your search"
-                : `${comments.data?.length ?? 0} comments`}
+                  ? `展示 ${filteredComments.length} of ${comments.data?.length ?? 0} 评论`
+                  : "没有评论符合搜索条件"
+                : `${comments.data?.length ?? 0} 评论数`}
             </div>
           </div>
         )}
@@ -583,11 +584,7 @@ export function CommentList({
                       title="Delete comment"
                       loading={deleteCommentMutation.isPending}
                       onClick={() => {
-                        if (
-                          confirm(
-                            "Are you sure you want to delete this comment?",
-                          )
-                        )
+                        if (confirm("是否确定删除此评论内容？"))
                           deleteCommentMutation.mutateAsync({
                             commentId: comment.id,
                             projectId,
@@ -608,9 +605,9 @@ export function CommentList({
         {hasWriteAccess && (
           <>
             <div className="relative ml-2.5 mr-4 mt-2 flex flex-row items-center justify-between text-xs text-muted-foreground">
-              <span className="sr-only">New comment</span>
+              <span className="sr-only">新评论内容</span>
               <span></span>
-              <span>Markdown and @-mentions support</span>
+              {/*<span>Markdown and @-mentions support</span>*/}
             </div>
             <div className="relative mb-2 ml-2 mr-3 mt-0.5 min-h-[70px] flex-shrink-0 rounded-lg border border-border/60 pt-1">
               {/* Visually hidden header for accessibility */}
@@ -625,7 +622,7 @@ export function CommentList({
                         <div>
                           <FormControl>
                             <Textarea
-                              placeholder="Add a comment..."
+                              placeholder="此处添加评论..."
                               {...field}
                               ref={(el) => {
                                 if (textareaRef.current !== el) {
@@ -701,9 +698,10 @@ export function CommentList({
                         className="w-auto p-2"
                       >
                         <div className="flex items-center gap-2 text-sm">
-                          <span>Send comment</span>
+                          <span>发送评论</span>
+                          {/*Send comment*/}
                           <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                            <span className="text-xs">⌘</span>Enter
+                            <span className="text-xs">⌘</span>回车
                           </kbd>
                         </div>
                       </HoverCardContent>

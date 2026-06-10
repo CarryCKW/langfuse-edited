@@ -25,6 +25,7 @@ import {
   mapLegacyUiTableFilterToView,
 } from "@/src/features/query";
 import { type DatabaseRow } from "@/src/server/api/services/sqlInterface";
+import DocPopup from "@/src/components/layouts/doc-popup";
 
 export const ModelUsageChart = ({
   className,
@@ -286,47 +287,48 @@ export const ModelUsageChart = ({
   };
 
   const data = [
+    // {
+    //   tabTitle: "Cost by model",
+    //   data: costByModel,
+    //   totalMetric: totalCostDashboardFormatted(totalCost),
+    //   metricDescription: `Cost`,
+    //   formatter: oneValueUsdFormatter,
+    // },
+    // {
+    //   tabTitle: "Cost by type",
+    //   data: costByType,
+    //   totalMetric: totalCostDashboardFormatted(totalCost),
+    //   metricDescription: `Cost`,
+    //   formatter: oneValueUsdFormatter,
+    // },
     {
-      tabTitle: "Cost by model",
-      data: costByModel,
-      totalMetric: totalCostDashboardFormatted(totalCost),
-      metricDescription: `Cost`,
-      formatter: oneValueUsdFormatter,
-    },
-    {
-      tabTitle: "Cost by type",
-      data: costByType,
-      totalMetric: totalCostDashboardFormatted(totalCost),
-      metricDescription: `Cost`,
-      formatter: oneValueUsdFormatter,
-    },
-    {
-      tabTitle: "Usage by model",
+      tabTitle: "按模型用量", //Usage by model
       data: unitsByModel,
       totalMetric: totalTokens
         ? compactNumberFormatter(totalTokens)
         : compactNumberFormatter(0),
-      metricDescription: `Units`,
+      metricDescription: `Tokens`, // Units
     },
     {
-      tabTitle: "Usage by type",
+      tabTitle: "按类型用量", //Usage by type
       data: unitsByType,
       totalMetric: totalTokens
         ? compactNumberFormatter(totalTokens)
         : compactNumberFormatter(0),
-      metricDescription: `Units`,
+      metricDescription: `Tokens`, // Units
     },
   ];
 
   return (
     <DashboardCard
       className={className}
-      title="Model Usage"
+      title="模型用量" //Model Usage
       isLoading={
         isLoading || (queryResult.isPending && selectedModels.length > 0)
       }
       headerRight={
         <div className="flex items-center justify-end">
+          <DocPopup description="当前筛选条件下，按模型类型统计全局智能体应用的Tokens使用量" />
           <ModelSelectorPopover
             allModels={allModels}
             selectedModels={selectedModels}
@@ -362,7 +364,7 @@ export const ModelUsageChart = ({
                     data={item.data}
                     showLegend={true}
                     connectNulls={true}
-                    valueFormatter={item.formatter}
+                    // valueFormatter={item.formatter}
                   />
                 )}
               </>

@@ -1393,7 +1393,8 @@ export function WidgetForm({
 
               {/* Filters Section */}
               <div className="space-y-2">
-                <Label>Filters</Label>
+                {/*<Label>Filters</Label>*/}
+                <Label>过滤器</Label>
                 <div className="space-y-2">
                   <InlineFilterBuilder
                     columns={filterColumns}

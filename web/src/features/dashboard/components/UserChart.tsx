@@ -137,7 +137,7 @@ export const UserChart = ({
 
   const data = [
     {
-      tabTitle: "Token cost",
+      tabTitle: "Token消耗", //Token cost
       data: isExpanded
         ? transformedCost.slice(0, maxNumberOfEntries.expanded)
         : transformedCost.slice(0, maxNumberOfEntries.collapsed),
@@ -146,7 +146,7 @@ export const UserChart = ({
       formatter: localUsdFormatter,
     },
     {
-      tabTitle: "Count of Traces",
+      tabTitle: "追踪记录数", //Count of Traces
       data: isExpanded
         ? transformedNumberOfTraces.slice(0, maxNumberOfEntries.expanded)
         : transformedNumberOfTraces.slice(0, maxNumberOfEntries.collapsed),
@@ -160,7 +160,7 @@ export const UserChart = ({
   return (
     <DashboardCard
       className={className}
-      title="User consumption"
+      title="用户消费量" //User consumption
       isLoading={isLoading || user.isPending}
     >
       <TabComponent

@@ -365,7 +365,7 @@ export default function SessionsTable({
       accessorKey: "bookmarked",
       id: "bookmarked",
       isFixedPosition: true,
-      header: undefined,
+      header: "收藏",
       size: 50,
       cell: ({ row }) => {
         const bookmarked: SessionTableRow["bookmarked"] =
@@ -405,7 +405,7 @@ export default function SessionsTable({
     {
       accessorKey: "createdAt",
       id: "createdAt",
-      header: "Created At",
+      header: "创建时间", //Created At
       size: 150,
       enableHiding: true,
       enableSorting: true,
@@ -417,7 +417,7 @@ export default function SessionsTable({
     {
       accessorKey: "sessionDuration",
       id: "sessionDuration",
-      header: "Duration",
+      header: "会话时长", //Duration
       size: 130,
       enableHiding: true,
       cell: ({ row }) => {
@@ -432,68 +432,68 @@ export default function SessionsTable({
       },
       enableSorting: true,
     },
-    {
-      accessorKey: "environment",
-      header: "Environment",
-      id: "environment",
-      size: 150,
-      enableHiding: true,
-      cell: ({ row }) => {
-        const value: SessionTableRow["environment"] =
-          row.getValue("environment");
-        return value ? (
-          <Badge
-            variant="secondary"
-            className="max-w-fit truncate rounded-sm px-1 font-normal"
-          >
-            {value}
-          </Badge>
-        ) : null;
-      },
-    },
-    {
-      accessorKey: "scores",
-      header: "Scores",
-      id: "scores",
-      enableHiding: true,
-      defaultHidden: true,
-      cell: () => {
-        return isColumnLoading ? <Skeleton className="h-3 w-1/2" /> : null;
-      },
-      columns: scoreColumns,
-    },
-    {
-      accessorKey: "userIds",
-      enableColumnFilter: !omittedFilter.find((f) => f === "userIds"),
-      id: "userIds",
-      header: "User IDs",
-      size: 200,
-      enableHiding: true,
-      cell: ({ row }) => {
-        const value: SessionTableRow["userIds"] = row.getValue("userIds");
-        if (!sessionMetrics.isSuccess) {
-          return <Skeleton className="h-3 w-1/2" />;
-        }
-        return value && Array.isArray(value) ? (
-          <div className="flex gap-1">
-            {(value as string[]).map((user) => (
-              <TableLink
-                key={user}
-                path={`/project/${projectId}/users/${encodeURIComponent(user)}`}
-                value={user}
-              />
-            ))}
-          </div>
-        ) : undefined;
-      },
-    },
+    // {
+    //   accessorKey: "environment",
+    //   header: "Environment",
+    //   id: "environment",
+    //   size: 150,
+    //   enableHiding: true,
+    //   cell: ({ row }) => {
+    //     const value: SessionTableRow["environment"] =
+    //       row.getValue("environment");
+    //     return value ? (
+    //       <Badge
+    //         variant="secondary"
+    //         className="max-w-fit truncate rounded-sm px-1 font-normal"
+    //       >
+    //         {value}
+    //       </Badge>
+    //     ) : null;
+    //   },
+    // },
+    // {
+    //   accessorKey: "scores",
+    //   header: "Scores",
+    //   id: "scores",
+    //   enableHiding: true,
+    //   defaultHidden: true,
+    //   cell: () => {
+    //     return isColumnLoading ? <Skeleton className="h-3 w-1/2" /> : null;
+    //   },
+    //   columns: scoreColumns,
+    // },
+    // {
+    //   accessorKey: "userIds",
+    //   enableColumnFilter: !omittedFilter.find((f) => f === "userIds"),
+    //   id: "userIds",
+    //   header: "User IDs",
+    //   size: 200,
+    //   enableHiding: true,
+    //   cell: ({ row }) => {
+    //     const value: SessionTableRow["userIds"] = row.getValue("userIds");
+    //     if (!sessionMetrics.isSuccess) {
+    //       return <Skeleton className="h-3 w-1/2" />;
+    //     }
+    //     return value && Array.isArray(value) ? (
+    //       <div className="flex gap-1">
+    //         {(value as string[]).map((user) => (
+    //           <TableLink
+    //             key={user}
+    //             path={`/project/${projectId}/users/${encodeURIComponent(user)}`}
+    //             value={user}
+    //           />
+    //         ))}
+    //       </div>
+    //     ) : undefined;
+    //   },
+    // },
     {
       accessorKey: "countTraces",
       id: "countTraces",
-      header: "Traces",
+      header: "Traces数量",
       size: 100,
       headerTooltip: {
-        description: "The number of traces in the session.",
+        description: "当前Session中Traces数量", //The number of traces in the session.
       },
       enableHiding: true,
       enableSorting: true,
@@ -506,63 +506,63 @@ export default function SessionsTable({
         return value ? <span>{numberFormatter(value, 0)}</span> : undefined;
       },
     },
-    {
-      accessorKey: "inputCost",
-      id: "inputCost",
-      header: "Input Cost",
-      size: 110,
-      enableHiding: true,
-      defaultHidden: true,
-      enableSorting: true,
-      cell: ({ row }) => {
-        const value: SessionTableRow["inputCost"] = row.getValue("inputCost");
-        if (!sessionMetrics.isSuccess) {
-          return <Skeleton className="h-3 w-1/2" />;
-        }
-        return value ? (
-          <span>{usdFormatter(value.toNumber())}</span>
-        ) : undefined;
-      },
-    },
-    {
-      accessorKey: "outputCost",
-      id: "outputCost",
-      header: "Output Cost",
-      size: 110,
-      enableHiding: true,
-      enableSorting: true,
-      defaultHidden: true,
-      cell: ({ row }) => {
-        const value: SessionTableRow["outputCost"] = row.getValue("outputCost");
-        if (!sessionMetrics.isSuccess) {
-          return <Skeleton className="h-3 w-1/2" />;
-        }
-        return value ? (
-          <span>{usdFormatter(value.toNumber())}</span>
-        ) : undefined;
-      },
-    },
-    {
-      accessorKey: "totalCost",
-      id: "totalCost",
-      header: "Total Cost",
-      size: 110,
-      enableHiding: true,
-      enableSorting: true,
-      cell: ({ row }) => {
-        const value: SessionTableRow["totalCost"] = row.getValue("totalCost");
-        if (!sessionMetrics.isSuccess) {
-          return <Skeleton className="h-3 w-1/2" />;
-        }
-        return value ? (
-          <span>{usdFormatter(value.toNumber())}</span>
-        ) : undefined;
-      },
-    },
+    // {
+    //   accessorKey: "inputCost",
+    //   id: "inputCost",
+    //   header: "Input Cost",
+    //   size: 110,
+    //   enableHiding: true,
+    //   defaultHidden: true,
+    //   enableSorting: true,
+    //   cell: ({ row }) => {
+    //     const value: SessionTableRow["inputCost"] = row.getValue("inputCost");
+    //     if (!sessionMetrics.isSuccess) {
+    //       return <Skeleton className="h-3 w-1/2" />;
+    //     }
+    //     return value ? (
+    //       <span>{usdFormatter(value.toNumber())}</span>
+    //     ) : undefined;
+    //   },
+    // },
+    // {
+    //   accessorKey: "outputCost",
+    //   id: "outputCost",
+    //   header: "Output Cost",
+    //   size: 110,
+    //   enableHiding: true,
+    //   enableSorting: true,
+    //   defaultHidden: true,
+    //   cell: ({ row }) => {
+    //     const value: SessionTableRow["outputCost"] = row.getValue("outputCost");
+    //     if (!sessionMetrics.isSuccess) {
+    //       return <Skeleton className="h-3 w-1/2" />;
+    //     }
+    //     return value ? (
+    //       <span>{usdFormatter(value.toNumber())}</span>
+    //     ) : undefined;
+    //   },
+    // },
+    // {
+    //   accessorKey: "totalCost",
+    //   id: "totalCost",
+    //   header: "Total Cost",
+    //   size: 110,
+    //   enableHiding: true,
+    //   enableSorting: true,
+    //   cell: ({ row }) => {
+    //     const value: SessionTableRow["totalCost"] = row.getValue("totalCost");
+    //     if (!sessionMetrics.isSuccess) {
+    //       return <Skeleton className="h-3 w-1/2" />;
+    //     }
+    //     return value ? (
+    //       <span>{usdFormatter(value.toNumber())}</span>
+    //     ) : undefined;
+    //   },
+    // },
     {
       accessorKey: "inputTokens",
       id: "inputTokens",
-      header: "Input Tokens",
+      header: "输入Tokens量", //Input Tokens
       size: 110,
       enableHiding: true,
       defaultHidden: true,
@@ -581,7 +581,7 @@ export default function SessionsTable({
     {
       accessorKey: "outputTokens",
       id: "outputTokens",
-      header: "Output Tokens",
+      header: "输出Tokens量", //Output Tokens
       size: 110,
       enableHiding: true,
       defaultHidden: true,
@@ -600,7 +600,7 @@ export default function SessionsTable({
     {
       accessorKey: "totalTokens",
       id: "totalTokens",
-      header: "Total Tokens",
+      header: "总Tokens量", //Total Tokens
       size: 110,
       enableHiding: true,
       defaultHidden: true,
@@ -619,7 +619,7 @@ export default function SessionsTable({
     {
       accessorKey: "usage",
       id: "usage",
-      header: "Usage",
+      header: "使用量", //Usage
       size: 220,
       enableHiding: true,
       enableSorting: true,
@@ -646,7 +646,7 @@ export default function SessionsTable({
     {
       accessorKey: "traceTags",
       id: "traceTags",
-      header: "Trace Tags",
+      header: "Trace标签", // Tags
       size: 250,
       enableHiding: true,
       defaultHidden: true,
@@ -806,9 +806,8 @@ export default function SessionsTable({
               rowSelection={selectedRows}
               setRowSelection={setSelectedRows}
               help={{
-                description:
-                  "A session is a collection of related traces, such as a conversation or thread. To begin, add a sessionId to the trace.",
-                href: "https://langfuse.com/docs/observability/features/sessions",
+                description: "Session是一组相关 Trace 的集合，例如一次多轮对话或话题串",
+                href: "None",
               }}
               rowHeight={rowHeight}
             />

@@ -132,6 +132,12 @@ const EnvSchema = z.object({
     .default("true"),
   LANGFUSE_USE_GOOGLE_CLOUD_STORAGE: z.enum(["true", "false"]).default("false"),
   LANGFUSE_GOOGLE_CLOUD_STORAGE_CREDENTIALS: z.string().optional(),
+
+  // Local File Storage Configuration (替代 MinIO/S3 的本地文件存储方案)
+  LANGFUSE_USE_LOCAL_FILE_STORAGE: z.enum(["true", "false"]).default("false"),
+  LANGFUSE_LOCAL_STORAGE_PATH: z.string().default("./langfuse-storage"),
+  LANGFUSE_LOCAL_STORAGE_BASE_URL: z.string().optional(),
+
   STRIPE_SECRET_KEY: z.string().optional(),
 
   LANGFUSE_ENABLE_BLOB_STORAGE_FILE_LOG: z

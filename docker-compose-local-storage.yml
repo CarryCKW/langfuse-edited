@@ -1,0 +1,176 @@
+# Langfuse with Local File Storage (无 MinIO 依赖)
+# 使用本地文件系统替代 MinIO/S3 进行开发
+#
+# 优点：
+# - 无需 MinIO 容器，减少资源占用
+# - 文件直接存储在本地，便于调试
+# - 配置简单，无需额外的 S3 兼容服务
+#
+# 限制：
+# - 仅适用于开发/测试环境
+# - 不支持分布式部署
+# - 预签名 URL 通过 API 端点模拟
+#
+# 启动命令: docker compose -f docker-compose-local-storage.yml up -d
+# 停止命令: docker compose -f docker-compose-local-storage.yml down
+
+name: langfuse-local-storage
+
+services:
+  # ==================== Langfuse Worker ====================
+  langfuse-worker:
+    image: docker.io/langfuse/langfuse-worker:3
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    ports:
+      - 127.0.0.1:33030:3030
+    volumes:
+      # 挂载本地存储目录
+      - langfuse_storage:/app/langfuse-storage
+    environment: &langfuse-worker-env
+      NEXTAUTH_URL: http://localhost:33001
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      DIRECT_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      SALT: ${SALT:-mysalt}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-0000000000000000000000000000000000000000000000000000000000000000}
+      TELEMETRY_ENABLED: ${TELEMETRY_ENABLED:-true}
+      LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: ${LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES:-true}
+
+      # ClickHouse 配置
+      CLICKHOUSE_MIGRATION_URL: clickhouse://clickhouse:9000
+      CLICKHOUSE_URL: http://clickhouse:8123
+      CLICKHOUSE_USER: clickhouse
+      CLICKHOUSE_PASSWORD: clickhouse
+      CLICKHOUSE_CLUSTER_ENABLED: "false"
+
+      # ===== 本地文件存储配置（替代 MinIO）=====
+      LANGFUSE_USE_LOCAL_FILE_STORAGE: "true"
+      LANGFUSE_LOCAL_STORAGE_PATH: /app/langfuse-storage
+      # 文件访问的基础 URL（用于生成访问链接）
+      # 注意：这个 URL 需要能被客户端访问到
+      LANGFUSE_LOCAL_STORAGE_BASE_URL: http://localhost:33001/api/public/files
+
+      # S3 配置仍然需要（作为 fallback），但不会实际使用
+      LANGFUSE_USE_AZURE_BLOB: "false"
+      LANGFUSE_USE_GOOGLE_CLOUD_STORAGE: "false"
+      LANGFUSE_S3_EVENT_UPLOAD_BUCKET: langfuse-events
+      LANGFUSE_S3_MEDIA_UPLOAD_BUCKET: langfuse-media
+      LANGFUSE_S3_BATCH_EXPORT_BUCKET: langfuse-exports
+      LANGFUSE_S3_BATCH_EXPORT_ENABLED: "true"
+
+      # Redis 配置
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_AUTH: myredissecret
+      REDIS_TLS_ENABLED: "false"
+
+      # 邮件配置（可选）
+      EMAIL_FROM_ADDRESS: ${EMAIL_FROM_ADDRESS:-}
+      SMTP_CONNECTION_URL: ${SMTP_CONNECTION_URL:-}
+
+  # ==================== Langfuse Web ====================
+  langfuse-web:
+    image: langfuse-web-custom:latest
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    ports:
+      - 33001:3000
+    volumes:
+      - langfuse_storage:/app/langfuse-storage
+    environment:
+      <<: *langfuse-worker-env
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-mysecret}
+      LANGFUSE_INIT_ORG_ID: ${LANGFUSE_INIT_ORG_ID:-}
+      LANGFUSE_INIT_ORG_NAME: ${LANGFUSE_INIT_ORG_NAME:-}
+      LANGFUSE_INIT_PROJECT_ID: ${LANGFUSE_INIT_PROJECT_ID:-}
+      LANGFUSE_INIT_PROJECT_NAME: ${LANGFUSE_INIT_PROJECT_NAME:-}
+      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: ${LANGFUSE_INIT_PROJECT_PUBLIC_KEY:-}
+      LANGFUSE_INIT_PROJECT_SECRET_KEY: ${LANGFUSE_INIT_PROJECT_SECRET_KEY:-}
+      LANGFUSE_INIT_USER_EMAIL: ${LANGFUSE_INIT_USER_EMAIL:-}
+      LANGFUSE_INIT_USER_NAME: ${LANGFUSE_INIT_USER_NAME:-}
+      LANGFUSE_INIT_USER_PASSWORD: ${LANGFUSE_INIT_USER_PASSWORD:-}
+
+  # ==================== 基础设施服务 ====================
+  clickhouse:
+    image: docker.io/clickhouse/clickhouse-server
+    restart: always
+    environment:
+      CLICKHOUSE_DB: default
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER:-clickhouse}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-clickhouse}
+    volumes:
+      - langfuse_clickhouse_data:/var/lib/clickhouse
+      - langfuse_clickhouse_logs:/var/log/clickhouse-server
+    ports:
+      - 127.0.0.1:38123:8123
+      - 127.0.0.1:39000:9000
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:8123/ping",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+
+  redis:
+    image: docker.io/redis:7
+    restart: always
+    command: >
+      --requirepass ${REDIS_AUTH:-myredissecret}
+      --maxmemory-policy noeviction
+    ports:
+      - 127.0.0.1:36379:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_AUTH:-myredissecret}", "ping"]
+      interval: 3s
+      timeout: 10s
+      retries: 10
+
+  postgres:
+    image: docker.io/postgres:${POSTGRES_VERSION:-17}
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      TZ: UTC
+      PGTZ: UTC
+    ports:
+      - 127.0.0.1:35432:5432
+    volumes:
+      - langfuse_postgres_data:/var/lib/postgresql/data
+
+# ==================== 数据卷 ====================
+volumes:
+  langfuse_postgres_data:
+    driver: local
+  langfuse_clickhouse_data:
+    driver: local
+  langfuse_clickhouse_logs:
+    driver: local
+  langfuse_storage:
+    driver: local

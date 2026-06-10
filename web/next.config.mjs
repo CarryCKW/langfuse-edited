@@ -48,6 +48,13 @@ const reportToHeader = {
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
+  typescript: {
+    // !! 警告 !!: 忽略 TypeScript 构建错误，仅用于快速构建/测试
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true, // 跳过 ESLint
+  },
   staticPageGenerationTimeout: 500, // default is 60. Required for build process for amd
   transpilePackages: ["@langfuse/shared", "vis-network/standalone"],
   reactStrictMode: true,

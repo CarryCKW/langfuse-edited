@@ -140,7 +140,7 @@ function TablePeekViewComponent(props: TablePeekViewProps) {
                 <Button
                   variant="ghost"
                   size="icon-xs"
-                  title="Open in current tab"
+                  title="当前网页打开" //Open in current tab
                   className="ml-2"
                   onClick={() => peekView.expandPeek?.(false)}
                 >
@@ -149,7 +149,7 @@ function TablePeekViewComponent(props: TablePeekViewProps) {
                 <Button
                   variant="ghost"
                   size="icon-xs"
-                  title="Open in new tab"
+                  title="新网页打开" //Open in new tab
                   onClick={() => peekView.expandPeek?.(true)}
                 >
                   <ExternalLink className="h-4 w-4" />

@@ -33,6 +33,8 @@ export function TracePage({
       projectId: routeProjectId,
     },
     {
+      // 排查前端报错
+      enabled: !!traceId && !!routeProjectId,
       retry(failureCount, error) {
         if (
           error.data?.code === "UNAUTHORIZED" ||

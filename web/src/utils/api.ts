@@ -102,10 +102,29 @@ const shouldShowToast = (error: unknown): boolean => {
   return true;
 };
 
+const redirectOnExternalAuthUnauthorized = (error: unknown): boolean => {
+  if (typeof window === "undefined") return false;
+  if (env.NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED !== "true") return false;
+  if (env.NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE !== "per_request") {
+    return false;
+  }
+  if (!(error instanceof TRPCClientError)) return false;
+  if (error.data?.code !== "UNAUTHORIZED") return false;
+
+  const redirectUrl =
+    env.NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL ;
+  window.location.href = redirectUrl;
+  return true;
+};
+
 const handleTrpcError = (
   error: unknown,
   shouldSilenceError: boolean = false,
 ) => {
+  if (redirectOnExternalAuthUnauthorized(error)) {
+    return;
+  }
+
   if (error instanceof TRPCClientError) {
     const httpStatus: number =
       typeof error.data?.httpStatus === "number" ? error.data.httpStatus : 500;
@@ -172,6 +191,11 @@ const shouldSilenceError = (
 
   return false;
 };
+
+// tRPC 客户端用 httpLink 打到 /api/trpc。
+// 同域请求浏览器会自动带上 Cookie
+// （不必写 credentials: include，
+// 和 external-session 的显式 include 效果一样）。
 
 /** A set of type-safe react-query hooks for your tRPC API. */
 export const api = createTRPCNext<AppRouter>({

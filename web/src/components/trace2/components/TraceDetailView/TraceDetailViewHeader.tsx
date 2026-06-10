@@ -63,37 +63,37 @@ export const TraceDetailViewHeader = memo(function TraceDetailViewHeader({
         </div>
         {/* Action buttons */}
         <div className="flex h-full flex-wrap content-start items-start justify-start gap-0.5 @2xl:mr-1 @2xl:justify-end">
-          <NewDatasetItemFromExistingObject
-            traceId={trace.id}
-            projectId={projectId}
-            input={trace.input}
-            output={trace.output}
-            metadata={trace.metadata}
-            key={trace.id}
-            size="sm"
-          />
-          <div className="flex items-start">
-            <AnnotateDrawer
-              key={"annotation-drawer-" + trace.id}
-              projectId={projectId}
-              scoreTarget={{
-                type: "trace",
-                traceId: trace.id,
-              }}
-              scores={traceScores}
-              scoreMetadata={{
-                projectId: projectId,
-                environment: trace.environment,
-              }}
-              size="sm"
-            />
-            <CreateNewAnnotationQueueItem
-              projectId={projectId}
-              objectId={trace.id}
-              objectType={AnnotationQueueObjectType.TRACE}
-              size="sm"
-            />
-          </div>
+          {/*<NewDatasetItemFromExistingObject*/}
+          {/*  traceId={trace.id}*/}
+          {/*  projectId={projectId}*/}
+          {/*  input={trace.input}*/}
+          {/*  output={trace.output}*/}
+          {/*  metadata={trace.metadata}*/}
+          {/*  key={trace.id}*/}
+          {/*  size="sm"*/}
+          {/*/>*/}
+          {/*<div className="flex items-start">*/}
+          {/*  <AnnotateDrawer*/}
+          {/*    key={"annotation-drawer-" + trace.id}*/}
+          {/*    projectId={projectId}*/}
+          {/*    scoreTarget={{*/}
+          {/*      type: "trace",*/}
+          {/*      traceId: trace.id,*/}
+          {/*    }}*/}
+          {/*    scores={traceScores}*/}
+          {/*    scoreMetadata={{*/}
+          {/*      projectId: projectId,*/}
+          {/*      environment: trace.environment,*/}
+          {/*    }}*/}
+          {/*    size="sm"*/}
+          {/*  />*/}
+          {/*  <CreateNewAnnotationQueueItem*/}
+          {/*    projectId={projectId}*/}
+          {/*    objectId={trace.id}*/}
+          {/*    objectType={AnnotationQueueObjectType.TRACE}*/}
+          {/*    size="sm"*/}
+          {/*  />*/}
+          {/*</div> // 原来Annoate 块*/}
           <CommentDrawerButton
             projectId={projectId}
             objectId={trace.id}
@@ -118,10 +118,10 @@ export const TraceDetailViewHeader = memo(function TraceDetailViewHeader({
         {/* Other badges */}
         <div className="flex flex-wrap items-center gap-1">
           <SessionBadge sessionId={trace.sessionId} projectId={projectId} />
-          <UserIdBadge userId={trace.userId} projectId={projectId} />
-          <EnvironmentBadge environment={trace.environment} />
-          <ReleaseBadge release={trace.release} />
-          <VersionBadge version={trace.version} />
+          {/*<UserIdBadge userId={trace.userId} projectId={projectId} />*/}
+          {/*<EnvironmentBadge environment={trace.environment} />*/}
+          {/*<ReleaseBadge release={trace.release} />*/}
+          {/*<VersionBadge version={trace.version} />*/}
         </div>
       </div>
     </div>

@@ -152,7 +152,8 @@ export function CommentDrawerButton({
               <MessageCircleIcon
                 className={size === "sm" ? "h-3.5 w-3.5" : "h-4 w-4"}
               />
-              <span>Add comment</span>
+              <span>添加评论</span>
+              {/*Add comment*/}
               <span className="flex h-3.5 w-fit items-center justify-center rounded-sm bg-primary/50 px-1 text-xs text-primary-foreground shadow-sm">
                 {count > 99 ? "99+" : count}
               </span>
@@ -162,7 +163,8 @@ export function CommentDrawerButton({
               <MessageCircleIcon
                 className={size === "sm" ? "h-3.5 w-3.5" : "h-4 w-4"}
               />
-              <span>Add comment</span>
+              {/*Add comment*/}
+              <span>添加评论</span>
             </div>
           )}
         </Button>

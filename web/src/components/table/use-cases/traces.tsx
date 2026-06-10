@@ -506,7 +506,7 @@ export default function TracesTable({
           selectActionColumn,
           {
             accessorKey: "bookmarked",
-            header: undefined,
+            header: "收藏", //undefined
             id: "bookmarked",
             size: 30,
             isFixedPosition: true,
@@ -530,7 +530,7 @@ export default function TracesTable({
         ]),
     {
       accessorKey: "timestamp",
-      header: "Timestamp",
+      header: "时间标记", //Timestamp
       id: "timestamp",
       size: 150,
       enableHiding: true,
@@ -542,7 +542,7 @@ export default function TracesTable({
     },
     {
       accessorKey: "name",
-      header: "Name",
+      header: "Trace名称", //Name
       id: "name",
       size: 150,
       enableHiding: true,
@@ -554,7 +554,10 @@ export default function TracesTable({
     },
     {
       accessorKey: "input",
-      header: "Input",
+      header: "输入", //Input
+      headerTooltip: {
+        description: "当前Trace观测到的输入值",
+      },
       id: "input",
       size: 400,
       cell: ({ row }) => {
@@ -575,9 +578,12 @@ export default function TracesTable({
     },
     {
       accessorKey: "output",
-      header: "Output",
+      header: "输出", //Output
       id: "output",
       size: 400,
+      headerTooltip: {
+        description: "当前Trace观测到的输出值",
+      },
       cell: ({ row }) => {
         const traceId: TracesTableRow["id"] = row.getValue("id");
         const traceTimestamp: TracesTableRow["timestamp"] =
@@ -597,7 +603,10 @@ export default function TracesTable({
     {
       accessorKey: "levelCounts",
       id: "levelCounts",
-      header: "Observation Levels",
+      header: "观测层级数", //Observation Levels
+      headerTooltip: {
+        description: "当前Trace下观测层级数量",
+      },
       size: 150,
       cell: ({ row }) => {
         const value: TracesTableRow["levelCounts"] =
@@ -619,7 +628,10 @@ export default function TracesTable({
     {
       accessorKey: "latency",
       id: "latency",
-      header: "Latency",
+      header: "耗时", //Latency
+      headerTooltip: {
+        description: "当前Trace端到端耗时",
+      },
       size: 100,
       // add seconds to the end of the latency
       cell: ({ row }) => {
@@ -662,57 +674,57 @@ export default function TracesTable({
       enableSorting,
       enableHiding: true,
     },
-    {
-      accessorKey: "totalCost",
-      id: "totalCost",
-      header: "Total Cost",
-      size: 130,
-      cell: ({ row }) => {
-        const cost: TracesTableRow["totalCost"] = row.getValue("totalCost");
-        if (!traceMetrics.data) return <Skeleton className="h-3 w-1/2" />;
-        return cost != null ? (
-          <BreakdownTooltip details={row.original.costDetails ?? []} isCost>
-            <div className="flex items-center gap-1">
-              {cost ? (
-                <span>{usdFormatter(cost.toNumber())}</span>
-              ) : (
-                <span>-</span>
-              )}
-              <InfoIcon className="h-3 w-3" />
-            </div>
-          </BreakdownTooltip>
-        ) : null;
-      },
-      enableHiding: true,
-      enableSorting,
-    },
-    {
-      accessorKey: "environment",
-      header: "Environment",
-      id: "environment",
-      size: 150,
-      enableHiding: true,
-      cell: ({ row }) => {
-        const value: TracesTableRow["environment"] =
-          row.getValue("environment");
-        return value ? (
-          <Badge
-            variant="secondary"
-            className="max-w-fit truncate rounded-sm px-1 font-normal"
-          >
-            {value}
-          </Badge>
-        ) : null;
-      },
-    },
+    // {
+    //   accessorKey: "totalCost",
+    //   id: "totalCost",
+    //   header: "Total Cost",
+    //   size: 130,
+    //   cell: ({ row }) => {
+    //     const cost: TracesTableRow["totalCost"] = row.getValue("totalCost");
+    //     if (!traceMetrics.data) return <Skeleton className="h-3 w-1/2" />;
+    //     return cost != null ? (
+    //       <BreakdownTooltip details={row.original.costDetails ?? []} isCost>
+    //         <div className="flex items-center gap-1">
+    //           {cost ? (
+    //             <span>{usdFormatter(cost.toNumber())}</span>
+    //           ) : (
+    //             <span>-</span>
+    //           )}
+    //           <InfoIcon className="h-3 w-3" />
+    //         </div>
+    //       </BreakdownTooltip>
+    //     ) : null;
+    //   },
+    //   enableHiding: true,
+    //   enableSorting,
+    // },
+    // {
+    //   accessorKey: "environment",
+    //   header: "Environment",
+    //   id: "environment",
+    //   size: 150,
+    //   enableHiding: true,
+    //   cell: ({ row }) => {
+    //     const value: TracesTableRow["environment"] =
+    //       row.getValue("environment");
+    //     return value ? (
+    //       <Badge
+    //         variant="secondary"
+    //         className="max-w-fit truncate rounded-sm px-1 font-normal"
+    //       >
+    //         {value}
+    //       </Badge>
+    //     ) : null;
+    //   },
+    // },
     {
       accessorKey: "tags",
       id: "tags",
-      header: "Tags",
+      header: "标签", //Tags
       size: 150,
       headerTooltip: {
-        description: "Group traces with tags.",
-        href: "https://langfuse.com/docs/observability/features/tags",
+        description: "当前Trace所关联的智能体标签", //Group traces with tags.
+        // href: "https://langfuse.com/docs/observability/features/tags",
       },
       cell: ({ row }) => {
         const traceTags: string[] | undefined = row.getValue("tags");
@@ -733,11 +745,11 @@ export default function TracesTable({
     },
     {
       accessorKey: "metadata",
-      header: "Metadata",
+      header: "元数据", // Metadata
       size: 400,
       headerTooltip: {
-        description: "Add metadata to traces to track additional information.",
-        href: "https://langfuse.com/docs/observability/features/metadata",
+        description: "元数据指被添加到Trace以跟踪其他信息", //Add metadata to traces to track additional information.
+        // href: "https://langfuse.com/docs/observability/features/metadata",
       },
       cell: ({ row }) => {
         const traceId: TracesTableRow["id"] = row.getValue("id");
@@ -758,29 +770,29 @@ export default function TracesTable({
     ...(hideControls
       ? []
       : [
-          {
-            accessorKey: "scores",
-            header: "Scores",
-            id: "scores",
-            enableHiding: true,
-            defaultHidden: true,
-            cell: () => {
-              return isColumnLoading ? (
-                <Skeleton className="h-3 w-1/2" />
-              ) : null;
-            },
-            columns: scoreColumns,
-          },
+          // {
+          //   accessorKey: "scores",
+          //   header: "Scores",
+          //   id: "scores",
+          //   enableHiding: true,
+          //   defaultHidden: true,
+          //   cell: () => {
+          //     return isColumnLoading ? (
+          //       <Skeleton className="h-3 w-1/2" />
+          //     ) : null;
+          //   },
+          //   columns: scoreColumns,
+          // },
         ]),
     {
       accessorKey: "sessionId",
       enableColumnFilter: !omittedFilter.find((f) => f === "sessionId"),
       id: "sessionId",
-      header: "Session",
+      header: "关联Session", //Session
       size: 150,
       headerTooltip: {
-        description: "Add `sessionId` to traces to track sessions.",
-        href: "https://langfuse.com/docs/observability/features/sessions",
+        description: "独立Session可包含多个Trace",
+        // href: "https://langfuse.com/docs/observability/features/sessions",
       },
       cell: ({ row }) => {
         const value: TracesTableRow["sessionId"] = row.getValue("sessionId");
@@ -792,32 +804,32 @@ export default function TracesTable({
       enableHiding: true,
       enableSorting,
     },
-    {
-      accessorKey: "userId",
-      header: "User",
-      id: "userId",
-      size: 150,
-      headerTooltip: {
-        description: "Add `userId` to traces to track users.",
-        href: "https://langfuse.com/docs/observability/features/users",
-      },
-      cell: ({ row }) => {
-        const value: TracesTableRow["userId"] = row.getValue("userId");
-        return value && typeof value === "string" ? (
-          <TableIdOrName value={value} />
-        ) : undefined;
-      },
-      defaultHidden: true,
-      enableHiding: true,
-      enableSorting,
-    },
+    // {
+    //   accessorKey: "userId",
+    //   header: "User",
+    //   id: "userId",
+    //   size: 150,
+    //   headerTooltip: {
+    //     description: "Add `userId` to traces to track users.",
+    //     href: "https://langfuse.com/docs/observability/features/users",
+    //   },
+    //   cell: ({ row }) => {
+    //     const value: TracesTableRow["userId"] = row.getValue("userId");
+    //     return value && typeof value === "string" ? (
+    //       <TableIdOrName value={value} />
+    //     ) : undefined;
+    //   },
+    //   defaultHidden: true,
+    //   enableHiding: true,
+    //   enableSorting,
+    // },
     {
       accessorKey: "observationCount",
       id: "observationCount",
-      header: "Observations",
+      header: "Observations数量", //Observations
       size: 120,
       headerTooltip: {
-        description: "The number of observations in the trace.",
+        description: "当前Trace包含的观测点数量",
       },
       enableHiding: true,
       defaultHidden: true,
@@ -831,7 +843,10 @@ export default function TracesTable({
     {
       accessorKey: "level",
       id: "level",
-      header: "Level",
+      header: "模式等级", //Level
+      headerTooltip: {
+        description: "当前Trace观测行为模式",
+      },
       size: 75,
       cell: ({ row }) => {
         const value: TracesTableRow["level"] = row.getValue("level");
@@ -854,32 +869,32 @@ export default function TracesTable({
       enableHiding: true,
       enableSorting,
     },
-    {
-      accessorKey: "version",
-      id: "version",
-      header: "Version",
-      size: 100,
-      headerTooltip: {
-        description: "Track changes via the version tag.",
-        href: "https://langfuse.com/docs/observability/features/releases-and-versioning",
-      },
-      defaultHidden: true,
-      enableHiding: true,
-      enableSorting,
-    },
-    {
-      accessorKey: "release",
-      id: "release",
-      header: "Release",
-      size: 100,
-      headerTooltip: {
-        description: "Track changes to your application via the release tag.",
-        href: "https://langfuse.com/docs/observability/features/releases-and-versioning",
-      },
-      defaultHidden: true,
-      enableHiding: true,
-      enableSorting,
-    },
+    // {
+    //   accessorKey: "version",
+    //   id: "version",
+    //   header: "Version",
+    //   size: 100,
+    //   headerTooltip: {
+    //     description: "Track changes via the version tag.",
+    //     href: "https://langfuse.com/docs/observability/features/releases-and-versioning",
+    //   },
+    //   defaultHidden: true,
+    //   enableHiding: true,
+    //   enableSorting,
+    // },
+    // {
+    //   accessorKey: "release",
+    //   id: "release",
+    //   header: "Release",
+    //   size: 100,
+    //   headerTooltip: {
+    //     description: "Track changes to your application via the release tag.",
+    //     href: "https://langfuse.com/docs/observability/features/releases-and-versioning",
+    //   },
+    //   defaultHidden: true,
+    //   enableHiding: true,
+    //   enableSorting,
+    // },
     {
       accessorKey: "id",
       header: "Trace ID",
@@ -896,67 +911,67 @@ export default function TracesTable({
       enableHiding: true,
       enableSorting,
     },
-    {
-      accessorKey: "cost",
-      header: "Cost",
-      id: "cost",
-      enableHiding: true,
-      defaultHidden: true,
-      cell: () => {
-        return traceMetrics.isPending ? (
-          <Skeleton className="h-3 w-1/2" />
-        ) : null;
-      },
-      columns: [
-        {
-          accessorKey: "inputCost",
-          id: "inputCost",
-          header: "Input Cost",
-          size: 100,
-          cell: ({ row }: { row: Row<TracesTableRow> }) => {
-            const cost: TracesTableRow["cost"] = row.getValue("cost");
-            if (!traceMetrics.data) return <Skeleton className="h-3 w-1/2" />;
-            return (
-              <div>
-                {cost?.inputCost ? (
-                  <span>{usdFormatter(cost.inputCost.toNumber())}</span>
-                ) : (
-                  <span>-</span>
-                )}
-              </div>
-            );
-          },
-          defaultHidden: true,
-          enableHiding: true,
-          enableSorting,
-        },
-        {
-          accessorKey: "outputCost",
-          id: "outputCost",
-          header: "Output Cost",
-          size: 100,
-          cell: ({ row }: { row: Row<TracesTableRow> }) => {
-            const cost: TracesTableRow["cost"] = row.getValue("cost");
-            if (!traceMetrics.data) return <Skeleton className="h-3 w-1/2" />;
-            return (
-              <div>
-                {cost?.outputCost ? (
-                  <span>{usdFormatter(cost.outputCost.toNumber())}</span>
-                ) : (
-                  <span>-</span>
-                )}
-              </div>
-            );
-          },
-          enableHiding: true,
-          defaultHidden: true,
-          enableSorting,
-        },
-      ],
-    },
+    // {
+    //   accessorKey: "cost",
+    //   header: "Cost",
+    //   id: "cost",
+    //   enableHiding: true,
+    //   defaultHidden: true,
+    //   cell: () => {
+    //     return traceMetrics.isPending ? (
+    //       <Skeleton className="h-3 w-1/2" />
+    //     ) : null;
+    //   },
+    //   columns: [
+    //     {
+    //       accessorKey: "inputCost",
+    //       id: "inputCost",
+    //       header: "Input Cost",
+    //       size: 100,
+    //       cell: ({ row }: { row: Row<TracesTableRow> }) => {
+    //         const cost: TracesTableRow["cost"] = row.getValue("cost");
+    //         if (!traceMetrics.data) return <Skeleton className="h-3 w-1/2" />;
+    //         return (
+    //           <div>
+    //             {cost?.inputCost ? (
+    //               <span>{usdFormatter(cost.inputCost.toNumber())}</span>
+    //             ) : (
+    //               <span>-</span>
+    //             )}
+    //           </div>
+    //         );
+    //       },
+    //       defaultHidden: true,
+    //       enableHiding: true,
+    //       enableSorting,
+    //     },
+    //     {
+    //       accessorKey: "outputCost",
+    //       id: "outputCost",
+    //       header: "Output Cost",
+    //       size: 100,
+    //       cell: ({ row }: { row: Row<TracesTableRow> }) => {
+    //         const cost: TracesTableRow["cost"] = row.getValue("cost");
+    //         if (!traceMetrics.data) return <Skeleton className="h-3 w-1/2" />;
+    //         return (
+    //           <div>
+    //             {cost?.outputCost ? (
+    //               <span>{usdFormatter(cost.outputCost.toNumber())}</span>
+    //             ) : (
+    //               <span>-</span>
+    //             )}
+    //           </div>
+    //         );
+    //       },
+    //       enableHiding: true,
+    //       defaultHidden: true,
+    //       enableSorting,
+    //     },
+    //   ],
+    // },
     {
       accessorKey: "usage",
-      header: "Usage",
+      header: "使用量", //Usage
       id: "usage",
       enableHiding: true,
       defaultHidden: true,
@@ -969,7 +984,7 @@ export default function TracesTable({
         {
           accessorKey: "inputTokens",
           id: "inputTokens",
-          header: "Input Tokens",
+          header: "输入Tokens量", //Input Tokens
           size: 110,
           cell: ({ row }: { row: Row<TracesTableRow> }) => {
             const value: TracesTableRow["usage"] = row.getValue("usage");
@@ -983,7 +998,7 @@ export default function TracesTable({
         {
           accessorKey: "outputTokens",
           id: "outputTokens",
-          header: "Output Tokens",
+          header: "输出Tokens量", //Output Tokens
           size: 110,
           cell: ({ row }: { row: Row<TracesTableRow> }) => {
             const value: TracesTableRow["usage"] = row.getValue("usage");
@@ -997,7 +1012,7 @@ export default function TracesTable({
         {
           accessorKey: "totalTokens",
           id: "totalTokens",
-          header: "Total Tokens",
+          header: "总Tokens量", //Total Tokens
           size: 110,
           cell: ({ row }: { row: Row<TracesTableRow> }) => {
             const value: TracesTableRow["usage"] = row.getValue("usage");
@@ -1015,7 +1030,7 @@ export default function TracesTable({
       : [
           {
             accessorKey: "action",
-            header: "Action",
+            header: "操作", //Action
             size: 70,
             isFixedPosition: true,
             cell: ({ row }: { row: Row<TracesTableRow> }) => {

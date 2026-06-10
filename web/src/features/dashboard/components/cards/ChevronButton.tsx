@@ -26,7 +26,7 @@ export const ExpandListButton = ({
     >
       {isExpanded ? (
         <>
-          <ChevronUp className="mr-2 h-4 w-4" /> See less
+          <ChevronUp className="mr-2 h-4 w-4" /> 展示更少
         </>
       ) : (
         <>

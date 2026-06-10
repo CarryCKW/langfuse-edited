@@ -7,6 +7,7 @@ import { TotalMetric } from "@/src/features/dashboard/components/TotalMetric";
 import { BarList } from "@tremor/react";
 import { compactNumberFormatter } from "@/src/utils/numbers";
 import { NoDataOrLoading } from "@/src/components/NoDataOrLoading";
+import DocPopup from "@/src/components/layouts/doc-popup";
 import {
   type QueryType,
   mapLegacyUiTableFilterToView,
@@ -101,9 +102,14 @@ export const TracesBarListChart = ({
   return (
     <DashboardCard
       className={className}
-      title={"Traces"}
+      title={"Traces追踪"}  //Traces
       description={null}
       isLoading={isLoading || traces.isPending || totalTraces.isPending}
+      headerRight={
+        <DocPopup
+          description="当前筛选条件下，统计全局智能体应用产生的Traces总量"
+        />
+      }
     >
       <>
         <TotalMetric
@@ -112,7 +118,7 @@ export const TracesBarListChart = ({
               ? Number(totalTraces.data[0].count_count)
               : 0,
           )}
-          description={"Total traces tracked"}
+          description={"条总计追踪记录数"} //Total traces tracked
         />
         {adjustedData.length > 0 ? (
           <>
@@ -129,8 +135,8 @@ export const TracesBarListChart = ({
         ) : (
           <NoDataOrLoading
             isLoading={isLoading || traces.isPending || totalTraces.isPending}
-            description="Traces contain details about LLM applications and can be created using the SDK."
-            href="https://langfuse.com/docs/get-started"
+            // description="Traces contain details about LLM applications and can be created using the SDK."
+            // href="https://langfuse.com/docs/get-started"
           />
         )}
         <ExpandListButton

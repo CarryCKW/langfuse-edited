@@ -61,16 +61,17 @@ export function AuthenticatedLayout({
 }: AuthenticatedLayoutProps) {
   // Safe assertion: AuthenticatedLayout is only rendered after auth checks pass
   // in AppLayout, which guarantees session.user exists at this point
-  const user = session.user;
-  if (!user) {
-    // This should never happen due to guards in AppLayout, but TypeScript needs this
-    return null;
-  }
+  // const user = session.user;
+  // if (!user) {
+  //   // This should never happen due to guards in AppLayout, but TypeScript needs this
+  //   return null;
+  // }
 
   // User navigation items for sidebar dropdown
   const userNavProps = {
     user: {
-      name: user.name ?? "",
+      name: ""
+      // name: user.name ?? "",
       // email: user.email ?? "",
       // avatar: user.image ?? "",
     },

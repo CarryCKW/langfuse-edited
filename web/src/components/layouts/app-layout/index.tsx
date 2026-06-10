@@ -25,6 +25,7 @@ import { AuthenticatedLayout } from "./variants/AuthenticatedLayout";
 import { useAuthSession } from "./hooks/useAuthSession";
 import { useLayoutConfiguration } from "./hooks/useLayoutConfiguration";
 import { useAuthGuard } from "./hooks/useAuthGuard";
+import { useExternalAuthBridge } from "./hooks/useExternalAuthBridge";
 import { useProjectAccess } from "./hooks/useProjectAccess";
 import { useFilteredNavigation } from "./hooks/useFilteredNavigation";
 import { useLayoutMetadata } from "./hooks/useLayoutMetadata";
@@ -40,6 +41,7 @@ import { useLayoutMetadata } from "./hooks/useLayoutMetadata";
 export function AppLayout(props: PropsWithChildren) {
   const router = useRouter();
   const session = useAuthSession();
+  const externalAuthBridge = useExternalAuthBridge(session);
   const { organization } = useQueryProjectOrOrganization();
 
   // Determine layout configuration
@@ -48,7 +50,7 @@ export function AppLayout(props: PropsWithChildren) {
   );
 
   // Check authentication and redirects
-  const authGuard = useAuthGuard(session, hideNavigation);
+  const authGuard = useAuthGuard(session, hideNavigation, externalAuthBridge);
 
   // Check project access
   const projectAccess = useProjectAccess(session.data ?? null);
@@ -64,6 +66,10 @@ export function AppLayout(props: PropsWithChildren) {
   // Handle auth guard actions (redirect or sign-out)
   useEffect(() => {
     if (authGuard.action === "redirect") {
+      if (/^https?:\/\//.test(authGuard.url)) {
+        window.location.href = authGuard.url;
+        return;
+      }
       void router.replace(authGuard.url);
     } else if (authGuard.action === "sign-out") {
       void signOut({ redirect: false });
@@ -71,59 +77,59 @@ export function AppLayout(props: PropsWithChildren) {
   }, [authGuard, router]);
 
   // Loading or redirecting state
-  if (
-    authGuard.action === "loading" ||
-    authGuard.action === "redirect" ||
-    authGuard.action === "sign-out"
-  ) {
-    return <LoadingLayout message={authGuard.message} />;
-  }
+  // if (
+  //   authGuard.action === "loading" ||
+  //   authGuard.action === "redirect" ||
+  //   authGuard.action === "sign-out"
+  // ) {
+  //   return <LoadingLayout message={authGuard.message} />;
+  // }
 
   // Project access denied - handle based on path type
-  if (session.status === "authenticated" && !projectAccess.hasAccess) {
-    // For publishable paths (shared traces/sessions), render minimal layout without sidebar
-    // This allows authenticated users to view shared content without seeing project navigation
-    if (isPublishable) {
-      return <MinimalLayout>{props.children}</MinimalLayout>;
-    }
-
-    // For non-publishable paths, show error page
-    return (
-      <ErrorPageWithSentry
-        title="Project Not Found"
-        message="The project you are trying to access does not exist or you do not have access to it."
-        additionalButton={{
-          label: "Go to Home",
-          href: "/",
-        }}
-      />
-    );
-  }
+  // if (session.status === "authenticated" && !projectAccess.hasAccess) {
+  //   // For publishable paths (shared traces/sessions), render minimal layout without sidebar
+  //   // This allows authenticated users to view shared content without seeing project navigation
+  //   if (isPublishable) {
+  //     return <MinimalLayout>{props.children}</MinimalLayout>;
+  //   }
+  //
+  //   // For non-publishable paths, show error page
+  //   return (
+  //     <ErrorPageWithSentry
+  //       title="Project Not Found"
+  //       message="The project you are trying to access does not exist or you do not have access to it."
+  //       additionalButton={{
+  //         label: "Go to Home",
+  //         href: "/",
+  //       }}
+  //     />
+  //   );
+  // }
 
   // Unauthenticated layout (sign-in, sign-up)
   // Must check variant BEFORE hideNavigation since auth pages set hideNavigation=true
-  if (variant === "unauthenticated") {
-    return <UnauthenticatedLayout>{props.children}</UnauthenticatedLayout>;
-  }
+  // if (variant === "unauthenticated") {
+  //   return <UnauthenticatedLayout>{props.children}</UnauthenticatedLayout>;
+  // }
 
   // Publishable paths (traces, sessions) when unauthenticated
   // Render minimal layout without navigation/sidebar
-  if (isPublishable && session.status === "unauthenticated") {
-    return <MinimalLayout>{props.children}</MinimalLayout>;
-  }
+  // if (isPublishable && session.status === "unauthenticated") {
+  //   return <MinimalLayout>{props.children}</MinimalLayout>;
+  // }
 
   // Render minimal layout (onboarding, public routes)
-  if (hideNavigation) {
-    return <MinimalLayout>{props.children}</MinimalLayout>;
-  }
+  // if (hideNavigation) {
+  //   return <MinimalLayout>{props.children}</MinimalLayout>;
+  // }
 
   // Authenticated layout
   // At this point, all auth guards have passed and session.data is guaranteed to exist
   // The authGuard hook ensures we don't reach here without a valid session
-  if (!session.data) {
-    // This should never happen due to guards above, but TypeScript needs this
-    return <LoadingLayout message="Loading" />;
-  }
+  // if (!session.data) {
+  //   // This should never happen due to guards above, but TypeScript needs this
+  //   return <LoadingLayout message="Loading" />;
+  // }
 
   const handleSignOut = async () => {
     sessionStorage.clear();

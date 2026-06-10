@@ -191,6 +191,27 @@ export const env = createEnv({
     AUTH_HTTP_PROXY: z.string().url().optional(),
     AUTH_HTTPS_PROXY: z.string().url().optional(),
     AUTH_SSO_TIMEOUT: z.number().optional(),
+    // External auth bridge (micro-frontend integration)
+    EXTERNAL_AUTH_ENABLED: z
+      .enum(["true", "false"])
+      .optional()
+      .default("true"),
+    EXTERNAL_AUTH_VALIDATE_URL: z.string().url().optional(),
+    EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE: z
+      .string()
+      .optional()
+      .default("access_token"),
+    EXTERNAL_AUTH_LOGIN_REDIRECT_URL: z.string().url().optional(),
+    EXTERNAL_AUTH_VALIDATION_MODE: z
+      .enum(["bridge", "per_request"])
+      .optional()
+      .default("per_request"),
+    EXTERNAL_AUTH_VALIDATE_CACHE_TTL_SECONDS: z.coerce
+      .number()
+      .int()
+      .nonnegative()
+      .optional()
+      .default(10),
     // EMAIL
     EMAIL_FROM_ADDRESS: z.string().optional(),
     SMTP_CONNECTION_URL: z.string().optional(),
@@ -379,6 +400,15 @@ export const env = createEnv({
       .enum(["true", "false"])
       .optional()
       .default("true"),
+    NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED: z
+      .enum(["true", "false"])
+      .optional()
+      .default("true"),
+    NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL: z.string().url().optional(),
+    NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE: z
+      .enum(["bridge", "per_request"])
+      .optional()
+      .default("per_request"),
   },
 
   /**
@@ -546,6 +576,15 @@ export const env = createEnv({
     AUTH_HTTP_PROXY: process.env.AUTH_HTTP_PROXY,
     AUTH_HTTPS_PROXY: process.env.AUTH_HTTPS_PROXY,
     AUTH_SSO_TIMEOUT: process.env.AUTH_SSO_TIMEOUT,
+    EXTERNAL_AUTH_ENABLED: process.env.EXTERNAL_AUTH_ENABLED,
+    EXTERNAL_AUTH_VALIDATE_URL: process.env.EXTERNAL_AUTH_VALIDATE_URL,
+    EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE:
+      process.env.EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE,
+    EXTERNAL_AUTH_LOGIN_REDIRECT_URL:
+      process.env.EXTERNAL_AUTH_LOGIN_REDIRECT_URL,
+    EXTERNAL_AUTH_VALIDATION_MODE: process.env.EXTERNAL_AUTH_VALIDATION_MODE,
+    EXTERNAL_AUTH_VALIDATE_CACHE_TTL_SECONDS:
+      process.env.EXTERNAL_AUTH_VALIDATE_CACHE_TTL_SECONDS,
     // Email
     EMAIL_FROM_ADDRESS: process.env.EMAIL_FROM_ADDRESS,
     SMTP_CONNECTION_URL: process.env.SMTP_CONNECTION_URL,
@@ -648,6 +687,12 @@ export const env = createEnv({
     LANGFUSE_INIT_USER_NAME: process.env.LANGFUSE_INIT_USER_NAME,
     LANGFUSE_INIT_USER_PASSWORD: process.env.LANGFUSE_INIT_USER_PASSWORD,
     NEXT_PUBLIC_BASE_PATH: process.env.NEXT_PUBLIC_BASE_PATH,
+    NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED:
+      process.env.NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED,
+    NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL:
+      process.env.NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL,
+    NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE:
+      process.env.NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE,
     LANGFUSE_MAX_HISTORIC_EVAL_CREATION_LIMIT:
       process.env.LANGFUSE_MAX_HISTORIC_EVAL_CREATION_LIMIT,
     SLACK_CLIENT_ID: process.env.SLACK_CLIENT_ID,

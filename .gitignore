@@ -80,3 +80,9 @@ web/test-results/*
 **/.refactor/
 
 .zhanlu
+
+# Local file storage (development environment)
+/langfuse-storage/
+**/test-storage/
+
+web/docs/对接安全认证/web_codenul

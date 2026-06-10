@@ -143,7 +143,8 @@ export function TraceDetailView({
               <TabsBarTrigger value="log">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span>Log View</span>
+                    <span>日志视图</span>
+                    {/*Log View*/}
                   </TooltipTrigger>
                   <TooltipContent className="text-xs">
                     {isLogViewVirtualized
@@ -184,7 +185,8 @@ export function TraceDetailView({
               >
                 <TabsList className="h-fit py-0.5">
                   <TabsTrigger value="pretty" className="h-fit px-1 text-xs">
-                    Formatted
+                    格式化
+                    {/*Formatted*/}
                   </TabsTrigger>
                   {selectedTab === "log" && isLogViewVirtualized ? (
                     <HoverCard openDelay={200}>
@@ -271,7 +273,8 @@ export function TraceDetailView({
                 <div
                   className={`px-2 pt-2 text-sm font-medium ${currentView !== "pretty" ? "flex-shrink-0" : ""}`}
                 >
-                  Tags
+                  标签
+                  {/*Tags*/}
                 </div>
                 <div
                   className={`flex flex-wrap gap-x-1 gap-y-1 px-2 pb-2 ${currentView !== "pretty" ? "flex-shrink-0" : ""}`}

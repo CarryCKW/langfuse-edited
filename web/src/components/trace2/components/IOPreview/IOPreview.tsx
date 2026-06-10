@@ -251,8 +251,8 @@ export function IOPreview({
             <ActionButton
               variant="outline"
               size="sm"
-              href="https://langfuse.com/faq/all/empty-trace-input-and-output"
-              trackingEventName="notification:click_link"
+              // href="https://langfuse.com/faq/all/empty-trace-input-and-output"
+              // trackingEventName="notification:click_link"
               trackingProps={{ notification_id: EMPTY_IO_ALERT_ID }}
             >
               View Documentation

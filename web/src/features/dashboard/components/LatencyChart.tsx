@@ -23,6 +23,7 @@ import {
   mapLegacyUiTableFilterToView,
 } from "@/src/features/query";
 import type { DatabaseRow } from "@/src/server/api/services/sqlInterface";
+import DocPopup from "@/src/components/layouts/doc-popup";
 
 export const GenerationLatencyChart = ({
   className,
@@ -124,23 +125,23 @@ export const GenerationLatencyChart = ({
 
   const data = [
     {
-      tabTitle: "50th Percentile",
+      tabTitle: "50百分位", //50th Percentile
       data: getData("p50_latency"),
     },
     {
-      tabTitle: "75th Percentile",
+      tabTitle: "75百分位", //Percentile
       data: getData("p75_latency"),
     },
     {
-      tabTitle: "90th Percentile",
+      tabTitle: "90百分位", //Percentile
       data: getData("p90_latency"),
     },
     {
-      tabTitle: "95th Percentile",
+      tabTitle: "95百分位", //Percentile
       data: getData("p95_latency"),
     },
     {
-      tabTitle: "99th Percentile",
+      tabTitle: "99百分位", //Percentile
       data: getData("p99_latency"),
     },
   ];
@@ -148,13 +149,14 @@ export const GenerationLatencyChart = ({
   return (
     <DashboardCard
       className={className}
-      title="Model latencies"
-      description="Latencies (seconds) per LLM generation"
+      title="模型延迟分布" //Model latencies
+      description="每个LLM生成的延迟（秒）" //Latencies (seconds) per LLM generation
       isLoading={
         isLoading || (latencies.isPending && selectedModels.length > 0)
       }
       headerRight={
         <div className="flex items-center justify-end">
+          <DocPopup description="当前筛选条件下，按模型统计全局智能体任务调用内容生LLM成的耗时情况分布" />
           <ModelSelectorPopover
             allModels={allModels}
             selectedModels={selectedModels}

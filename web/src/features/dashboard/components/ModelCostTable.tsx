@@ -87,39 +87,44 @@ export const ModelCostTable = ({
               ? compactNumberFormatter(item.sum_totalTokens as number)
               : "0"}
           </RightAlignedCell>,
-          <RightAlignedCell key={`${i}-cost`}>
-            {item.sum_totalCost
-              ? totalCostDashboardFormatted(item.sum_totalCost as number)
-              : "$0"}
-          </RightAlignedCell>,
+          // <RightAlignedCell key={`${i}-cost`}>
+          //   {item.sum_totalCost
+          //     ? totalCostDashboardFormatted(item.sum_totalCost as number)
+          //     : "$0"}
+          // </RightAlignedCell>,
         ])
     : [];
 
   return (
     <DashboardCard
       className={className}
-      title="Model costs"
+      title="模型成本" //Model costs
       isLoading={isLoading || metrics.isLoading}
+      headerRight={
+        <DocPopup
+          description="当前筛选条件下，统计全局智能体应用调用产生的模型Tokens总量"
+        />
+      }
     >
       <DashboardTable
         headers={[
-          "Model",
-          <RightAlignedCell key="tokens">Tokens</RightAlignedCell>,
-          <RightAlignedCell key="cost">USD</RightAlignedCell>,
+          "模型名",
+          <RightAlignedCell key="tokens">Tokens消耗量</RightAlignedCell>,
+          // <RightAlignedCell key="cost">USD</RightAlignedCell>,
         ]}
         rows={metricsData}
         isLoading={isLoading || metrics.isLoading}
         collapse={{ collapsed: 5, expanded: 20 }}
       >
-        <TotalMetric
-          metric={totalCostDashboardFormatted(totalTokenCost)}
-          description="Total cost"
-        >
-          <DocPopup
-            description="Calculated multiplying the number of tokens with cost per token for each model."
-            href="https://langfuse.com/docs/model-usage-and-cost"
-          />
-        </TotalMetric>
+        {/*<TotalMetric*/}
+        {/*  metric={totalCostDashboardFormatted(totalTokenCost)}*/}
+        {/*  description="Total cost"*/}
+        {/*>*/}
+        {/*  <DocPopup*/}
+        {/*    description="Calculated multiplying the number of tokens with cost per token for each model."*/}
+        {/*    href="https://langfuse.com/docs/model-usage-and-cost"*/}
+        {/*  />*/}
+        {/*</TotalMetric>*/}
       </DashboardTable>
     </DashboardCard>
   );

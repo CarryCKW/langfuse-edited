@@ -23,6 +23,9 @@ if (!env.LANGFUSE_INIT_ORG_ID) {
   ].filter(Boolean) as string[];
 
   if (setInitVars.length > 0) {
+    console.log(`[Langfuse Init] LANGFUSE_INIT_ORG_ID is not set but other LANGFUSE_INIT_* variables are configured. ` +
+        `The following variables will be ignored: ${setInitVars.join(", ")}. ` +
+        `Set LANGFUSE_INIT_ORG_ID to enable initialization.`);
     logger.warn(
       `[Langfuse Init] LANGFUSE_INIT_ORG_ID is not set but other LANGFUSE_INIT_* variables are configured. ` +
         `The following variables will be ignored: ${setInitVars.join(", ")}. ` +
@@ -60,6 +63,8 @@ if (env.LANGFUSE_INIT_ORG_ID) {
     const missingKey = hasPublicKey
       ? "LANGFUSE_INIT_PROJECT_SECRET_KEY"
       : "LANGFUSE_INIT_PROJECT_PUBLIC_KEY";
+    console.log(`[Langfuse Init] Partial API key configuration: ${missingKey} is not set. ` +
+        `Both LANGFUSE_INIT_PROJECT_PUBLIC_KEY and LANGFUSE_INIT_PROJECT_SECRET_KEY must be set to create API keys.`)
     logger.warn(
       `[Langfuse Init] Partial API key configuration: ${missingKey} is not set. ` +
         `Both LANGFUSE_INIT_PROJECT_PUBLIC_KEY and LANGFUSE_INIT_PROJECT_SECRET_KEY must be set to create API keys.`,
@@ -68,6 +73,8 @@ if (env.LANGFUSE_INIT_ORG_ID) {
 
   // API keys without project ID
   if ((hasPublicKey || hasSecretKey) && !env.LANGFUSE_INIT_PROJECT_ID) {
+    console.log(`[Langfuse Init] LANGFUSE_INIT_PROJECT_ID is not set but API key variables are configured. ` +
+        `API keys will not be created. Set LANGFUSE_INIT_PROJECT_ID to enable API key creation.`)
     logger.warn(
       `[Langfuse Init] LANGFUSE_INIT_PROJECT_ID is not set but API key variables are configured. ` +
         `API keys will not be created. Set LANGFUSE_INIT_PROJECT_ID to enable API key creation.`,
@@ -79,6 +86,8 @@ if (env.LANGFUSE_INIT_ORG_ID) {
     const missingVar = hasEmail
       ? "LANGFUSE_INIT_USER_PASSWORD"
       : "LANGFUSE_INIT_USER_EMAIL";
+    console.log(`[Langfuse Init] Partial user configuration: ${missingVar} is not set. ` +
+        `Both LANGFUSE_INIT_USER_EMAIL and LANGFUSE_INIT_USER_PASSWORD must be set to create a user.`)
     logger.warn(
       `[Langfuse Init] Partial user configuration: ${missingVar} is not set. ` +
         `Both LANGFUSE_INIT_USER_EMAIL and LANGFUSE_INIT_USER_PASSWORD must be set to create a user.`,

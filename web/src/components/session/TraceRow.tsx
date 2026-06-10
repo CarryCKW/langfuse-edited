@@ -75,30 +75,30 @@ const TraceRow = React.memo(
                 </div>
               </Link>
               <div className="flex flex-wrap gap-2">
-                <NewDatasetItemFromTraceId
-                  projectId={projectId}
-                  traceId={trace.id}
-                  timestamp={new Date(trace.timestamp)}
-                  buttonVariant="outline"
-                />
-                <AnnotateDrawer
-                  key={"annotation-drawer" + trace.id}
-                  projectId={projectId}
-                  scoreTarget={{
-                    type: "trace",
-                    traceId: trace.id,
-                  }}
-                  scores={trace.scores}
-                  buttonVariant="outline"
-                  analyticsData={{
-                    type: "trace",
-                    source: "SessionDetail",
-                  }}
-                  scoreMetadata={{
-                    projectId: projectId,
-                    environment: trace.environment,
-                  }}
-                />
+                {/*<NewDatasetItemFromTraceId*/}
+                {/*  projectId={projectId}*/}
+                {/*  traceId={trace.id}*/}
+                {/*  timestamp={new Date(trace.timestamp)}*/}
+                {/*  buttonVariant="outline"*/}
+                {/*/>*/}
+                {/*<AnnotateDrawer*/}
+                {/*  key={"annotation-drawer" + trace.id}*/}
+                {/*  projectId={projectId}*/}
+                {/*  scoreTarget={{*/}
+                {/*    type: "trace",*/}
+                {/*    traceId: trace.id,*/}
+                {/*  }}*/}
+                {/*  scores={trace.scores}*/}
+                {/*  buttonVariant="outline"*/}
+                {/*  analyticsData={{*/}
+                {/*    type: "trace",*/}
+                {/*    source: "SessionDetail",*/}
+                {/*  }}*/}
+                {/*  scoreMetadata={{*/}
+                {/*    projectId: projectId,*/}
+                {/*    environment: trace.environment,*/}
+                {/*  }}*/}
+                {/*/>*/}
                 <CommentDrawerButton
                   projectId={projectId}
                   variant="outline"
@@ -108,12 +108,12 @@ const TraceRow = React.memo(
                 />
               </div>
             </div>
-            <div className="flex-1">
-              <p className="mb-1 font-medium">Scores</p>
-              <div className="flex flex-wrap content-start items-start gap-1">
-                <GroupedScoreBadges scores={trace.scores} />
-              </div>
-            </div>
+            {/*<div className="flex-1">*/}
+            {/*  <p className="mb-1 font-medium">Scores</p>*/}
+            {/*  <div className="flex flex-wrap content-start items-start gap-1">*/}
+            {/*    <GroupedScoreBadges scores={trace.scores} />*/}
+            {/*  </div>*/}
+            {/*</div>*/}
           </div>
         </div>
       </Card>

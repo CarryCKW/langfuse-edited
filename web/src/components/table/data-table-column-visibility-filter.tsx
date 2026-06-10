@@ -248,8 +248,9 @@ function GroupVisibilityHeader<TData, TValue>({
               }}
             >
               {groupVisibleCount === groupTotalCount
-                ? "Deselect All"
-                : "Select All"}
+                ? "取消选择所有"
+                : "选择所有"}
+              {/*Deselect All  Select All*/}
             </Button>
             {isOpen ? (
               <ChevronDown className="h-4 w-4" />
@@ -396,7 +397,10 @@ export function DataTableColumnVisibilityFilter<TData, TValue>({
       <Drawer modal={false}>
         <DrawerTrigger asChild>
           <Button variant="outline" title="Show/hide columns">
-            <span>Columns</span>
+            <span>
+              {/*Columns*/}
+            列表选项
+            </span>
             <div className="ml-1 rounded-sm bg-input px-1 text-xs">{`${count}/${total}`}</div>
           </Button>
         </DrawerTrigger>
@@ -404,7 +408,8 @@ export function DataTableColumnVisibilityFilter<TData, TValue>({
           <div className="mx-auto w-full overflow-y-auto md:max-h-full">
             <div className="sticky top-0 z-10">
               <DrawerHeader className="flex flex-row items-center justify-between rounded-sm bg-background px-3 py-2">
-                <DrawerTitle>Column Visibility</DrawerTitle>
+                <DrawerTitle>可见列表</DrawerTitle>
+                {/*Column Visibility*/}
                 <div className="flex flex-row gap-2">
                   <Button
                     variant="outline"
@@ -415,7 +420,8 @@ export function DataTableColumnVisibilityFilter<TData, TValue>({
                       setColumnVisibility(defaultColumnVisibility);
                     }}
                   >
-                    Restore Defaults
+                    恢复默认值
+                    {/*Restore Defaults*/}
                   </Button>
                   <DrawerClose asChild>
                     <Button variant="outline" size="icon">
@@ -440,9 +446,8 @@ export function DataTableColumnVisibilityFilter<TData, TValue>({
                     onClick={() => toggleAllColumns(count, total)}
                   >
                     <span className="text-sm font-medium">
-                      {count === total
-                        ? "Deselect All Columns"
-                        : "Select All Columns"}
+                      {count === total ? "取消全选列" : "全选列"}
+                      {/*Deselect All Columns   Select All Columns*/}
                     </span>
                     <div className="ml-1 rounded-sm bg-input px-1 text-xs">{`${count}/${total}`}</div>
                   </Button>

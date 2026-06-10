@@ -107,37 +107,37 @@ export default function Dashboard() {
 
   const filterColumns: ColumnDefinition[] = [
     {
-      name: "Trace Name",
+      name: "Trace名称", //Trace Name
       id: "traceName",
       type: "stringOptions",
       options: nameOptions,
       internal: "internalValue",
     },
-    {
-      name: "Tags",
-      id: "tags",
-      type: "arrayOptions",
-      options: tagsOptions,
-      internal: "internalValue",
-    },
-    {
-      name: "User",
-      id: "user",
-      type: "string",
-      internal: "internalValue",
-    },
-    {
-      name: "Release",
-      id: "release",
-      type: "string",
-      internal: "internalValue",
-    },
-    {
-      name: "Version",
-      id: "version",
-      type: "string",
-      internal: "internalValue",
-    },
+    // {
+    //   name: "Tags",
+    //   id: "tags",
+    //   type: "arrayOptions",
+    //   options: tagsOptions,
+    //   internal: "internalValue",
+    // },
+    // {
+    //   name: "User",
+    //   id: "user",
+    //   type: "string",
+    //   internal: "internalValue",
+    // },
+    // {
+    //   name: "Release",
+    //   id: "release",
+    //   type: "string",
+    //   internal: "internalValue",
+    // },
+    // {
+    //   name: "Version",
+    //   id: "version",
+    //   type: "string",
+    //   internal: "internalValue",
+    // },
   ];
 
   const dashboardTimeRangePresets = DASHBOARD_AGGREGATION_OPTIONS;
@@ -185,7 +185,7 @@ export default function Dashboard() {
       withPadding
       scrollable
       headerProps={{
-        title: "Home",
+        title: "总览数据", // Home
         actionButtonsLeft: (
           <>
             <TimeRangePicker
@@ -204,16 +204,16 @@ export default function Dashboard() {
                   : undefined
               }
             />
-            <MultiSelect
-              title="Environment"
-              label="Env"
-              values={selectedEnvironments}
-              onValueChange={useDebounce(setSelectedEnvironments)}
-              options={environmentOptions.map((env) => ({
-                value: env,
-              }))}
-              className="my-0 w-auto overflow-hidden"
-            />
+            {/*<MultiSelect*/}
+            {/*  title="Environment"*/}
+            {/*  label="Env"*/}
+            {/*  values={selectedEnvironments}*/}
+            {/*  onValueChange={useDebounce(setSelectedEnvironments)}*/}
+            {/*  options={environmentOptions.map((env) => ({*/}
+            {/*    value: env,*/}
+            {/*  }))}*/}
+            {/*  className="my-0 w-auto overflow-hidden"*/}
+            {/*/>*/}
             <PopoverFilterBuilder
               columns={filterColumns}
               filterState={userFilterState}
@@ -221,37 +221,37 @@ export default function Dashboard() {
             />
           </>
         ),
-        actionButtonsRight: (
-          <>
-            {uiCustomization?.feedbackHref === undefined && (
-              <FeedbackButtonWrapper
-                title="Request Chart"
-                description="Your feedback matters! Let the Langfuse team know what additional data or metrics you'd like to see in your dashboard."
-                className="hidden lg:flex"
-              >
-                <Button
-                  id="date"
-                  variant={"outline"}
-                  className={
-                    "group justify-start gap-x-3 text-left font-semibold text-primary hover:bg-primary-foreground hover:text-primary-accent"
-                  }
-                >
-                  <BarChart2
-                    className="hidden h-6 w-6 shrink-0 text-primary group-hover:text-primary-accent lg:block"
-                    aria-hidden="true"
-                  />
-                  Request Chart
-                </Button>
-              </FeedbackButtonWrapper>
-            )}
-            <SetupTracingButton />
-          </>
-        ),
+        // actionButtonsRight: (
+        //   <>
+        //     {uiCustomization?.feedbackHref === undefined && (
+        //       <FeedbackButtonWrapper
+        //         title="Request Chart"
+        //         description="Your feedback matters! Let the Langfuse team know what additional data or metrics you'd like to see in your dashboard."
+        //         className="hidden lg:flex"
+        //       >
+        //         <Button
+        //           id="date"
+        //           variant={"outline"}
+        //           className={
+        //             "group justify-start gap-x-3 text-left font-semibold text-primary hover:bg-primary-foreground hover:text-primary-accent"
+        //           }
+        //         >
+        //           <BarChart2
+        //             className="hidden h-6 w-6 shrink-0 text-primary group-hover:text-primary-accent lg:block"
+        //             aria-hidden="true"
+        //           />
+        //           Request Chart
+        //         </Button>
+        //       </FeedbackButtonWrapper>
+        //     )}
+        //     <SetupTracingButton />
+        //   </>
+        // ),
       }}
     >
       <div className="grid w-full grid-cols-1 gap-3 overflow-hidden lg:grid-cols-2 xl:grid-cols-6">
         <TracesBarListChart
-          className="col-span-1 xl:col-span-2"
+          className="col-span-1 xl:col-span-3" // col-span-1 xl:col-span-2
           projectId={projectId}
           globalFilterState={[...userFilterState, ...environmentFilter]}
           fromTimestamp={fromTimestamp}
@@ -259,19 +259,19 @@ export default function Dashboard() {
           isLoading={environmentFilterOptions.isPending}
         />
         <ModelCostTable
-          className="col-span-1 xl:col-span-2"
+          className="col-span-1 xl:col-span-3" // col-span-1 xl:col-span-2
           projectId={projectId}
           globalFilterState={[...userFilterState, ...environmentFilter]}
           fromTimestamp={fromTimestamp}
           toTimestamp={toTimestamp}
           isLoading={environmentFilterOptions.isPending}
         />
-        <ScoresTable
-          className="col-span-1 xl:col-span-2"
-          projectId={projectId}
-          globalFilterState={mergedFilterState}
-          isLoading={environmentFilterOptions.isPending}
-        />
+        {/*<ScoresTable*/}
+        {/*  className="col-span-1 xl:col-span-2" // col-span-1 xl:col-span-2*/}
+        {/*  projectId={projectId}*/}
+        {/*  globalFilterState={mergedFilterState}*/}
+        {/*  isLoading={environmentFilterOptions.isPending}*/}
+        {/*/>*/}
         <TracesAndObservationsTimeSeriesChart
           className="col-span-1 xl:col-span-3"
           projectId={projectId}
@@ -282,7 +282,7 @@ export default function Dashboard() {
           isLoading={environmentFilterOptions.isPending}
         />
         <ModelUsageChart
-          className="col-span-1 min-h-24 xl:col-span-3"
+          className="col-span-1 xl:col-span-3"
           projectId={projectId}
           globalFilterState={mergedFilterState}
           fromTimestamp={fromTimestamp}
@@ -291,23 +291,23 @@ export default function Dashboard() {
           agg={agg}
           isLoading={environmentFilterOptions.isPending}
         />
-        <UserChart
-          className="col-span-1 xl:col-span-3"
-          projectId={projectId}
-          globalFilterState={[...userFilterState, ...environmentFilter]}
-          fromTimestamp={fromTimestamp}
-          toTimestamp={toTimestamp}
-          isLoading={environmentFilterOptions.isPending}
-        />
-        <ChartScores
-          className="col-span-1 xl:col-span-3"
-          agg={agg}
-          projectId={projectId}
-          globalFilterState={[...userFilterState, ...environmentFilter]}
-          fromTimestamp={fromTimestamp}
-          toTimestamp={toTimestamp}
-          isLoading={environmentFilterOptions.isPending}
-        />
+        {/*<UserChart*/}
+        {/*  className="col-span-1 xl:col-span-3"*/}
+        {/*  projectId={projectId}*/}
+        {/*  globalFilterState={[...userFilterState, ...environmentFilter]}*/}
+        {/*  fromTimestamp={fromTimestamp}*/}
+        {/*  toTimestamp={toTimestamp}*/}
+        {/*  isLoading={environmentFilterOptions.isPending}*/}
+        {/*/>*/}
+        {/*<ChartScores*/}
+        {/*  className="col-span-1 xl:col-span-3"*/}
+        {/*  agg={agg}*/}
+        {/*  projectId={projectId}*/}
+        {/*  globalFilterState={[...userFilterState, ...environmentFilter]}*/}
+        {/*  fromTimestamp={fromTimestamp}*/}
+        {/*  toTimestamp={toTimestamp}*/}
+        {/*  isLoading={environmentFilterOptions.isPending}*/}
+        {/*/>*/}
         <LatencyTables
           projectId={projectId}
           globalFilterState={[...userFilterState, ...environmentFilter]}
@@ -316,7 +316,7 @@ export default function Dashboard() {
           isLoading={environmentFilterOptions.isPending}
         />
         <GenerationLatencyChart
-          className="col-span-1 flex-auto justify-between lg:col-span-full"
+          className="col-span-1 flex-auto justify-between lg:col-span-full" //col-span-1 flex-auto justify-between lg:col-span-full
           projectId={projectId}
           agg={agg}
           globalFilterState={[...userFilterState, ...environmentFilter]}
@@ -324,15 +324,15 @@ export default function Dashboard() {
           toTimestamp={toTimestamp}
           isLoading={environmentFilterOptions.isPending}
         />
-        <ScoreAnalytics
-          className="col-span-1 flex-auto justify-between lg:col-span-full"
-          agg={agg}
-          projectId={projectId}
-          globalFilterState={[...userFilterState, ...environmentFilter]}
-          fromTimestamp={fromTimestamp}
-          toTimestamp={toTimestamp}
-          isLoading={environmentFilterOptions.isPending}
-        />
+        {/*<ScoreAnalytics*/}
+        {/*  className="col-span-1 flex-auto justify-between lg:col-span-full"*/}
+        {/*  agg={agg}*/}
+        {/*  projectId={projectId}*/}
+        {/*  globalFilterState={[...userFilterState, ...environmentFilter]}*/}
+        {/*  fromTimestamp={fromTimestamp}*/}
+        {/*  toTimestamp={toTimestamp}*/}
+        {/*  isLoading={environmentFilterOptions.isPending}*/}
+        {/*/>*/}
       </div>
     </Page>
   );

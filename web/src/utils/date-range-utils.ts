@@ -11,73 +11,73 @@ interface TimeRangeDefinition {
 
 export const TIME_RANGES = {
   last5Minutes: {
-    label: "Past 5 min",
+    label: "过去 5 分钟", // Past min
     abbreviation: "5m",
     minutes: 5,
     dateTrunc: "minute",
   },
   last30Minutes: {
-    label: "Past 30 min",
+    label: "过去 30 分钟",
     abbreviation: "30m",
     minutes: 30,
     dateTrunc: "minute",
   },
   last1Hour: {
-    label: "Past 1 hour",
+    label: "过去 1 小时", //hour
     abbreviation: "1h",
     minutes: 60,
     dateTrunc: "minute",
   },
   last3Hours: {
-    label: "Past 3 hours",
+    label: "过去 3 小时",
     abbreviation: "3h",
     minutes: 3 * 60,
     dateTrunc: "minute",
   },
   last6Hours: {
-    label: "Past 6 hours",
+    label: "过去 6 小时",
     abbreviation: "6h",
     minutes: 6 * 60,
     dateTrunc: "minute",
   },
   last1Day: {
-    label: "Past 1 day",
+    label: "过去 1 天", // day
     abbreviation: "1d",
     minutes: 24 * 60,
     dateTrunc: "hour",
   },
   last3Days: {
-    label: "Past 3 days",
+    label: "过去 3 天", //days
     abbreviation: "3d",
     minutes: 3 * 24 * 60,
     dateTrunc: "hour",
   },
   last7Days: {
-    label: "Past 7 days",
+    label: "过去 7 天",
     abbreviation: "7d",
     minutes: 7 * 24 * 60,
     dateTrunc: "hour",
   },
   last14Days: {
-    label: "Past 14 days",
+    label: "过去 14 天",
     abbreviation: "14d",
     minutes: 14 * 24 * 60,
     dateTrunc: "day",
   },
   last30Days: {
-    label: "Past 30 days",
+    label: "过去 30 天",
     abbreviation: "30d",
     minutes: 30 * 24 * 60,
     dateTrunc: "day",
   },
   last90Days: {
-    label: "Past 90 days",
+    label: "过去 90 天",
     abbreviation: "90d",
     minutes: 90 * 24 * 60,
     dateTrunc: "week",
   },
   last1Year: {
-    label: "Past 1 year",
+    label: "过去 1 年", //year
     abbreviation: "1y",
     minutes: 365 * 24 * 60,
     dateTrunc: "month",

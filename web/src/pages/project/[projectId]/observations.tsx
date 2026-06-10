@@ -36,8 +36,8 @@ export default function Generations() {
         title: "Tracing",
         help: {
           description:
-            "An observation captures a single function call in an application. See docs to learn more.",
-          href: "https://langfuse.com/docs/observability/data-model",
+            "Trace代表一次完整的端到端交互或执行链路的生命周期，如用户的一次请求，智能体的一次调用等",
+          // href: "https://langfuse.com/docs/observability/data-model",
         },
         tabsProps: {
           tabs: getTracingTabs(projectId),

@@ -140,24 +140,25 @@ export function DataTableControls({
       )}
     >
       <div className="sticky top-0 z-20 mb-1 flex h-10 shrink-0 items-center justify-between border-b bg-background px-3">
-        <span className="text-sm font-medium">Filters</span>
-        {filterWithAI && isLangfuseCloud && (
-          <Popover open={aiPopoverOpen} onOpenChange={setAiPopoverOpen}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <PopoverTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <WandSparkles className="h-4 w-4" />
-                  </Button>
-                </PopoverTrigger>
-              </TooltipTrigger>
-              <TooltipContent>Filter with AI</TooltipContent>
-            </Tooltip>
-            <PopoverContent align="center" className="w-[400px]">
-              <DataTableAIFilters onFiltersGenerated={handleFiltersGenerated} />
-            </PopoverContent>
-          </Popover>
-        )}
+        {/*<span className="text-sm font-medium">Filters</span>*/}
+        <span className="text-sm font-medium">过滤器</span>
+        {/*{filterWithAI && isLangfuseCloud && (*/}
+        {/*  <Popover open={aiPopoverOpen} onOpenChange={setAiPopoverOpen}>*/}
+        {/*    <Tooltip>*/}
+        {/*      <TooltipTrigger asChild>*/}
+        {/*        <PopoverTrigger asChild>*/}
+        {/*          <Button variant="ghost" size="icon" className="h-8 w-8">*/}
+        {/*            <WandSparkles className="h-4 w-4" />*/}
+        {/*          </Button>*/}
+        {/*        </PopoverTrigger>*/}
+        {/*      </TooltipTrigger>*/}
+        {/*      <TooltipContent>Filter with AI</TooltipContent>*/}
+        {/*    </Tooltip>*/}
+        {/*    <PopoverContent align="center" className="w-[400px]">*/}
+        {/*      <DataTableAIFilters onFiltersGenerated={handleFiltersGenerated} />*/}
+        {/*    </PopoverContent>*/}
+        {/*  </Popover>*/}
+        {/*)}*/}
       </div>
       <div className="pb-10">
         <Accordion
@@ -543,7 +544,8 @@ export function CategoricalFacet({
             {onOperatorChange && value.length > 0 && (
               <div className="mb-1.5 flex items-center gap-1.5 px-2">
                 <span className="text-[10px] text-muted-foreground/80">
-                  Match:
+                  {/*Match:*/}
+                  匹配
                 </span>
                 <div className="inline-flex rounded border border-input/50 bg-background text-[10px]">
                   <button
@@ -555,7 +557,8 @@ export function CategoricalFacet({
                         : "text-muted-foreground hover:text-foreground",
                     )}
                   >
-                    SOME
+                    {/*SOME*/}
+                    部分
                   </button>
                   <div className="w-px bg-border/50" />
                   <button
@@ -567,7 +570,8 @@ export function CategoricalFacet({
                         : "text-muted-foreground hover:text-foreground",
                     )}
                   >
-                    ALL
+                    {/*ALL*/}
+                    全量
                   </button>
                 </div>
               </div>
@@ -767,7 +771,7 @@ export function NumericFacet({
                   htmlFor={`min-${filterKey}`}
                   className="text-xs text-muted-foreground"
                 >
-                  Min.
+                  最小
                 </Label>
                 <div className="flex items-center gap-1">
                   <Input
@@ -792,7 +796,8 @@ export function NumericFacet({
                   htmlFor={`max-${filterKey}`}
                   className="text-xs text-muted-foreground"
                 >
-                  Max.
+                  最大
+                  {/*Max.*/}
                 </Label>
                 <div className="flex items-center gap-1">
                   <Input

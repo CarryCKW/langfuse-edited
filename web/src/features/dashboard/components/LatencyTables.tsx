@@ -6,7 +6,7 @@ import { api } from "@/src/utils/api";
 
 import { formatIntervalSeconds } from "@/src/utils/dates";
 import { truncate } from "@/src/utils/string";
-import { Popup } from "@/src/components/layouts/doc-popup";
+import DocPopup, { Popup } from "@/src/components/layouts/doc-popup";
 import {
   type QueryType,
   mapLegacyUiTableFilterToView,
@@ -172,13 +172,16 @@ export const LatencyTables = ({
   return (
     <>
       <DashboardCard
-        className="col-span-1 xl:col-span-2"
-        title="Trace latency percentiles"
+        className="col-span-1 xl:col-span-2" //col-span-1 xl:col-span-2
+        title="Traces延迟百分位" // Trace latency percentiles
         isLoading={isLoading || tracesLatencies.isPending}
+        headerRight={
+          <DocPopup description="当前筛选条件下，按百分位数统计全局智能体应用产生的Traces耗时情况" />
+        }
       >
         <DashboardTable
           headers={[
-            "Trace Name",
+            "追踪名", //Trace Name
             <RightAlignedCell key="p50">p50</RightAlignedCell>,
             <RightAlignedCell key="p90">p90</RightAlignedCell>,
             <RightAlignedCell key="p95">
@@ -192,13 +195,16 @@ export const LatencyTables = ({
         />
       </DashboardCard>
       <DashboardCard
-        className="col-span-1 xl:col-span-2"
-        title="Generation latency percentiles"
+        className="col-span-1 xl:col-span-2" //col-span-1 xl:col-span-2
+        title="生成延迟百分位" // Generation latency percentiles
         isLoading={isLoading || generationsLatencies.isPending}
+        headerRight={
+          <DocPopup description="当前筛选条件下，按百分位数统计全局智能体生成任务耗时情况" />
+        }
       >
         <DashboardTable
           headers={[
-            "Generation Name",
+            "生成名", //Generation Name
             <RightAlignedCell key="p50">p50</RightAlignedCell>,
             <RightAlignedCell key="p90">p90</RightAlignedCell>,
             <RightAlignedCell key="p95">
@@ -212,13 +218,16 @@ export const LatencyTables = ({
         />
       </DashboardCard>
       <DashboardCard
-        className="col-span-1 xl:col-span-2"
-        title="Span latency percentiles"
+        className="col-span-1 xl:col-span-2" //col-span-1 xl:col-span-2
+        title="跨度延迟百分位" // Span latency percentiles
         isLoading={isLoading || spansLatencies.isPending}
+        headerRight={
+          <DocPopup description="当前筛选条件下，按百分位数统计全局子步骤/操作耗时情况" />
+        }
       >
         <DashboardTable
           headers={[
-            "Span Name",
+            "跨度名", //Span Name
             <RightAlignedCell key="p50">p50</RightAlignedCell>,
             <RightAlignedCell key="p90">p90</RightAlignedCell>,
             <RightAlignedCell key="p95">

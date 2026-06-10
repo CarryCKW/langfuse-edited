@@ -50,7 +50,7 @@ function JsonInputOutputView({
     <div className="[&_.io-message-content]:px-2 [&_.io-message-header]:px-2">
       {showInput && (
         <PrettyJsonView
-          title="Input"
+          title="输入" //Input
           json={parsedInput ?? null}
           isLoading={isLoading}
           isParsing={isParsing}
@@ -62,7 +62,7 @@ function JsonInputOutputView({
       )}
       {showOutput && (
         <PrettyJsonView
-          title="Output"
+          title="输出" //Output
           json={parsedOutput}
           isLoading={isLoading}
           isParsing={isParsing}
@@ -284,7 +284,7 @@ export function IOPreviewPretty({
       {shouldShowMetadata && (
         <div className="[&_.io-message-content]:px-2 [&_.io-message-header]:px-2">
           <PrettyJsonView
-            title="Metadata"
+            title="元数据" //Metadata
             json={parsedMetadata}
             isLoading={isLoading}
             isParsing={isParsing}

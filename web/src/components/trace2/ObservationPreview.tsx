@@ -165,63 +165,63 @@ export const ObservationPreview = ({
             />
           </div>
           <div className="flex h-full flex-wrap content-start items-start justify-start gap-0.5 @2xl:mr-1 @2xl:justify-end">
-            {observationWithIO && (
-              <NewDatasetItemFromExistingObject
-                traceId={preloadedObservation.traceId}
-                observationId={preloadedObservation.id}
-                projectId={projectId}
-                input={observationWithIO.input}
-                output={observationWithIO.output}
-                metadata={observationWithIO.metadata}
-                key={preloadedObservation.id}
-                size="sm"
-              />
-            )}
-            {viewType === "detailed" && (
-              <>
-                <div className="flex items-start">
-                  <AnnotateDrawer
-                    key={"annotation-drawer" + preloadedObservation.id}
-                    projectId={projectId}
-                    scoreTarget={{
-                      type: "trace",
-                      traceId: traceId,
-                      observationId: preloadedObservation.id,
-                    }}
-                    scores={currentObservationScores}
-                    scoreMetadata={{
-                      projectId: projectId,
-                      environment: preloadedObservation.environment,
-                    }}
-                    size="sm"
-                  />
+            {/*{observationWithIO && (*/}
+            {/*  <NewDatasetItemFromExistingObject*/}
+            {/*    traceId={preloadedObservation.traceId}*/}
+            {/*    observationId={preloadedObservation.id}*/}
+            {/*    projectId={projectId}*/}
+            {/*    input={observationWithIO.input}*/}
+            {/*    output={observationWithIO.output}*/}
+            {/*    metadata={observationWithIO.metadata}*/}
+            {/*    key={preloadedObservation.id}*/}
+            {/*    size="sm"*/}
+            {/*  />*/}
+            {/*)}*/}
+            {/*{viewType === "detailed" && (*/}
+            {/*  <>*/}
+            {/*    <div className="flex items-start">*/}
+            {/*      <AnnotateDrawer*/}
+            {/*        key={"annotation-drawer" + preloadedObservation.id}*/}
+            {/*        projectId={projectId}*/}
+            {/*        scoreTarget={{*/}
+            {/*          type: "trace",*/}
+            {/*          traceId: traceId,*/}
+            {/*          observationId: preloadedObservation.id,*/}
+            {/*        }}*/}
+            {/*        scores={currentObservationScores}*/}
+            {/*        scoreMetadata={{*/}
+            {/*          projectId: projectId,*/}
+            {/*          environment: preloadedObservation.environment,*/}
+            {/*        }}*/}
+            {/*        size="sm"*/}
+            {/*      />*/}
 
-                  <CreateNewAnnotationQueueItem
-                    projectId={projectId}
-                    objectId={preloadedObservation.id}
-                    objectType={AnnotationQueueObjectType.OBSERVATION}
-                    size="sm"
-                  />
-                </div>
-                {observationWithIO &&
-                  isGenerationLike(observationWithIO.type) && (
-                    <JumpToPlaygroundButton
-                      source="generation"
-                      generation={observationWithIO}
-                      analyticsEventName="trace_detail:test_in_playground_button_click"
-                      className={cn(isTimeline ? "!hidden" : "")}
-                      size="sm"
-                    />
-                  )}
-                <CommentDrawerButton
-                  projectId={preloadedObservation.projectId}
-                  objectId={preloadedObservation.id}
-                  objectType="OBSERVATION"
-                  count={commentCounts?.get(preloadedObservation.id)}
-                  size="sm"
-                />
-              </>
-            )}
+            {/*      <CreateNewAnnotationQueueItem*/}
+            {/*        projectId={projectId}*/}
+            {/*        objectId={preloadedObservation.id}*/}
+            {/*        objectType={AnnotationQueueObjectType.OBSERVATION}*/}
+            {/*        size="sm"*/}
+            {/*      />*/}
+            {/*    </div>*/}
+            {/*    {observationWithIO &&*/}
+            {/*      isGenerationLike(observationWithIO.type) && (*/}
+            {/*        <JumpToPlaygroundButton*/}
+            {/*          source="generation"*/}
+            {/*          generation={observationWithIO}*/}
+            {/*          analyticsEventName="trace_detail:test_in_playground_button_click"*/}
+            {/*          className={cn(isTimeline ? "!hidden" : "")}*/}
+            {/*          size="sm"*/}
+            {/*        />*/}
+            {/*      )}*/}
+            {/*    <CommentDrawerButton*/}
+            {/*      projectId={preloadedObservation.projectId}*/}
+            {/*      objectId={preloadedObservation.id}*/}
+            {/*      objectType="OBSERVATION"*/}
+            {/*      count={commentCounts?.get(preloadedObservation.id)}*/}
+            {/*      size="sm"*/}
+            {/*    />*/}
+            {/*  </>*/}
+            {/*)}*/}
             {viewType === "focused" && showCommentButton && (
               <CommentDrawerButton
                 projectId={preloadedObservation.projectId}
@@ -514,7 +514,7 @@ export const ObservationPreview = ({
                 {observationWithIO?.metadata && (
                   <PrettyJsonView
                     key={observationWithIO.id + "-metadata"}
-                    title="Metadata"
+                    title="元数据" //Metadata
                     json={observationWithIO.metadata}
                     media={observationMedia.data?.filter(
                       (m) => m.field === "metadata",

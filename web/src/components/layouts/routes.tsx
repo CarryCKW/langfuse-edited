@@ -36,7 +36,7 @@ export enum RouteSection {
 }
 
 export enum RouteGroup {
-  Observability = "Observability",
+  Observability = "可观测维度", // 原始:  Observability = "Observability"
   PromptManagement = "Prompt Management",
   Evaluation = "Evaluation",
 }
@@ -69,21 +69,21 @@ export const ROUTES: Route[] = [
   //   menuNode: <CommandMenuTrigger />,
   //   section: RouteSection.Main,
   // },
+  // {
+  //   title: "Organizations",
+  //   pathname: "/",
+  //   icon: Grid2X2,
+  //   show: ({ organization }) => organization === undefined,
+  //   section: RouteSection.Main,
+  // },
+  // {
+  //   title: "Projects",
+  //   pathname: "/organization/[organizationId]",
+  //   icon: Grid2X2,
+  //   section: RouteSection.Main,
+  // },
   {
-    title: "Organizations",
-    pathname: "/",
-    icon: Grid2X2,
-    show: ({ organization }) => organization === undefined,
-    section: RouteSection.Main,
-  },
-  {
-    title: "Projects",
-    pathname: "/organization/[organizationId]",
-    icon: Grid2X2,
-    section: RouteSection.Main,
-  },
-  {
-    title: "Home",
+    title: "总览数据", // 原始：Home
     pathname: `/project/[projectId]`,
     icon: Home,
     section: RouteSection.Main,
@@ -96,7 +96,7 @@ export const ROUTES: Route[] = [
   //   section: RouteSection.Main,
   // },
   {
-    title: "Tracing",
+    title: "Tracing", //Tracing
     icon: ListTree,
     productModule: "tracing",
     group: RouteGroup.Observability,
@@ -104,7 +104,7 @@ export const ROUTES: Route[] = [
     pathname: `/project/[projectId]/traces`,
   },
   {
-    title: "Sessions",
+    title: "Sessions", //Sessions
     icon: Clock,
     productModule: "tracing",
     group: RouteGroup.Observability,

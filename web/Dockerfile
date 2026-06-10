@@ -30,7 +30,12 @@ COPY --from=pruner /app/out/json/ .
 # 复制 npm 配置文件以使用镜像源和重试设置
 COPY web/.npmrc ./.npmrc
 
-RUN pnpm install --frozen-lockfile
+# 配置 Prisma engines 使用国内镜像源（解决 GitHub 下载超时问题）
+ENV PRISMA_ENGINES_MIRROR=https://registry.npmmirror.com/-/binary/prisma
+ENV PRISMA_BINARIES_MIRROR=https://registry.npmmirror.com/-/binary/prisma
+
+RUN --mount=type=cache,target=/pnpm/store,id=pnpm-store \
+    pnpm install --frozen-lockfile
 
 ENV DOCKER_BUILD 1
 ENV NEXT_MANUAL_SIG_HANDLE true
@@ -57,6 +62,14 @@ ARG NEXT_PUBLIC_SENTRY_DSN
 ENV NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN
 ARG NEXT_PUBLIC_BASE_PATH
 ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH
+ARG NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED
+ENV NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED=$NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED
+ARG NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL
+ENV NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL=$NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL
+ARG NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE
+ENV NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE=$NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE
+#ARG NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATE_URL
+#ENV NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATE_URL=$NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATE_URL
 
 # Sentry already needs to be set on build time to upload sourcemaps
 # This must not be set for OSS releases as we would share our Sentry secret.
@@ -85,8 +98,12 @@ ENV NEXT_TELEMETRY_DISABLED 1
 ENV NEXT_MANUAL_SIG_HANDLE true
 # set the CI flag to true to get CI specific logs
 ENV CI true
+# Disable ESLint and Prettier warnings during build to speed up compilation
+ENV ESLINT_NO_DEV_ERRORS true
+ENV NEXT_LINT false
 
-RUN NODE_OPTIONS='--max-old-space-size-percentage=75' turbo run build --filter=web...
+RUN --mount=type=cache,target=/app/web/.next/cache,id=nextjs-cache \
+    NODE_OPTIONS='--max-old-space-size-percentage=75' turbo run build --filter=web...
 
 # Production image, copy all the files and run next
 FROM --platform=${TARGETPLATFORM:-linux/amd64} base AS runner

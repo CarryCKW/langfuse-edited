@@ -162,7 +162,8 @@ export function DataTableToolbar<TData, TValue>({
             ) : (
               <PanelLeftOpen className="h-4 w-4" />
             )}
-            <span>{controlsPanelOpen ? "Hide" : "Show"} filters</span>
+            {/*<span>{controlsPanelOpen ? "Hide" : "Show"} filters</span>*/}
+            <span>{controlsPanelOpen ? "隐藏" : "展示"}过滤器</span>
             {filterState && filterState.length > 0 && (
               <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
                 {filterState.length}
@@ -195,8 +196,9 @@ export function DataTableToolbar<TData, TValue>({
                 autoFocus
                 placeholder={
                   searchConfig.tableAllowsFullTextSearch
-                    ? "Search..."
-                    : `Search (${searchConfig.metadataSearchFields?.join(", ")})`
+                    ? "搜索..."
+                    : // Search...
+                      `Search (${searchConfig.metadataSearchFields?.join(", ")})`
                 }
                 value={searchString}
                 onChange={(event) => {
@@ -228,29 +230,30 @@ export function DataTableToolbar<TData, TValue>({
                       {searchConfig.tableAllowsFullTextSearch &&
                       (searchConfig.searchType ?? []).includes("content")
                         ? (searchConfig.customDropdownLabels?.fullText ??
-                          "Full Text")
+                          "全量文本") //Full Text
                         : (searchConfig.customDropdownLabels?.metadata ??
-                          "IDs / Names")}
-                      <DocPopup
-                        description={
-                          searchConfig.tableAllowsFullTextSearch &&
-                          (searchConfig.searchType ?? []).includes(
-                            "content",
-                          ) ? (
-                            <p className="text-xs font-normal text-primary">
-                              Searches in Input/Output and{" "}
-                              {searchConfig.metadataSearchFields?.join(", ")}.
-                              {!searchConfig.hidePerformanceWarning &&
-                                " For improved performance, please filter the table down."}
-                            </p>
-                          ) : (
-                            <p className="text-xs font-normal text-primary">
-                              Searches in{" "}
-                              {searchConfig.metadataSearchFields?.join(", ")}.
-                            </p>
-                          )
-                        }
-                      />
+                          "IDs或名称")}
+                      {/*IDs / Names*/}
+                      {/*<DocPopup*/}
+                      {/*  description={*/}
+                      {/*    searchConfig.tableAllowsFullTextSearch &&*/}
+                      {/*    (searchConfig.searchType ?? []).includes(*/}
+                      {/*      "content",*/}
+                      {/*    ) ? (*/}
+                      {/*      <p className="text-xs font-normal text-primary">*/}
+                      {/*        Searches in Input/Output and{" "}*/}
+                      {/*        {searchConfig.metadataSearchFields?.join(", ")}.*/}
+                      {/*        {!searchConfig.hidePerformanceWarning &&*/}
+                      {/*          " For improved performance, please filter the table down."}*/}
+                      {/*      </p>*/}
+                      {/*    ) : (*/}
+                      {/*      <p className="text-xs font-normal text-primary">*/}
+                      {/*        Searches in{" "}*/}
+                      {/*        {searchConfig.metadataSearchFields?.join(", ")}.*/}
+                      {/*      </p>*/}
+                      {/*    )*/}
+                      {/*  }*/}
+                      {/*/>*/}
                     </span>
                     <ChevronDown className="h-4 w-4 opacity-50" />
                   </Button>
@@ -278,15 +281,16 @@ export function DataTableToolbar<TData, TValue>({
                     }}
                   >
                     <DropdownMenuRadioItem value="metadata">
-                      {searchConfig.customDropdownLabels?.metadata ??
-                        "IDs / Names"}
+                      {searchConfig.customDropdownLabels?.metadata ?? "IDs或名称"}
+                      {/*IDs / Names*/}
                     </DropdownMenuRadioItem>
                     <DropdownMenuRadioItem
                       value="metadata_fulltext"
                       disabled={!searchConfig.tableAllowsFullTextSearch}
                     >
                       {searchConfig.customDropdownLabels?.fullText ??
-                        "Full Text"}
+                        "全量文本"}
+                      {/*Full Text*/}
                     </DropdownMenuRadioItem>
                   </DropdownMenuRadioGroup>
                 </DropdownMenuContent>
@@ -323,18 +327,18 @@ export function DataTableToolbar<TData, TValue>({
         )}
 
         <div className="flex flex-row flex-wrap gap-2 pr-0.5 @6xl:ml-auto">
-          {!!columnVisibility && !!columnOrder && !!viewConfig && (
-            <TableViewPresetsDrawer
-              viewConfig={viewConfig}
-              currentState={{
-                orderBy: orderByState ?? null,
-                filters: filterState ?? [],
-                columnOrder,
-                columnVisibility,
-                searchQuery: searchString,
-              }}
-            />
-          )}
+          {/*{!!columnVisibility && !!columnOrder && !!viewConfig && (*/}
+          {/*  <TableViewPresetsDrawer*/}
+          {/*    viewConfig={viewConfig}*/}
+          {/*    currentState={{*/}
+          {/*      orderBy: orderByState ?? null,*/}
+          {/*      filters: filterState ?? [],*/}
+          {/*      columnOrder,*/}
+          {/*      columnVisibility,*/}
+          {/*      searchQuery: searchString,*/}
+          {/*    }}*/}
+          {/*  />*/}
+          {/*)}*/}
           {!!columnVisibility && !!setColumnVisibility && (
             <DataTableColumnVisibilityFilter
               columns={columns}
@@ -350,7 +354,7 @@ export function DataTableToolbar<TData, TValue>({
               setRowHeight={setRowHeight}
             />
           )}
-          {actionButtons}
+          {/*{actionButtons}  // 下载按钮*/}
         </div>
       </div>
       {multiSelect &&

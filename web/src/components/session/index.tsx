@@ -331,14 +331,14 @@ export const SessionPage: React.FC<{
                 listKey="sessions"
               />
             )}
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={downloadSessionAsJson}
-              title="Download session as JSON"
-            >
-              <Download className="h-4 w-4" />
-            </Button>
+            {/*<Button*/}
+            {/*  variant="outline"*/}
+            {/*  size="icon"*/}
+            {/*  onClick={downloadSessionAsJson}*/}
+            {/*  title="Download session as JSON"*/}
+            {/*>*/}
+            {/*  <Download className="h-4 w-4" />*/}
+            {/*</Button>*/}
             <CommentDrawerButton
               key="comment"
               variant="outline"
@@ -347,44 +347,44 @@ export const SessionPage: React.FC<{
               objectType="SESSION"
               count={getNumberFromMap(sessionCommentCounts.data, sessionId)}
             />
-            <div className="flex items-start">
-              <AnnotateDrawer
-                projectId={projectId}
-                scoreTarget={{
-                  type: "session",
-                  sessionId,
-                }}
-                scores={session.data?.scores ?? []}
-                scoreMetadata={{
-                  projectId: projectId,
-                  environment: session.data?.environment,
-                }}
-                buttonVariant="outline"
-              />
-              <CreateNewAnnotationQueueItem
-                projectId={projectId}
-                objectId={sessionId}
-                objectType={AnnotationQueueObjectType.SESSION}
-                variant="outline"
-              />
-            </div>
+            {/*<div className="flex items-start">*/}
+            {/*  <AnnotateDrawer*/}
+            {/*    projectId={projectId}*/}
+            {/*    scoreTarget={{*/}
+            {/*      type: "session",*/}
+            {/*      sessionId,*/}
+            {/*    }}*/}
+            {/*    scores={session.data?.scores ?? []}*/}
+            {/*    scoreMetadata={{*/}
+            {/*      projectId: projectId,*/}
+            {/*      environment: session.data?.environment,*/}
+            {/*    }}*/}
+            {/*    buttonVariant="outline"*/}
+            {/*  />*/}
+            {/*  <CreateNewAnnotationQueueItem*/}
+            {/*    projectId={projectId}*/}
+            {/*    objectId={sessionId}*/}
+            {/*    objectType={AnnotationQueueObjectType.SESSION}*/}
+            {/*    variant="outline"*/}
+            {/*  />*/}
+            {/*</div>*/}
           </>
         ),
       }}
     >
       <div className="flex h-full flex-col overflow-auto">
         <div className="sticky top-0 z-40 flex flex-wrap gap-2 border-b bg-background p-4">
-          {session.data?.users?.length ? (
-            <SessionUsers projectId={projectId} users={session.data.users} />
-          ) : null}
+          {/*{session.data?.users?.length ? (*/}
+          {/*  <SessionUsers projectId={projectId} users={session.data.users} />*/}
+          {/*) : null}*/}
           <Badge variant="outline">
             Total traces: {session.data?.traces.length}
           </Badge>
-          {session.data && (
-            <Badge variant="outline">
-              Total cost: {usdFormatter(session.data.totalCost, 2)}
-            </Badge>
-          )}
+          {/*{session.data && (*/}
+          {/*  <Badge variant="outline">*/}
+          {/*    Total cost: {usdFormatter(session.data.totalCost, 2)}*/}
+          {/*  </Badge>*/}
+          {/*)}*/}
           <SessionScores scores={session.data?.scores ?? []} />
         </div>
         <div ref={parentRef} className="flex-1 overflow-auto p-4">
@@ -489,7 +489,8 @@ export const SessionIO = ({
         />
       ) : (
         <div className="p-2 text-xs text-muted-foreground">
-          This trace has no input or output.
+          {/*This trace has no input or output.*/}
+          此Trace未捕获输入输出
         </div>
       )}
     </div>

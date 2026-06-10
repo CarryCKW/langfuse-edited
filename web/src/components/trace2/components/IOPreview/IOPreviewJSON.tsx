@@ -258,7 +258,7 @@ export function IOPreviewJSON({
         <Command className="flex-1 rounded-none border-0 bg-transparent">
           <CommandInput
             showBorder={false}
-            placeholder="Search across all sections..."
+            placeholder="跨所有子节查找" //Search across all sections...
             className="h-7 border-0 focus:ring-0"
             value={searchQuery}
             onValueChange={setSearchQuery}

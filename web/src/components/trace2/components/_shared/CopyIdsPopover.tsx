@@ -34,7 +34,7 @@ export const CopyIdsPopover = ({
     return (
       <Button
         variant="ghost"
-        title="Copy ID"
+        title="复制ID" //Copy ID
         className={cn("h-fit p-1", className)}
         onClick={() => handleCopy(idItems[0].id)}
       >
@@ -53,7 +53,7 @@ export const CopyIdsPopover = ({
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
-          title="Copy ID"
+          title="复制ID" //Copy ID
           className={cn("h-fit px-1", className)}
         >
           <CopyIcon className="h-3 w-3" />

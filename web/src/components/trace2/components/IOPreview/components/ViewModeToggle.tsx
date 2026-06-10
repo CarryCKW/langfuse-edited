@@ -23,7 +23,8 @@ export function ViewModeToggle({
       >
         <TabsList className="h-fit p-0.5">
           <TabsTrigger value="pretty" className="h-fit px-1 text-xs">
-            Formatted
+            {/*Formatted*/}
+            格式化
           </TabsTrigger>
           <TabsTrigger value="json" className="h-fit px-1 text-xs">
             JSON

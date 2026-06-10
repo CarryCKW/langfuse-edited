@@ -8,6 +8,22 @@ import { useMemo } from "react";
 import { PATH_CONSTANTS } from "../utils/pathClassification";
 import { getSafeRedirectPath, stripBasePath } from "@/src/utils/redirect";
 import type { SessionContextValue } from "next-auth/react";
+import { env } from "@/src/env.mjs";
+import type { ExternalAuthBridgeState } from "./useExternalAuthBridge";
+
+function isPerRequestExternalAuth(): boolean {
+  return (
+    env.NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED === "true" &&
+    env.NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE === "per_request"
+  );
+}
+
+function getExternalAuthLoginRedirectUrl(): string {
+  const basePath = env.NEXT_PUBLIC_BASE_PATH ?? "";
+  return (
+    env.NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL
+  );
+}
 
 /** Actions the auth guard can request */
 export type AuthGuardAction = "allow" | "loading" | "redirect" | "sign-out";
@@ -33,6 +49,7 @@ export type AuthGuardResult =
 export function useAuthGuard(
   session: SessionContextValue,
   _hideNavigation: boolean,
+  externalAuthBridge: ExternalAuthBridgeState = { status: "disabled" },
 ): AuthGuardResult {
   const router = useRouter();
 
@@ -87,6 +104,34 @@ export function useAuthGuard(
       !isPublishable &&
       !isPublicPath
     ) {
+      if (env.NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED === "true") {
+        if (isPerRequestExternalAuth()) {
+          if (session.status === "loading") {
+            return { action: "loading", message: "Authenticating" };
+          }
+          return {
+            action: "redirect",
+            url: getExternalAuthLoginRedirectUrl(),
+            message: "Redirecting",
+          };
+        }
+
+        if (
+          externalAuthBridge.status === "idle" ||
+          externalAuthBridge.status === "loading"
+        ) {
+          return { action: "loading", message: "Authenticating" };
+        }
+
+        if (externalAuthBridge.status === "failed") {
+          return {
+            action: "redirect",
+            url: externalAuthBridge.redirectUrl,
+            message: "Redirecting",
+          };
+        }
+      }
+
       // asPath already includes the base path when accessed via browser
       // Strip the base path if present to avoid double-prepending
       const rawPath = asPath || pathname || "/";
@@ -119,5 +164,5 @@ export function useAuthGuard(
 
     // All checks passed - allow access
     return { action: "allow" };
-  }, [session.status, session.data, router]);
+  }, [session.status, session.data, router, externalAuthBridge]);
 }

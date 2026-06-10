@@ -68,7 +68,7 @@ export function TraceSettingsDropdown({
         <Button
           variant="ghost"
           size="icon"
-          title="View Options"
+          title="选项视图" //View Options
           className="h-7 w-7"
         >
           <Settings2 className="h-3.5 w-3.5" />
@@ -78,9 +78,9 @@ export function TraceSettingsDropdown({
         align="end"
         className="w-64 space-x-0 space-y-0 p-0 px-0"
       >
-        <DropdownMenuLabel>View Options</DropdownMenuLabel>
+        <DropdownMenuLabel>选项视图</DropdownMenuLabel>
+        {/*View Options*/}
         <DropdownMenuSeparator />
-
         <div className="space-y-0 p-0 py-1">
           {/* Show Graph Toggle (only when available) */}
           {isGraphViewAvailable && (
@@ -90,7 +90,7 @@ export function TraceSettingsDropdown({
               className="space-y-0 px-2 py-1"
             >
               <div className="flex w-full items-center justify-between">
-                <span className="mr-2">Show Graph</span>
+                <span className="mr-2">展示调用图</span>
                 <Switch
                   size="sm"
                   checked={showGraph}
@@ -107,7 +107,10 @@ export function TraceSettingsDropdown({
             className="px-2 py-1"
           >
             <div className="flex w-full items-center justify-between">
-              <span className="mr-2">Show Comments</span>
+              <span className="mr-2">
+                展示评论
+                {/*Show Comments*/}
+              </span>
               <Switch
                 size="sm"
                 checked={showComments}
@@ -117,25 +120,25 @@ export function TraceSettingsDropdown({
           </DropdownMenuItem>
 
           {/* Show Scores Toggle */}
-          <DropdownMenuItem
-            asChild
-            onSelect={(e) => e.preventDefault()}
-            className="px-2 py-1"
-          >
-            <div className="flex w-full items-center justify-between">
-              <span className="mr-2">Show Scores</span>
-              <Switch
-                size="sm"
-                checked={showScores}
-                onCheckedChange={(checked) => {
-                  capture("trace_detail:observation_tree_toggle_scores", {
-                    show: checked,
-                  });
-                  setShowScores(checked);
-                }}
-              />
-            </div>
-          </DropdownMenuItem>
+          {/*<DropdownMenuItem*/}
+          {/*  asChild*/}
+          {/*  onSelect={(e) => e.preventDefault()}*/}
+          {/*  className="px-2 py-1"*/}
+          {/*>*/}
+          {/*  <div className="flex w-full items-center justify-between">*/}
+          {/*    <span className="mr-2">Show Scores</span>*/}
+          {/*    <Switch*/}
+          {/*      size="sm"*/}
+          {/*      checked={showScores}*/}
+          {/*      onCheckedChange={(checked) => {*/}
+          {/*        capture("trace_detail:observation_tree_toggle_scores", {*/}
+          {/*          show: checked,*/}
+          {/*        });*/}
+          {/*        setShowScores(checked);*/}
+          {/*      }}*/}
+          {/*    />*/}
+          {/*  </div>*/}
+          {/*</DropdownMenuItem>*/}
 
           {/* Show Duration Toggle */}
           <DropdownMenuItem
@@ -144,7 +147,10 @@ export function TraceSettingsDropdown({
             className="px-2 py-1"
           >
             <div className="flex w-full items-center justify-between">
-              <span className="mr-2">Show Duration</span>
+              <span className="mr-2">
+                展示会话时长
+                {/*Show Duration*/}
+              </span>
               <Switch
                 size="sm"
                 checked={showDuration}
@@ -160,7 +166,9 @@ export function TraceSettingsDropdown({
             className="px-2 py-1"
           >
             <div className="flex w-full items-center justify-between">
-              <span className="mr-2">Show Cost/Tokens</span>
+              <span className="mr-2">展示Tokens消耗
+                {/*Show Cost/Tokens*/}
+              </span>
               <Switch
                 size="sm"
                 checked={showCostTokens}
@@ -170,50 +178,51 @@ export function TraceSettingsDropdown({
           </DropdownMenuItem>
 
           {/* Color Code Metrics Toggle (disabled when no metrics shown) */}
-          <DropdownMenuItem
-            asChild
-            onSelect={(e) => e.preventDefault()}
-            disabled={!isColorCodeEnabled}
-            className={cn([
-              "px-2 py-1",
-              isColorCodeEnabled ? "" : "cursor-not-allowed",
-            ])}
-          >
-            <div
-              className={cn(
-                "flex w-full items-center justify-between",
-                !isColorCodeEnabled && "cursor-not-allowed",
-              )}
-            >
-              <span
-                className={cn(
-                  "mr-2",
-                  !isColorCodeEnabled && "cursor-not-allowed",
-                )}
-              >
-                Show Color Code Metrics
-              </span>
-              <Switch
-                size="sm"
-                checked={colorCodeMetrics}
-                onCheckedChange={setColorCodeMetrics}
-                disabled={!isColorCodeEnabled}
-                className={cn(!isColorCodeEnabled && "cursor-not-allowed")}
-              />
-            </div>
-          </DropdownMenuItem>
+        {/*  <DropdownMenuItem*/}
+        {/*    asChild*/}
+        {/*    onSelect={(e) => e.preventDefault()}*/}
+        {/*    disabled={!isColorCodeEnabled}*/}
+        {/*    className={cn([*/}
+        {/*      "px-2 py-1",*/}
+        {/*      isColorCodeEnabled ? "" : "cursor-not-allowed",*/}
+        {/*    ])}*/}
+        {/*  >*/}
+        {/*    <div*/}
+        {/*      className={cn(*/}
+        {/*        "flex w-full items-center justify-between",*/}
+        {/*        !isColorCodeEnabled && "cursor-not-allowed",*/}
+        {/*      )}*/}
+        {/*    >*/}
+        {/*      <span*/}
+        {/*        className={cn(*/}
+        {/*          "mr-2",*/}
+        {/*          !isColorCodeEnabled && "cursor-not-allowed",*/}
+        {/*        )}*/}
+        {/*      >*/}
+        {/*        Show Color Code Metrics*/}
+        {/*      </span>*/}
+        {/*      <Switch*/}
+        {/*        size="sm"*/}
+        {/*        checked={colorCodeMetrics}*/}
+        {/*        onCheckedChange={setColorCodeMetrics}*/}
+        {/*        disabled={!isColorCodeEnabled}*/}
+        {/*        className={cn(!isColorCodeEnabled && "cursor-not-allowed")}*/}
+        {/*      />*/}
+        {/*    </div>*/}
+        {/*  </DropdownMenuItem>*/}
         </div>
-
         {/* Minimum Observation Level Submenu */}
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <span className="flex items-center">
-              Min Level: {minObservationLevel}
+              {/*Min Level: {minObservationLevel}*/}
+              最小日志等级: {minObservationLevel}
             </span>
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
             <DropdownMenuLabel className="font-semibold">
-              Minimum Level
+              最小日志等级
+              {/*Minimum Level*/}
             </DropdownMenuLabel>
             {Object.values(ObservationLevel).map((level) => (
               <DropdownMenuItem

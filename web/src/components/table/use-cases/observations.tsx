@@ -518,7 +518,7 @@ export default function ObservationsTable({
     {
       accessorKey: "startTime",
       id: "startTime",
-      header: "Start Time",
+      header: "开始时间", //Start Time"
       size: 150,
       enableHiding: true,
       enableSorting: true,
@@ -555,7 +555,7 @@ export default function ObservationsTable({
     },
     {
       accessorKey: "input",
-      header: "Input",
+      header: "输入", //Input
       id: "input",
       size: 300,
       cell: ({ row }) => {
@@ -577,7 +577,7 @@ export default function ObservationsTable({
     {
       accessorKey: "output",
       id: "output",
-      header: "Output",
+      header: "输出", //Output
       size: 300,
       cell: ({ row }) => {
         const observationId: string = row.getValue("id");
@@ -598,12 +598,13 @@ export default function ObservationsTable({
     {
       accessorKey: "level",
       id: "level",
-      header: "Level",
+      header: "重要性等级", //Level
       size: 100,
       headerTooltip: {
         description:
-          "You can differentiate the importance of observations with the level attribute to control the verbosity of your traces and highlight errors and warnings.",
-        href: "https://langfuse.com/docs/observability/features/log-levels",
+          "您可以使用此属性来区分观察的重要性，以控制跟踪的详细程度，并突出显示错误和警告。",
+        // You can differentiate the importance of observations with the level attribute to control the verbosity of your traces and highlight errors and warnings.
+        // href: "https://langfuse.com/docs/observability/features/log-levels",
       },
       enableHiding: true,
       cell({ row }) {
@@ -624,13 +625,13 @@ export default function ObservationsTable({
     },
     {
       accessorKey: "statusMessage",
-      header: "Status Message",
+      header: "状态说明", //Status Message
       id: "statusMessage",
       size: 150,
       headerTooltip: {
-        description:
-          "Use a statusMessage to e.g. provide additional information on a status such as level=ERROR.",
-        href: "https://langfuse.com/docs/observability/features/log-levels",
+        description: "该观测步骤执行结果或异常原因的可读说明文本",
+        // "Use a statusMessage to e.g. provide additional information on a status such as level=ERROR.",
+        // href: "https://langfuse.com/docs/observability/features/log-levels",
       },
       enableHiding: true,
       defaultHidden: true,
@@ -638,7 +639,7 @@ export default function ObservationsTable({
     {
       accessorKey: "latency",
       id: "latency",
-      header: "Latency",
+      header: "耗时", //Latency
       size: 100,
       cell: ({ row }) => {
         const latency: number | undefined = row.getValue("latency");
@@ -649,34 +650,34 @@ export default function ObservationsTable({
       enableHiding: true,
       enableSorting: true,
     },
-    {
-      accessorKey: "totalCost",
-      header: "Total Cost",
-      id: "totalCost",
-      size: 120,
-      cell: ({ row }) => {
-        const value: number | undefined = row.getValue("totalCost");
-
-        return value !== undefined ? (
-          <BreakdownTooltip
-            details={row.original.costDetails}
-            isCost
-            pricingTierName={row.original.usagePricingTierName ?? undefined}
-          >
-            <div className="flex items-center gap-1">
-              <span>{usdFormatter(value)}</span>
-              <InfoIcon className="h-3 w-3" />
-            </div>
-          </BreakdownTooltip>
-        ) : undefined;
-      },
-      enableHiding: true,
-      enableSorting: true,
-    },
+    // {
+    //   accessorKey: "totalCost",
+    //   header: "Total Cost",
+    //   id: "totalCost",
+    //   size: 120,
+    //   cell: ({ row }) => {
+    //     const value: number | undefined = row.getValue("totalCost");
+    //
+    //     return value !== undefined ? (
+    //       <BreakdownTooltip
+    //         details={row.original.costDetails}
+    //         isCost
+    //         pricingTierName={row.original.usagePricingTierName ?? undefined}
+    //       >
+    //         <div className="flex items-center gap-1">
+    //           <span>{usdFormatter(value)}</span>
+    //           <InfoIcon className="h-3 w-3" />
+    //         </div>
+    //       </BreakdownTooltip>
+    //     ) : undefined;
+    //   },
+    //   enableHiding: true,
+    //   enableSorting: true,
+    // },
     {
       accessorKey: "toolDefinitions",
       id: "toolDefinitions",
-      header: "Available Tools",
+      header: "可用工具", //Available Tools
       size: 120,
       enableHiding: true,
       enableSorting: true,
@@ -691,7 +692,7 @@ export default function ObservationsTable({
     {
       accessorKey: "toolCalls",
       id: "toolCalls",
-      header: "Tool Calls",
+      header: "工具调用", //Tool Calls
       size: 100,
       enableHiding: true,
       enableSorting: true,
@@ -706,7 +707,7 @@ export default function ObservationsTable({
     {
       accessorKey: "timeToFirstToken",
       id: "timeToFirstToken",
-      header: "Time to First Token",
+      header: "首Token时延", //Time to First Token
       size: 150,
       enableHiding: true,
       enableSorting: true,
@@ -799,8 +800,9 @@ export default function ObservationsTable({
       id: "promptName",
       header: "Prompt",
       headerTooltip: {
-        description: "Link to prompt version in Langfuse prompt management.",
-        href: "https://langfuse.com/docs/prompt-management/get-started",
+        description: "提示词关联管理",
+        // "Link to prompt version in Langfuse prompt management.",
+        // href: "https://langfuse.com/docs/prompt-management/get-started",
       },
       size: 200,
       enableHiding: true,
@@ -812,29 +814,29 @@ export default function ObservationsTable({
         return promptName && promptVersion && <TableIdOrName value={value} />;
       },
     },
-    {
-      accessorKey: "environment",
-      header: "Environment",
-      id: "environment",
-      size: 150,
-      enableHiding: true,
-      cell: ({ row }) => {
-        const value: ObservationsTableRow["environment"] =
-          row.getValue("environment");
-        return value ? (
-          <Badge
-            variant="secondary"
-            className="max-w-fit truncate rounded-sm px-1 font-normal"
-          >
-            {value}
-          </Badge>
-        ) : null;
-      },
-    },
+    // {
+    //   accessorKey: "environment",
+    //   header: "Environment",
+    //   id: "environment",
+    //   size: 150,
+    //   enableHiding: true,
+    //   cell: ({ row }) => {
+    //     const value: ObservationsTableRow["environment"] =
+    //       row.getValue("environment");
+    //     return value ? (
+    //       <Badge
+    //         variant="secondary"
+    //         className="max-w-fit truncate rounded-sm px-1 font-normal"
+    //       >
+    //         {value}
+    //       </Badge>
+    //     ) : null;
+    //   },
+    // },
     {
       accessorKey: "traceTags",
       id: "traceTags",
-      header: "Trace Tags",
+      header: "Trace标签", //Trace Tags
       size: 250,
       enableHiding: true,
       cell: ({ row }) => {
@@ -855,12 +857,12 @@ export default function ObservationsTable({
     },
     {
       accessorKey: "metadata",
-      header: "Metadata",
+      header: "元数据", //Metadata
       size: 300,
-      headerTooltip: {
-        description: "Add metadata to traces to track additional information.",
-        href: "https://langfuse.com/docs/observability/features/metadata",
-      },
+      // headerTooltip: {
+      //   description: "Add metadata to traces to track additional information.",
+      //   href: "https://langfuse.com/docs/observability/features/metadata",
+      // },
       cell: ({ row }) => {
         const observationId: string = row.getValue("id");
         const traceId: string = row.getValue("traceId");
@@ -877,21 +879,21 @@ export default function ObservationsTable({
       },
       enableHiding: true,
     },
-    {
-      accessorKey: "scores",
-      header: "Scores",
-      id: "scores",
-      enableHiding: true,
-      defaultHidden: true,
-      cell: () => {
-        return isColumnLoading ? <Skeleton className="h-3 w-1/2" /> : null;
-      },
-      columns: scoreColumns,
-    },
+    // {
+    //   accessorKey: "scores",
+    //   header: "Scores",
+    //   id: "scores",
+    //   enableHiding: true,
+    //   defaultHidden: true,
+    //   cell: () => {
+    //     return isColumnLoading ? <Skeleton className="h-3 w-1/2" /> : null;
+    //   },
+    //   columns: scoreColumns,
+    // },
     {
       accessorKey: "endTime",
       id: "endTime",
-      header: "End Time",
+      header: "结束时间", //End Time
       size: 150,
       enableHiding: true,
       enableSorting: true,
@@ -921,7 +923,7 @@ export default function ObservationsTable({
     {
       accessorKey: "traceName",
       id: "traceName",
-      header: "Trace Name",
+      header: "Trace名称", // Name
       size: 150,
       enableHiding: true,
       enableSorting: true,
@@ -950,22 +952,22 @@ export default function ObservationsTable({
       enableHiding: true,
       defaultHidden: true,
     },
-    {
-      accessorKey: "version",
-      id: "version",
-      header: "Version",
-      size: 100,
-      headerTooltip: {
-        description: "Track changes via the version tag.",
-        href: "https://langfuse.com/docs/experimentation",
-      },
-      enableHiding: true,
-      enableSorting: true,
-      defaultHidden: true,
-    },
+    // {
+    //   accessorKey: "version",
+    //   id: "version",
+    //   header: "Version",
+    //   size: 100,
+    //   headerTooltip: {
+    //     description: "Track changes via the version tag.",
+    //     href: "https://langfuse.com/docs/experimentation",
+    //   },
+    //   enableHiding: true,
+    //   enableSorting: true,
+    //   defaultHidden: true,
+    // },
     {
       accessorKey: "usage",
-      header: "Usage",
+      header: "使用量", //Usage
       id: "usage",
       enableHiding: true,
       defaultHidden: true,
@@ -978,7 +980,7 @@ export default function ObservationsTable({
         {
           accessorKey: "tokensPerSecond",
           id: "tokensPerSecond",
-          header: "Tokens per second",
+          header: "每秒Tokens量", //Tokens per second
           size: 200,
           cell: ({ row }: { row: Row<ObservationsTableRow> }) => {
             const latency: number | undefined = row.getValue("latency");
@@ -1003,7 +1005,7 @@ export default function ObservationsTable({
         {
           accessorKey: "inputTokens",
           id: "inputTokens",
-          header: "Input Tokens",
+          header: "输入Tokens量", //Input Tokens
           size: 100,
           enableHiding: true,
           defaultHidden: true,
@@ -1020,7 +1022,7 @@ export default function ObservationsTable({
         {
           accessorKey: "outputTokens",
           id: "outputTokens",
-          header: "Output Tokens",
+          header: "输出Tokens量", //Output Tokens
           size: 100,
           enableHiding: true,
           defaultHidden: true,
@@ -1037,7 +1039,7 @@ export default function ObservationsTable({
         {
           accessorKey: "totalTokens",
           id: "totalTokens",
-          header: "Total Tokens",
+          header: "Tokens总量", //Total Tokens
           size: 100,
           enableHiding: true,
           defaultHidden: true,
@@ -1053,58 +1055,58 @@ export default function ObservationsTable({
         },
       ],
     },
-    {
-      accessorKey: "cost",
-      header: "Cost",
-      id: "cost",
-      enableHiding: true,
-      defaultHidden: true,
-      cell: () => {
-        return generations.isPending ? (
-          <Skeleton className="h-3 w-1/2" />
-        ) : null;
-      },
-      columns: [
-        {
-          accessorKey: "inputCost",
-          id: "inputCost",
-          header: "Input Cost",
-          size: 120,
-          cell: ({ row }: { row: Row<ObservationsTableRow> }) => {
-            const value: {
-              inputCost: number | undefined;
-              outputCost: number | undefined;
-            } = row.getValue("cost");
-
-            return value.inputCost !== undefined ? (
-              <span>{usdFormatter(value.inputCost)}</span>
-            ) : undefined;
-          },
-          enableHiding: true,
-          defaultHidden: true,
-          enableSorting: true,
-        },
-        {
-          accessorKey: "outputCost",
-          id: "outputCost",
-          header: "Output Cost",
-          size: 120,
-          cell: ({ row }: { row: Row<ObservationsTableRow> }) => {
-            const value: {
-              inputCost: number | undefined;
-              outputCost: number | undefined;
-            } = row.getValue("cost");
-
-            return value.outputCost !== undefined ? (
-              <span>{usdFormatter(value.outputCost)}</span>
-            ) : undefined;
-          },
-          enableHiding: true,
-          defaultHidden: true,
-          enableSorting: true,
-        },
-      ],
-    },
+    // {
+    //   accessorKey: "cost",
+    //   header: "Cost",
+    //   id: "cost",
+    //   enableHiding: true,
+    //   defaultHidden: true,
+    //   cell: () => {
+    //     return generations.isPending ? (
+    //       <Skeleton className="h-3 w-1/2" />
+    //     ) : null;
+    //   },
+    //   columns: [
+    //     {
+    //       accessorKey: "inputCost",
+    //       id: "inputCost",
+    //       header: "Input Cost",
+    //       size: 120,
+    //       cell: ({ row }: { row: Row<ObservationsTableRow> }) => {
+    //         const value: {
+    //           inputCost: number | undefined;
+    //           outputCost: number | undefined;
+    //         } = row.getValue("cost");
+    //
+    //         return value.inputCost !== undefined ? (
+    //           <span>{usdFormatter(value.inputCost)}</span>
+    //         ) : undefined;
+    //       },
+    //       enableHiding: true,
+    //       defaultHidden: true,
+    //       enableSorting: true,
+    //     },
+    //     {
+    //       accessorKey: "outputCost",
+    //       id: "outputCost",
+    //       header: "Output Cost",
+    //       size: 120,
+    //       cell: ({ row }: { row: Row<ObservationsTableRow> }) => {
+    //         const value: {
+    //           inputCost: number | undefined;
+    //           outputCost: number | undefined;
+    //         } = row.getValue("cost");
+    //
+    //         return value.outputCost !== undefined ? (
+    //           <span>{usdFormatter(value.outputCost)}</span>
+    //         ) : undefined;
+    //       },
+    //       enableHiding: true,
+    //       defaultHidden: true,
+    //       enableSorting: true,
+    //     },
+    //   ],
+    // },
   ];
 
   const [columnVisibility, setColumnVisibilityState] =

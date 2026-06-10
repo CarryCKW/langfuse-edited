@@ -18,37 +18,37 @@ export const sessionFilterConfig: FilterConfig = {
   defaultExpanded: ["environment", "bookmarked"],
 
   facets: [
-    {
-      type: "categorical" as const,
-      column: "environment",
-      label: "Environment",
-    },
+    // {
+    //   type: "categorical" as const,
+    //   column: "environment",
+    //   label: "Environment",
+    // },
     {
       type: "string" as const,
       column: "id",
       label: "Session ID",
     },
-    {
-      type: "categorical" as const,
-      column: "userIds",
-      label: "User IDs",
-    },
+    // {
+    //   type: "categorical" as const,
+    //   column: "userIds",
+    //   label: "User IDs",
+    // },
     {
       type: "categorical" as const,
       column: "tags",
-      label: "Trace Tags",
+      label: "Trace标签", //Tags
     },
     {
       type: "boolean" as const,
       column: "bookmarked",
-      label: "Bookmarked",
-      trueLabel: "Bookmarked",
-      falseLabel: "Not bookmarked",
+      label: "已收藏", //Bookmarked
+      trueLabel: "已收藏", //Bookmarked
+      falseLabel: "未收藏", //Not bookmarked
     },
     {
       type: "numeric" as const,
       column: "sessionDuration",
-      label: "Session Duration",
+      label: "Session会话时长", //Duration
       min: 0,
       max: 3600,
       unit: "s",
@@ -56,76 +56,76 @@ export const sessionFilterConfig: FilterConfig = {
     {
       type: "numeric" as const,
       column: "countTraces",
-      label: "Traces Count",
+      label: "Traces数量", //Count
       min: 0,
       max: 1000,
     },
     {
       type: "numeric" as const,
       column: "inputTokens",
-      label: "Input Tokens",
+      label: "输入Tokens量", //Input
       min: 0,
       max: 1000000,
     },
     {
       type: "numeric" as const,
       column: "outputTokens",
-      label: "Output Tokens",
+      label: "输出Tokens量", //Output
       min: 0,
       max: 1000000,
     },
     {
       type: "numeric" as const,
       column: "totalTokens",
-      label: "Total Tokens",
+      label: "总Tokens量", //Total
       min: 0,
       max: 1000000,
     },
-    {
-      type: "numeric" as const,
-      column: "inputCost",
-      label: "Input Cost",
-      min: 0,
-      max: 100,
-      unit: "$",
-    },
-    {
-      type: "numeric" as const,
-      column: "outputCost",
-      label: "Output Cost",
-      min: 0,
-      max: 100,
-      unit: "$",
-    },
-    {
-      type: "numeric" as const,
-      column: "totalCost",
-      label: "Total Cost",
-      min: 0,
-      max: 100,
-      unit: "$",
-    },
-    {
-      type: "keyValue" as const,
-      column: "score_categories",
-      label: "Categorical Scores",
-    },
-    {
-      type: "numericKeyValue" as const,
-      column: "scores_avg",
-      label: "Numeric Scores",
-    },
+    // {
+    //   type: "numeric" as const,
+    //   column: "inputCost",
+    //   label: "Input Cost",
+    //   min: 0,
+    //   max: 100,
+    //   unit: "$",
+    // },
+    // {
+    //   type: "numeric" as const,
+    //   column: "outputCost",
+    //   label: "Output Cost",
+    //   min: 0,
+    //   max: 100,
+    //   unit: "$",
+    // },
+    // {
+    //   type: "numeric" as const,
+    //   column: "totalCost",
+    //   label: "Total Cost",
+    //   min: 0,
+    //   max: 100,
+    //   unit: "$",
+    // },
+    // {
+    //   type: "keyValue" as const,
+    //   column: "score_categories",
+    //   label: "Categorical Scores",
+    // },
+    // {
+    //   type: "numericKeyValue" as const,
+    //   column: "scores_avg",
+    //   label: "Numeric Scores",
+    // },
     {
       type: "numeric" as const,
       column: "commentCount",
-      label: "Comment Count",
+      label: "评论数量", //Comment Count
       min: 0,
       max: 100,
     },
     {
       type: "string" as const,
       column: "commentContent",
-      label: "Comment Content",
+      label: "评论内容", //Comment Content
     },
   ],
 };

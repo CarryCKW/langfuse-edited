@@ -34,12 +34,12 @@ export default function Traces() {
     return (
       <Page
         headerProps={{
-          title: "Tracing",
-          help: {
-            description:
-              "A trace represents a single function/api invocation. Traces contain observations. See docs to learn more.",
-            href: "https://langfuse.com/docs/observability/data-model",
-          },
+          title: "Tracing", //Tracing
+          // help: {
+          //   description:
+          //     "A trace represents a single function/api invocation. Traces contain observations. See docs to learn more.",
+          //   // href: "https://langfuse.com/docs/observability/data-model",
+          // },
         }}
         scrollable
       >
@@ -51,11 +51,11 @@ export default function Traces() {
   return (
     <Page
       headerProps={{
-        title: "Tracing",
+        title: "Tracing", //Tracing
         help: {
           description:
-            "A trace represents a single function/api invocation. Traces contain observations. See docs to learn more.",
-          href: "https://langfuse.com/docs/observability/data-model",
+            "Trace代表一次完整的端到端交互或执行链路的生命周期，如用户的一次请求，智能体的一次调用等",
+          // href: "https://langfuse.com/docs/observability/data-model",
         },
         tabsProps: {
           tabs: getTracingTabs(projectId),

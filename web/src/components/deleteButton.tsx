@@ -90,71 +90,72 @@ export function DeleteButton({
   ]);
 
   return (
-    <Popover key={itemId ?? "delete-action"}>
-      <PopoverTrigger asChild>
-        <Button
-          variant={variant ?? (icon ? "outline" : "ghost")}
-          size={icon ? "icon" : "default"}
-          disabled={!hasAccess || !enabled}
-          onClick={(e) => {
-            e.stopPropagation();
-            captureDeleteOpen(capture, isTableAction);
-          }}
-        >
-          {icon ? (
-            <TrashIcon className="h-4 w-4" />
-          ) : (
-            <>
-              {hasAccess ? (
-                <TrashIcon className="mr-2 h-4 w-4" />
-              ) : (
-                <LockIcon className="mr-2 h-4 w-4" />
-              )}
-              Delete
-            </>
-          )}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent onClick={(e) => e.stopPropagation()}>
-        <h2 className="text-md mb-3 font-semibold">Please confirm</h2>
-        <p className="mb-3 max-w-72 text-sm">
-          {customDeletePrompt ??
-            `This action cannot be undone and removes all the data associated with
-            this ${entityToDeleteName}.`}
-        </p>
-        {deleteConfirmation && (
-          <div className="mb-4 grid w-full gap-1.5">
-            <Label htmlFor="delete-confirmation">
-              Type &quot;{deleteConfirmation}&quot; to confirm
-            </Label>
-            <Input
-              id="delete-confirmation"
-              value={deleteConfirmationInput}
-              onChange={(e) => setDeleteConfirmationInput(e.target.value)}
-            />
-          </div>
-        )}
-        <div className="flex justify-end space-x-4">
-          <Button
-            type="button"
-            variant="destructive"
-            loading={isDeleteMutationLoading || isDeleted}
-            onClick={() => {
-              if (
-                deleteConfirmation &&
-                deleteConfirmationInput !== deleteConfirmation
-              ) {
-                alert("Please type the correct confirmation");
-                return;
-              }
-              void executeDeleteMutation(onDeleteSuccess);
-            }}
-          >
-            Delete {entityToDeleteName}
-          </Button>
-        </div>
-      </PopoverContent>
-    </Popover>
+    <div></div>
+    // <Popover key={itemId ?? "delete-action"}>
+    //   <PopoverTrigger asChild>
+    //     <Button
+    //       variant={variant ?? (icon ? "outline" : "ghost")}
+    //       size={icon ? "icon" : "default"}
+    //       disabled={!hasAccess || !enabled}
+    //       onClick={(e) => {
+    //         e.stopPropagation();
+    //         captureDeleteOpen(capture, isTableAction);
+    //       }}
+    //     >
+    //       {icon ? (
+    //         <TrashIcon className="h-4 w-4" />
+    //       ) : (
+    //         <>
+    //           {hasAccess ? (
+    //             <TrashIcon className="mr-2 h-4 w-4" />
+    //           ) : (
+    //             <LockIcon className="mr-2 h-4 w-4" />
+    //           )}
+    //           Delete
+    //         </>
+    //       )}
+    //     </Button>
+    //   </PopoverTrigger>
+    //   <PopoverContent onClick={(e) => e.stopPropagation()}>
+    //     <h2 className="text-md mb-3 font-semibold">Please confirm</h2>
+    //     <p className="mb-3 max-w-72 text-sm">
+    //       {customDeletePrompt ??
+    //         `This action cannot be undone and removes all the data associated with
+    //         this ${entityToDeleteName}.`}
+    //     </p>
+    //     {deleteConfirmation && (
+    //       <div className="mb-4 grid w-full gap-1.5">
+    //         <Label htmlFor="delete-confirmation">
+    //           Type &quot;{deleteConfirmation}&quot; to confirm
+    //         </Label>
+    //         <Input
+    //           id="delete-confirmation"
+    //           value={deleteConfirmationInput}
+    //           onChange={(e) => setDeleteConfirmationInput(e.target.value)}
+    //         />
+    //       </div>
+    //     )}
+    //     <div className="flex justify-end space-x-4">
+    //       <Button
+    //         type="button"
+    //         variant="destructive"
+    //         loading={isDeleteMutationLoading || isDeleted}
+    //         onClick={() => {
+    //           if (
+    //             deleteConfirmation &&
+    //             deleteConfirmationInput !== deleteConfirmation
+    //           ) {
+    //             alert("Please type the correct confirmation");
+    //             return;
+    //           }
+    //           void executeDeleteMutation(onDeleteSuccess);
+    //         }}
+    //       >
+    //         Delete {entityToDeleteName}
+    //       </Button>
+    //     </div>
+    //   </PopoverContent>
+    // </Popover>
   );
 }
 

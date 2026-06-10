@@ -130,7 +130,8 @@ export function PopoverFilterBuilder({
         <PopoverTrigger asChild>
           {buttonType === "default" ? (
             <Button variant="outline" type="button">
-              <span>Filters</span>
+              <span>筛选器</span>
+              {/*Filters*/}
               {filterState.length > 0 && filterState.length < 3 ? (
                 <InlineFilterState
                   filterState={filterState}
@@ -494,7 +495,8 @@ function FilterBuilderForm({
                 );
                 return (
                   <tr key={i}>
-                    <td className="p-1 text-sm">{i === 0 ? "Where" : "And"}</td>
+                    {/*<td className="p-1 text-sm">{i === 0 ? "Where" : "And"}</td>*/}
+                    <td className="p-1 text-sm">{i === 0 ? "当" : "并且"}</td>
                     <td className="flex gap-2 p-1">
                       {/* selector of the column to be filtered */}
                       <Popover>
@@ -507,7 +509,7 @@ function FilterBuilderForm({
                             className="flex w-full min-w-32 items-center justify-between gap-2"
                           >
                             <span className="truncate">
-                              {column ? column.name : "Column"}
+                              {column ? column.name : "列名"}
                             </span>
                             <ChevronDown className="h-4 w-4 flex-shrink-0 opacity-50" />
                           </Button>
@@ -523,7 +525,8 @@ function FilterBuilderForm({
                         >
                           <InputCommand>
                             <InputCommandInput
-                              placeholder="Search for column"
+                              placeholder="搜索列信息"
+                              // Search for column
                               variant="bottom"
                             />
                             <InputCommandList>
@@ -819,7 +822,7 @@ function FilterBuilderForm({
               size="sm"
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add filter
+              增加过滤项
             </Button>
           ) : null}
         </>

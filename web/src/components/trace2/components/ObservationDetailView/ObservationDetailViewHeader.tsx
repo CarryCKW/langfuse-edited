@@ -95,41 +95,41 @@ export const ObservationDetailViewHeader = memo(
           </div>
           {/* Action buttons */}
           <div className="flex h-full flex-wrap content-start items-start justify-start gap-0.5 @2xl:mr-1 @2xl:justify-end">
-            {observationWithIO && (
-              <NewDatasetItemFromExistingObject
-                traceId={traceId}
-                observationId={observation.id}
-                projectId={projectId}
-                input={observationWithIO.input}
-                output={observationWithIO.output}
-                metadata={observationWithIO.metadata}
-                key={observation.id}
-                size="sm"
-              />
-            )}
-            <div className="flex items-start">
-              <AnnotateDrawer
-                key={"annotation-drawer-" + observation.id}
-                projectId={projectId}
-                scoreTarget={{
-                  type: "trace",
-                  traceId: traceId,
-                  observationId: observation.id,
-                }}
-                scores={observationScores}
-                scoreMetadata={{
-                  projectId: projectId,
-                  environment: observation.environment,
-                }}
-                size="sm"
-              />
-              <CreateNewAnnotationQueueItem
-                projectId={projectId}
-                objectId={observation.id}
-                objectType={AnnotationQueueObjectType.OBSERVATION}
-                size="sm"
-              />
-            </div>
+            {/*{observationWithIO && (*/}
+            {/*  <NewDatasetItemFromExistingObject*/}
+            {/*    traceId={traceId}*/}
+            {/*    observationId={observation.id}*/}
+            {/*    projectId={projectId}*/}
+            {/*    input={observationWithIO.input}*/}
+            {/*    output={observationWithIO.output}*/}
+            {/*    metadata={observationWithIO.metadata}*/}
+            {/*    key={observation.id}*/}
+            {/*    size="sm"*/}
+            {/*  />*/}
+            {/*)}*/}
+            {/*<div className="flex items-start">*/}
+            {/*  <AnnotateDrawer*/}
+            {/*    key={"annotation-drawer-" + observation.id}*/}
+            {/*    projectId={projectId}*/}
+            {/*    scoreTarget={{*/}
+            {/*      type: "trace",*/}
+            {/*      traceId: traceId,*/}
+            {/*      observationId: observation.id,*/}
+            {/*    }}*/}
+            {/*    scores={observationScores}*/}
+            {/*    scoreMetadata={{*/}
+            {/*      projectId: projectId,*/}
+            {/*      environment: observation.environment,*/}
+            {/*    }}*/}
+            {/*    size="sm"*/}
+            {/*  />*/}
+            {/*  <CreateNewAnnotationQueueItem*/}
+            {/*    projectId={projectId}*/}
+            {/*    objectId={observation.id}*/}
+            {/*    objectType={AnnotationQueueObjectType.OBSERVATION}*/}
+            {/*    size="sm"*/}
+            {/*  />*/}
+            {/*</div>*/}
             {observationWithIO && isGenerationLike(observationWithIO.type) && (
               <JumpToPlaygroundButton
                 source="generation"

@@ -13,9 +13,12 @@ import { usePostHogClientCapture } from "@/src/features/posthog-analytics/usePos
 import { Rows3, Rows2, Rows4 } from "lucide-react";
 
 const heightOptions = [
-  { id: "s", label: "Small", icon: <Rows4 /> },
-  { id: "m", label: "Medium", icon: <Rows3 /> },
-  { id: "l", label: "Large", icon: <Rows2 /> },
+  // { id: "s", label: "Small", icon: <Rows4 /> },
+  // { id: "m", label: "Medium", icon: <Rows3 /> },
+  // { id: "l", label: "Large", icon: <Rows2 /> },
+  { id: "s", label: "小", icon: <Rows4 /> },
+  { id: "m", label: "中", icon: <Rows3 /> },
+  { id: "l", label: "大", icon: <Rows2 /> },
 ] as const;
 
 const defaultHeights: Record<RowHeight, string> = {
@@ -58,13 +61,15 @@ export const DataTableRowHeightSwitch = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" title="Row height">
+        {/*<Button variant="outline" size="icon" title="Row height">*/}
+        <Button variant="outline" size="icon" title="行高度">
           <Rows3 className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuPortal>
         <DropdownMenuContent>
-          <DropdownMenuLabel>Row height</DropdownMenuLabel>
+          {/*<DropdownMenuLabel>Row height</DropdownMenuLabel>*/}
+          <DropdownMenuLabel>行高度</DropdownMenuLabel>
           <DropdownMenuSeparator />
           {heightOptions.map(({ id, label }) => (
             <DropdownMenuCheckboxItem

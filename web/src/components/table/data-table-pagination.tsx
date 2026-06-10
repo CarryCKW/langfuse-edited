@@ -86,7 +86,7 @@ export function DataTablePagination<TData>({
             Rows
           </p>
           <p className="hidden whitespace-nowrap text-sm font-medium md:block">
-            Rows per page
+            每页行数据
           </p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
@@ -112,7 +112,7 @@ export function DataTablePagination<TData>({
         <div className="flex items-center justify-center gap-1 whitespace-nowrap text-sm font-medium">
           {table.getPageCount() !== -1 ? (
             <>
-              Page
+              页数
               {canJumpPages && (
                 <Input
                   type="number"
@@ -145,10 +145,10 @@ export function DataTablePagination<TData>({
           {!hideTotalCount && (
             <>
               {pageCount !== -1 ? (
-                <span>of {pageCount}</span>
+                <span>总 {pageCount}</span>
               ) : (
                 <span>
-                  of{" "}
+                  总{" "}
                   {isLoading ? (
                     <LoaderCircle className="ml-1 inline-block h-3 w-3 animate-spin text-muted-foreground" />
                   ) : (

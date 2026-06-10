@@ -20,8 +20,9 @@ import { logger } from "../logger";
 import { env } from "../../env";
 import { backOff } from "exponential-backoff";
 import { ServiceUnavailableError } from "../../errors";
+import { LocalFileStorageService } from "./LocalFileStorageService";
 
-type UploadFile = {
+export type UploadFile = {
   fileName: string;
   fileType: string;
   data: Readable | string;
@@ -29,7 +30,7 @@ type UploadFile = {
   queueSize?: number; // Optional: Number of concurrent part uploads (S3 only)
 };
 
-type UploadWithSignedUrl = UploadFile & {
+export type UploadWithSignedUrl = UploadFile & {
   expiresInSeconds: number;
 };
 
@@ -114,6 +115,18 @@ export class StorageServiceFactory {
     awsSse: string | undefined;
     awsSseKmsKeyId: string | undefined;
   }): StorageService {
+    // 本地文件存储（开发环境替代 MinIO/S3）
+    if (env.LANGFUSE_USE_LOCAL_FILE_STORAGE === "true") {
+      logger.info(
+        `Using local file storage for bucket: ${params.bucketName}`,
+      );
+      return new LocalFileStorageService({
+        basePath: env.LANGFUSE_LOCAL_STORAGE_PATH,
+        bucketName: params.bucketName,
+        baseUrl: env.LANGFUSE_LOCAL_STORAGE_BASE_URL,
+      });
+    }
+
     if (
       params.useAzureBlob !== undefined
         ? params.useAzureBlob

@@ -405,7 +405,8 @@ export function TimeRangePicker({
           <span>
             {dateRange
               ? formatDateRange(dateRange.from, dateRange.to)
-              : "Select from calendar"}
+              : "日历选择时间范围"}
+            {/* // Select from calendar*/}
           </span>
         </div>
       );
@@ -510,7 +511,8 @@ export function TimeRangePicker({
                 <span className="leading flex h-5 w-10 items-center justify-center rounded bg-muted px-1.5 text-center text-xs">
                   <CalendarIcon className="h-3 w-3" />
                 </span>
-                <span>Select from calendar</span>
+                <span>日历选择时间范围</span>
+                {/*//Select from calendar*/}
               </div>
             </div>
           )}

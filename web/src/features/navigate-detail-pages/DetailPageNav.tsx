@@ -98,7 +98,8 @@ export const DetailPageNav = (props: {
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <span>Navigate up</span>
+            <span>向上导航</span>
+            {/*Navigate up*/}
             <InputCommandShortcut className="ml-2 rounded-sm bg-muted p-1 px-2">
               k
             </InputCommandShortcut>
@@ -131,7 +132,8 @@ export const DetailPageNav = (props: {
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <span>Navigate down</span>
+            <span>向下导航</span>
+            {/*Navigate down*/}
             <InputCommandShortcut className="ml-2 rounded-sm bg-muted p-1 px-2">
               j
             </InputCommandShortcut>
