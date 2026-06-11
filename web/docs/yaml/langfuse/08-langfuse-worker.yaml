@@ -1,0 +1,226 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: langfuse-worker
+  namespace: langfuse
+  labels:
+    app: langfuse
+    component: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: langfuse
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: langfuse
+        component: worker
+    spec:
+      containers:
+        - name: worker
+          image: registry.paas/cmss/langfuse-worker-custom:v0529.arm64.1
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+            - name: NEXT_PUBLIC_BASE_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: NEXT_PUBLIC_BASE_PATH
+            - name: NEXTAUTH_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: NEXTAUTH_URL
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: DATABASE_URL
+            - name: DIRECT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: DIRECT_URL
+            - name: SALT
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: SALT
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: ENCRYPTION_KEY
+            - name: TELEMETRY_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: TELEMETRY_ENABLED
+            - name: LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES
+            - name: CLICKHOUSE_MIGRATION_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: CLICKHOUSE_MIGRATION_URL
+            - name: CLICKHOUSE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: CLICKHOUSE_URL
+            - name: CLICKHOUSE_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: CLICKHOUSE_USER
+            - name: CLICKHOUSE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secrets
+                  key: CLICKHOUSE_PASSWORD
+            - name: CLICKHOUSE_CLUSTER_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: CLICKHOUSE_CLUSTER_ENABLED
+            - name: LANGFUSE_USE_AZURE_BLOB
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: LANGFUSE_USE_AZURE_BLOB
+            - name: LANGFUSE_S3_EVENT_UPLOAD_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: LANGFUSE_S3_EVENT_UPLOAD_BUCKET
+            - name: LANGFUSE_USE_LOCAL_FILE_STORAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: LANGFUSE_USE_LOCAL_FILE_STORAGE
+            - name: LANGFUSE_LOCAL_STORAGE_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: LANGFUSE_LOCAL_STORAGE_PATH
+            - name: LANGFUSE_LOCAL_STORAGE_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: LANGFUSE_LOCAL_STORAGE_BASE_URL
+            - name: LANGFUSE_INGESTION_QUEUE_DELAY_MS
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: LANGFUSE_INGESTION_QUEUE_DELAY_MS
+            - name: LANGFUSE_INGESTION_CLICKHOUSE_WRITE_INTERVAL_MS
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: LANGFUSE_INGESTION_CLICKHOUSE_WRITE_INTERVAL_MS
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: REDIS_PORT
+            - name: REDIS_AUTH
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: REDIS_AUTH
+            - name: REDIS_TLS_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: REDIS_TLS_ENABLED
+            - name: EMAIL_FROM_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: EMAIL_FROM_ADDRESS
+            - name: SMTP_CONNECTION_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: SMTP_CONNECTION_URL
+            - name: EXTERNAL_AUTH_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: EXTERNAL_AUTH_ENABLED
+            - name: EXTERNAL_AUTH_VALIDATE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: EXTERNAL_AUTH_VALIDATE_URL
+            - name: EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE
+            - name: EXTERNAL_AUTH_LOGIN_REDIRECT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: EXTERNAL_AUTH_LOGIN_REDIRECT_URL
+            - name: NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED
+            - name: NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL
+            - name: LANGFUSE_DEFAULT_PROJECT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: LANGFUSE_DEFAULT_PROJECT_ID
+            - name: LANGFUSE_DEFAULT_PROJECT_ROLE
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: LANGFUSE_DEFAULT_PROJECT_ROLE
+            - name: EXTERNAL_AUTH_VALIDATION_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: EXTERNAL_AUTH_VALIDATION_MODE
+            - name: NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE
+            - name: NEXT_PUBLIC_EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE
+              valueFrom:
+                configMapKeyRef:
+                  name: langfuse-config
+                  key: NEXT_PUBLIC_EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE
+          volumeMounts:
+            - name: langfuse-storage
+              mountPath: /app/langfuse-storage
+          resources:
+            requests:
+              cpu: "1"
+              memory: "2Gi"
+            limits:
+              cpu: "2"
+              memory: "4Gi"
+      volumes:
+        - name: langfuse-storage
+          persistentVolumeClaim:
+            claimName: langfuse-storage-pvc

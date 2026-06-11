@@ -200,7 +200,7 @@ export const env = createEnv({
     EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE: z
       .string()
       .optional()
-      .default("access_token"),
+      .default("accessToken"),
     EXTERNAL_AUTH_LOGIN_REDIRECT_URL: z.string().url().optional(),
     EXTERNAL_AUTH_VALIDATION_MODE: z
       .enum(["bridge", "per_request"])

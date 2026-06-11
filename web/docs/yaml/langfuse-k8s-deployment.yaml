@@ -147,7 +147,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: langfuse-web-custom:v0608.arm64.1
+          image: quay.io/caigentle/langfuse-web-custom:v0608.arm64.1
           imagePullPolicy: Always
           ports:
             - name: http
@@ -443,7 +443,7 @@ spec:
     spec:
       containers:
         - name: worker
-          image: langfuse-worker-custom:v0529.arm64.1
+          image: quay.io/caigentle/langfuse-worker-custom:v0529.arm64.1
           imagePullPolicy: Always
           env:
             - name: TZ

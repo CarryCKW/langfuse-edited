@@ -170,7 +170,7 @@ export async function validateExternalAuth(
   const urlStr = validateUrl.toString();
   console.log("Sending validate request to:", urlStr);
 
-  validateUrl.searchParams.set("access_token", accessToken);
+  validateUrl.searchParams.set("accessToken", accessToken);
 
   try {
     const response = await fetch(validateUrl.toString(), {

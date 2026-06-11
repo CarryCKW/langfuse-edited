@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: langfuse-web-ingress
+  namespace: langfuse
+  labels:
+    app: langfuse
+    component: web
+  annotations:
+    # nginx.ingress.kubernetes.io/rewrite-target: /$2  # 如果需要路径重写，取消此注释
+    # nginx.ingress.kubernetes.io/proxy-body-size: "50m"  # 允许上传大文件（traces）
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"  # 长连接超时
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /langfuse(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: langfuse-web
+            port:
+              number: 80

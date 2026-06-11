@@ -10,8 +10,8 @@ docker build -t langfuse-web-custom:v0529.1 -f web/Dockerfile .
 docker build -t langfuse-web-custom:v0608.1 -f web/Dockerfile .
 
 
-docker build --cache-from langfuse-web-custom:v0608.1 --build-arg NEXT_PUBLIC_BASE_PATH="/langfuse" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED="true" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL="https://10.151.18.110:31987/databoard" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE="per_request" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE="access_token" -t langfuse-web-custom:v0608.2 -f web/Dockerfile .
-DOCKER_BUILDKIT=1 docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from langfuse-web-custom:v0608.1 --build-arg NEXT_PUBLIC_BASE_PATH="/langfuse" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED="true" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL="https://10.151.18.110:31987/databoard" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE="per_request" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE="access_token" -t langfuse-web-custom:v0608.2 -f web/Dockerfile .
+docker build --cache-from langfuse-web-custom:v0608.1 --build-arg NEXT_PUBLIC_BASE_PATH="/langfuse" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED="true" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL="https://10.151.18.110:31987/databoard" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE="per_request" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE="accessToken" -t langfuse-web-custom:v0608.2 -f web/Dockerfile .
+DOCKER_BUILDKIT=1 docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from langfuse-web-custom:v0608.1 --build-arg NEXT_PUBLIC_BASE_PATH="/langfuse" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED="true" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL="https://10.151.18.110:31987/databoard" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE="per_request" --build-arg NEXT_PUBLIC_EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE="accessToken" -t langfuse-web-custom:v0608.2 -f web/Dockerfile .
 
 
 2. 修改 docker-compose.yml

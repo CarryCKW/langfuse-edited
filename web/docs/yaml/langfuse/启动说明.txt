@@ -1,0 +1,147 @@
+Langfuse K8s 部署说明
+=====================
+
+目录结构
+--------
+web/docs/yaml/langfuse/
+├── 01-namespace.yaml        # 命名空间
+├── 02-configmap.yaml        # 配置信息
+├── 03-secret.yaml           # 密钥（敏感信息）
+├── 04-storage.yaml          # 持久化存储（PV/PVC）
+├── 05-postgres.yaml         # PostgreSQL 数据库
+├── 06-redis.yaml            # Redis 缓存
+├── 07-langfuse-web.yaml     # Langfuse Web 服务
+├── 08-langfuse-worker.yaml  # Langfuse Worker 后台任务  （一定要等07-web启动后再启动）
+├── 09-ingress.yaml          # Ingress 入口配置（Web 访问入口）
+└── 启动说明.txt              # 本文件
+
+
+部署前准备
+---------
+1. 确保 kubectl 已安装并能连接到 k8s 集群：
+   kubectl cluster-info
+
+2. 确保镜像已构建并推送到 Quay.io：
+   - quay.io/caigentle/langfuse-web-custom:v0608.arm64.1
+   - quay.io/caigentle/langfuse-worker-custom:v0529.arm64.1
+   - quay.io/caigentle/postgres:17_arm64
+   - quay.io/caigentle/redis:7_arm64
+
+3. 修改配置（按需）：
+   - 编辑 02-configmap.yaml 修改数据库连接、Redis 密码等
+   - 编辑 03-secret.yaml 修改 ClickHouse 密码（需要 base64 编码）
+   - 编辑 07-langfuse-web.yaml 和 08-langfuse-worker.yaml 修改镜像版本
+
+
+部署命令（按顺序执行）
+---------------------
+# 1. 创建命名空间
+kubectl apply -f 01-namespace.yaml
+
+# 2. 创建配置
+kubectl apply -f 02-configmap.yaml
+
+# 3. 创建密钥
+kubectl apply -f 03-secret.yaml
+
+# 4. 创建存储
+kubectl apply -f 04-storage.yaml
+
+# 5. 部署 PostgreSQL（必须先启动）
+kubectl apply -f 05-postgres.yaml
+
+# 6. 部署 Redis（必须先启动）
+kubectl apply -f 06-redis.yaml
+
+# 7. 部署 Langfuse Web（依赖数据库）
+kubectl apply -f 07-langfuse-web.yaml
+
+# 8. 部署 Langfuse Worker（依赖 Web，一定要等 Web 启动后再启动）
+kubectl apply -f 08-langfuse-worker.yaml
+
+# 9. 部署 Ingress（可选，用于域名/路径访问）
+kubectl apply -f 09-ingress.yaml
+
+
+或者一次性部署所有
+-----------------
+kubectl apply -f .
+
+注意：一次性部署时 K8s 会自动处理依赖顺序，Pod 会自动等待依赖服务就绪。
+但如果需要精确控制，建议按顺序执行。
+
+
+查看部署状态
+-----------
+# 查看所有 pod 状态（等待全部 Running）
+kubectl get pods -n langfuse -w
+
+# 查看 service
+kubectl get svc -n langfuse
+
+# 查看 pvc 状态
+kubectl get pvc -n langfuse
+
+
+查看日志
+-------
+# Web 日志
+kubectl logs -f deployment/langfuse-web -n langfuse
+
+# Worker 日志
+kubectl logs -f deployment/langfuse-worker -n langfuse
+
+# PostgreSQL 日志
+kubectl logs -f deployment/postgres -n langfuse
+
+# Redis 日志
+kubectl logs -f deployment/redis -n langfuse
+
+
+访问地址
+-------
+# 方式1: NodePort（原有方式）
+https://10.151.18.110:31987/langfuse
+
+# 方式2: Ingress（推荐）
+http://<ingress-controller-ip>/langfuse
+
+默认账号：
+- 邮箱: admin2@example.com
+- 密码: R9eDuck$!mpleM00n1
+
+
+删除部署
+-------
+# 删除整个命名空间（包括所有资源）
+kubectl delete namespace langfuse
+
+# 或者按顺序删除（反向顺序）
+kubectl delete -f 09-ingress.yaml    # 如果部署了 Ingress
+kubectl delete -f 08-langfuse-worker.yaml
+kubectl delete -f 07-langfuse-web.yaml
+kubectl delete -f 06-redis.yaml
+kubectl delete -f 05-postgres.yaml
+kubectl delete -f 04-storage.yaml
+kubectl delete -f 03-secret.yaml
+kubectl delete -f 02-configmap.yaml
+kubectl delete -f 01-namespace.yaml
+
+
+常见问题
+-------
+1. Pod 一直处于 Pending 状态：
+   - 检查节点资源是否充足：kubectl describe pod <pod-name> -n langfuse
+   - 检查 PVC 是否绑定：kubectl get pvc -n langfuse
+
+2. Pod 一直处于 CrashLoopBackOff 状态：
+   - 查看日志：kubectl logs <pod-name> -n langfuse
+   - 检查环境变量配置是否正确
+
+3. 无法访问服务：
+   - 检查 NodePort 是否开放：kubectl get svc -n langfuse
+   - 检查防火墙是否允许 31987 端口
+
+4. 镜像拉取失败：
+   - 确认镜像已推送到 Quay.io
+   - 检查镜像名称和标签是否正确
