@@ -18,13 +18,9 @@ spec:
         app: langfuse
         component: worker
     spec:
-      initContainers:
-        - name: fix-permissions
-          image: busybox
-          command: ["sh", "-c", "chown -R 1001:1001 /app/langfuse-storage"]
-          volumeMounts:
-            - name: langfuse-storage
-              mountPath: /app/langfuse-storage
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
       containers:
         - name: worker
           image: registry.paas/cmss/langfuse-worker-custom:v0529.arm64.1
