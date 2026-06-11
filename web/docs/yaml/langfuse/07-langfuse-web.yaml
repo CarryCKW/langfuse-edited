@@ -18,9 +18,16 @@ spec:
         app: langfuse
         component: web
     spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 1001:1001 /app/langfuse-storage"]
+          volumeMounts:
+            - name: langfuse-storage
+              mountPath: /app/langfuse-storage
       containers:
         - name: web
-          image: registry.paas/cmss/langfuse-web-custom:v0608.arm64.1
+          image: registry.paas/cmss/langfuse-web-custom:v0608.arm64.2
           imagePullPolicy: Always
           ports:
             - name: http
