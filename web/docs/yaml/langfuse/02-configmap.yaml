@@ -4,16 +4,13 @@ metadata:
   name: langfuse-config
   namespace: langfuse
 data:
-  # 基础配置
+  # 基础配置（敏感信息在 Secret 中）
   NEXT_PUBLIC_BASE_PATH: "/langfuse"
   NEXTAUTH_URL: "https://10.151.18.110:31987/langfuse"
-  NEXTAUTH_SECRET: "mysecret"
 
-  # 数据库配置
+  # 数据库配置（密码在 Secret 中）
   DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/postgres"
   DIRECT_URL: "postgresql://postgres:postgres@postgres:5432/postgres"
-  SALT: "mysalt"
-  ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000000"
   TELEMETRY_ENABLED: "true"
   LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: "true"
 
@@ -36,10 +33,9 @@ data:
   LANGFUSE_INGESTION_QUEUE_DELAY_MS: ""
   LANGFUSE_INGESTION_CLICKHOUSE_WRITE_INTERVAL_MS: ""
 
-  # Redis 配置
+  # Redis 配置（密码在 Secret 中）
   REDIS_HOST: "redis"
   REDIS_PORT: "6379"
-  REDIS_AUTH: "myredissecret"
   REDIS_TLS_ENABLED: "false"
 
   # 邮件配置
@@ -49,7 +45,7 @@ data:
   # External auth bridge
   EXTERNAL_AUTH_ENABLED: "true"
   EXTERNAL_AUTH_VALIDATE_URL: "http://aiops-ai-backend-service-svc.infra.svc.cluster.local:80/internal/auth/validate"
-  EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE: "accessToken"
+  EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE: "access_token"
   EXTERNAL_AUTH_LOGIN_REDIRECT_URL: "https://10.151.18.110:31987/"
   NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED: "true"
   NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL: "https://10.151.18.110:31987/"
@@ -57,7 +53,7 @@ data:
   LANGFUSE_DEFAULT_PROJECT_ROLE: "VIEWER"
   EXTERNAL_AUTH_VALIDATION_MODE: "per_request"
   NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE: "per_request"
-  NEXT_PUBLIC_EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE: "accessToken"
+  NEXT_PUBLIC_EXTERNAL_AUTH_ACCESS_TOKEN_COOKIE: "access_token"
 
   # 初始化配置
   LANGFUSE_INIT_ORG_ID: "cmpdsy6qk0000udwobojvitba"
@@ -70,9 +66,8 @@ data:
   LANGFUSE_INIT_USER_NAME: "admin2"
   LANGFUSE_INIT_USER_PASSWORD: "R9eDuck$!mpleM00n1"
 
-  # PostgreSQL 配置
+  # PostgreSQL 配置（密码在 Secret 中）
   POSTGRES_USER: "postgres"
-  POSTGRES_PASSWORD: "postgres"
   POSTGRES_DB: "postgres"
   TZ: "UTC"
   PGTZ: "UTC"

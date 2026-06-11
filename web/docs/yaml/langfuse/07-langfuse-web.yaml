@@ -45,8 +45,8 @@ spec:
                   key: NEXTAUTH_URL
             - name: NEXTAUTH_SECRET
               valueFrom:
-                configMapKeyRef:
-                  name: langfuse-config
+                secretKeyRef:
+                  name: langfuse-secrets
                   key: NEXTAUTH_SECRET
             - name: DATABASE_URL
               valueFrom:
@@ -60,13 +60,13 @@ spec:
                   key: DIRECT_URL
             - name: SALT
               valueFrom:
-                configMapKeyRef:
-                  name: langfuse-config
+                secretKeyRef:
+                  name: langfuse-secrets
                   key: SALT
             - name: ENCRYPTION_KEY
               valueFrom:
-                configMapKeyRef:
-                  name: langfuse-config
+                secretKeyRef:
+                  name: langfuse-secrets
                   key: ENCRYPTION_KEY
             - name: TELEMETRY_ENABLED
               valueFrom:
@@ -150,8 +150,8 @@ spec:
                   key: REDIS_PORT
             - name: REDIS_AUTH
               valueFrom:
-                configMapKeyRef:
-                  name: langfuse-config
+                secretKeyRef:
+                  name: langfuse-secrets
                   key: REDIS_AUTH
             - name: REDIS_TLS_ENABLED
               valueFrom:
