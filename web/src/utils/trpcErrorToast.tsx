@@ -60,7 +60,15 @@ const getErrorDescription = (httpStatus: number) => {
 };
 
 export const trpcErrorToast = (error: unknown) => {
+  // 禁用所有错误弹窗
+  return;
+
   if (error instanceof TRPCClientError) {
+    // 过滤掉 projectId 相关的错误（页面初始化时 projectId 可能为空）
+    if (error.message?.includes("projectId is required")) {
+      return;
+    }
+
     const { errorTitle, httpStatus } = getErrorTitleAndHttpCode(error);
 
     const path = error.data?.path;

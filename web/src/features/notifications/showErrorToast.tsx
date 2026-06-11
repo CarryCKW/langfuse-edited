@@ -17,6 +17,9 @@ export const showErrorToast = (
   type: "WARNING" | "ERROR" = "ERROR",
   path?: string,
 ) => {
+  // 禁用所有错误弹窗
+  return;
+
   toast.custom(
     (t) => (
       <ErrorNotification

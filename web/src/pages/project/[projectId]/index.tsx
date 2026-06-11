@@ -61,6 +61,7 @@ export default function Dashboard() {
       projectId,
     },
     {
+      enabled: !!projectId,
       trpc: {
         context: {
           skipBatch: true,
@@ -80,6 +81,7 @@ export default function Dashboard() {
         fromTimestamp: absoluteTimeRange?.from,
       },
       {
+        enabled: !!projectId,
         trpc: {
           context: {
             skipBatch: true,

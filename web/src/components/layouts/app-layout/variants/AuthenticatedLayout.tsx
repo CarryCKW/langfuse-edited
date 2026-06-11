@@ -86,14 +86,16 @@ export function AuthenticatedLayout({
     <>
       <Head>
         <title>{metadata.title}</title>
-        <link rel="icon" type="image/svg+xml" href={metadata.faviconPath} />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="256x256"
-          href={metadata.favicon256Path}
-        />
-        <link rel="apple-touch-icon" href={metadata.appleTouchIconPath} />
+        {/*<link rel="icon" type="image/svg+xml" href={metadata.faviconPath} />*/}
+        {/*<link*/}
+        {/*  rel="icon"*/}
+        {/*  type="image/png"*/}
+        {/*  sizes="256x256"*/}
+        {/*  href={metadata.favicon256Path}*/}
+        {/*/>*/}
+        {/*<link rel="apple-touch-icon" href={metadata.appleTouchIconPath} />*/}
+        {/* 隐藏 favicon - 使用空的 data URI 覆盖默认图标 */}
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>" />
       </Head>
 
       <PaymentBannerProvider>

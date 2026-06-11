@@ -33,6 +33,7 @@ export const getAllModels = (
       },
     },
     {
+      enabled: !!projectId,
       trpc: {
         context: {
           skipBatch: true,
