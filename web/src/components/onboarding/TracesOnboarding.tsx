@@ -39,8 +39,8 @@ export function TracesOnboarding({ projectId }: TracesOnboardingProps) {
 
   return (
     <SplashScreen
-      title="Get Started with LLM Tracing"
-      description="Traces allow you to track every LLM call and other relevant logic in your app/agent. Nested traces in Langfuse help to understand what is happening and identify the root cause of problems."
+      title="开始使用Tracing"
+      description="Tracing允许您跟踪应用程序/智能体中的每个LLM调用和其他相关逻辑。可观测中的嵌套跟踪有助于追踪正在发生的过程，并定位问题的根本原因。"
       valuePropositions={valuePropositions}
       primaryAction={{
         label: "Configure Tracing",

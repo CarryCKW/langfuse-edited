@@ -38,13 +38,13 @@ export const sessionFilterConfig: FilterConfig = {
       column: "tags",
       label: "Trace标签", //Tags
     },
-    {
-      type: "boolean" as const,
-      column: "bookmarked",
-      label: "已收藏", //Bookmarked
-      trueLabel: "已收藏", //Bookmarked
-      falseLabel: "未收藏", //Not bookmarked
-    },
+    // {
+    //   type: "boolean" as const,
+    //   column: "bookmarked",
+    //   label: "已收藏", //Bookmarked
+    //   trueLabel: "已收藏", //Bookmarked
+    //   falseLabel: "未收藏", //Not bookmarked
+    // },
     {
       type: "numeric" as const,
       column: "sessionDuration",

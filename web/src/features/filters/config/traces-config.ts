@@ -49,13 +49,13 @@ export const traceFilterConfig: FilterConfig = {
     //   column: "release",
     //   label: "Release",
     // },
-    {
-      type: "boolean" as const,
-      column: "bookmarked",
-      label: "收藏", //Bookmarked
-      trueLabel: "已收藏", // Bookmarked
-      falseLabel: "未收藏", //Not Bookmarked
-    },
+    // {
+    //   type: "boolean" as const,
+    //   column: "bookmarked",
+    //   label: "收藏", //Bookmarked
+    //   trueLabel: "已收藏", // Bookmarked
+    //   falseLabel: "未收藏", //Not Bookmarked
+    // },
     {
       type: "numeric" as const,
       column: "commentCount",

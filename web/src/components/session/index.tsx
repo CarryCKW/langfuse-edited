@@ -281,8 +281,8 @@ export const SessionPage: React.FC<{
   if (session.error?.data?.code === "NOT_FOUND")
     return (
       <ErrorPage
-        title="Session not found"
-        message="The session is either still being processed or has been deleted."
+        title="未找到相关Session" //Session not found
+        message="此Session可能仍在同步处理中。" //The session is either still being processed or has been deleted.
         additionalButton={{
           label: "Retry",
           onClick: () => void window.location.reload(),

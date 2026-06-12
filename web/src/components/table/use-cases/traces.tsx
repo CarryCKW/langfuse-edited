@@ -504,29 +504,29 @@ export default function TracesTable({
       ? []
       : [
           selectActionColumn,
-          {
-            accessorKey: "bookmarked",
-            header: "收藏", //undefined
-            id: "bookmarked",
-            size: 30,
-            isFixedPosition: true,
-            cell: ({ row }: { row: Row<TracesTableRow> }) => {
-              const bookmarked: TracesTableRow["bookmarked"] =
-                row.getValue("bookmarked");
-              const traceId = row.getValue("id");
-              return typeof traceId === "string" &&
-                typeof bookmarked === "boolean" ? (
-                <StarTraceToggle
-                  tracesFilter={tracesAllQueryFilter}
-                  traceId={traceId}
-                  projectId={projectId}
-                  value={bookmarked}
-                  size="icon-xs"
-                />
-              ) : undefined;
-            },
-            enableSorting,
-          },
+          // {
+          //   accessorKey: "bookmarked",
+          //   header: "收藏", //undefined
+          //   id: "bookmarked",
+          //   size: 30,
+          //   isFixedPosition: true,
+          //   cell: ({ row }: { row: Row<TracesTableRow> }) => {
+          //     const bookmarked: TracesTableRow["bookmarked"] =
+          //       row.getValue("bookmarked");
+          //     const traceId = row.getValue("id");
+          //     return typeof traceId === "string" &&
+          //       typeof bookmarked === "boolean" ? (
+          //       <StarTraceToggle
+          //         tracesFilter={tracesAllQueryFilter}
+          //         traceId={traceId}
+          //         projectId={projectId}
+          //         value={bookmarked}
+          //         size="icon-xs"
+          //       />
+          //     ) : undefined;
+          //   },
+          //   enableSorting,
+          // },
         ]),
     {
       accessorKey: "timestamp",
@@ -1028,36 +1028,36 @@ export default function TracesTable({
     ...(hideControls
       ? []
       : [
-          {
-            accessorKey: "action",
-            header: "操作", //Action
-            size: 70,
-            isFixedPosition: true,
-            cell: ({ row }: { row: Row<TracesTableRow> }) => {
-              const traceId: TracesTableRow["id"] = row.getValue("id");
-              return (
-                traceId &&
-                typeof traceId === "string" && (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem asChild>
-                        <DeleteTraceButton
-                          itemId={traceId}
-                          projectId={projectId}
-                          isTableAction
-                        />
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )
-              );
-            },
-          },
+          // {
+          //   accessorKey: "action",
+          //   header: "操作", //Action
+          //   size: 70,
+          //   isFixedPosition: true,
+          //   cell: ({ row }: { row: Row<TracesTableRow> }) => {
+          //     const traceId: TracesTableRow["id"] = row.getValue("id");
+          //     return (
+          //       traceId &&
+          //       typeof traceId === "string" && (
+          //         <DropdownMenu>
+          //           <DropdownMenuTrigger asChild>
+          //             <Button variant="ghost">
+          //               <MoreVertical className="h-4 w-4" />
+          //             </Button>
+          //           </DropdownMenuTrigger>
+          //           <DropdownMenuContent>
+          //             <DropdownMenuItem asChild>
+          //               <DeleteTraceButton
+          //                 itemId={traceId}
+          //                 projectId={projectId}
+          //                 isTableAction
+          //               />
+          //             </DropdownMenuItem>
+          //           </DropdownMenuContent>
+          //         </DropdownMenu>
+          //       )
+          //     );
+          //   },
+          // },
         ]),
   ];
 

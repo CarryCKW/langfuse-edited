@@ -30,7 +30,7 @@ export default function Traces() {
 
   const showOnboarding = !isLoading && !hasTracingConfigured;
 
-  if (showOnboarding) {
+  if (showOnboarding) { //showOnboarding
     return (
       <Page
         headerProps={{

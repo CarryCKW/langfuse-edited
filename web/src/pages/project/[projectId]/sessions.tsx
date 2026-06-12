@@ -38,6 +38,7 @@ export default function Sessions() {
       scrollable={showOnboarding}
     >
       {/* Show onboarding screen if user has no sessions */}
+      {/*  showOnboarding*/}
       {showOnboarding ? (
         <SessionsOnboarding />
       ) : (

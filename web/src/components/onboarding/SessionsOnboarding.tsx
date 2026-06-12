@@ -34,20 +34,21 @@ export function SessionsOnboarding() {
 
   return (
     <SplashScreen
-      title="Get Started with Sessions"
-      description="Sessions allow you to group related traces together, such as a conversation or thread. Use sessions to track interactions over time and analyze conversation/thread flows."
+      title="从Sessions开始记录观测"
+      description="Session是一组相关 Trace 的集合，例如一次多轮对话或话题串。"
       valuePropositions={valuePropositions}
       gettingStarted={
         <span>
-          To start using sessions, you need to add a `sessionId` to your traces.
-          See{" "}
-          <Link
-            href="https://langfuse.com/docs/observability/features/sessions"
-            className="underline"
-          >
-            documentation
-          </Link>{" "}
-          for more details.
+          为了可以使用此Session记录观测数据，需要在智能体中进行对话。
+          {/*To start using sessions, you need to add a `sessionId` to your traces.*/}
+          {/*See{" "}*/}
+          {/*<Link*/}
+          {/*  href="https://langfuse.com/docs/observability/features/sessions"*/}
+          {/*  className="underline"*/}
+          {/*>*/}
+          {/*  documentation*/}
+          {/*</Link>{" "}*/}
+          {/*for more details.*/}
         </span>
       }
       videoSrc="https://static.langfuse.com/prod-assets/onboarding/sessions-overview-v1.mp4"

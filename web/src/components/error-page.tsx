@@ -41,22 +41,22 @@ export const ErrorPage = ({
       <div className="flex gap-3">
         {session.status === "unauthenticated" ? (
           <Button
-            onClick={() => void router.push(`/auth/sign-in${targetPathQuery}`)}
+            onClick={() => void router.push(`/project/cmk0uyvyj0006pk07ml635l8g`)}
           >
-            Sign In
+            返回总览数据页
           </Button>
         ) : null}
-        {additionalButton ? (
-          "onClick" in additionalButton ? (
-            <Button variant="secondary" onClick={additionalButton.onClick}>
-              {additionalButton.label}
-            </Button>
-          ) : (
-            <Button variant="secondary" asChild>
-              <Link href={additionalButton.href}>{additionalButton.label}</Link>
-            </Button>
-          )
-        ) : null}
+        {/*{additionalButton ? (*/}
+        {/*  "onClick" in additionalButton ? (*/}
+        {/*    <Button variant="secondary" onClick={additionalButton.onClick}>*/}
+        {/*      {additionalButton.label}*/}
+        {/*    </Button>*/}
+        {/*  ) : (*/}
+        {/*    <Button variant="secondary" asChild>*/}
+        {/*      <Link href={additionalButton.href}>{additionalButton.label}</Link>*/}
+        {/*    </Button>*/}
+        {/*  )*/}
+        {/*) : null}*/}
       </div>
     </div>
   );

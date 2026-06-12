@@ -23,7 +23,7 @@ spec:
         runAsGroup: 0
       containers:
         - name: web
-          image: registry.paas/cmss/langfuse-web-custom:v0608.arm64.2
+          image: registry.paas/cmss/langfuse-web-custom:v0608.arm64.3
           imagePullPolicy: Always
           ports:
             - name: http

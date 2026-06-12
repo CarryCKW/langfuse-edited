@@ -88,65 +88,65 @@ export function SplashScreen({
       </div>
 
       <div className="mb-8 flex w-full flex-wrap justify-center gap-4">
-        {primaryAction &&
-          (primaryAction.component || (
-            <ActionButton
-              size="lg"
-              onClick={primaryAction.onClick}
-              href={primaryAction.href}
-            >
-              {primaryAction.label}
-            </ActionButton>
-          ))}
+        {/*{primaryAction &&*/}
+        {/*  (primaryAction.component || (*/}
+        {/*    <ActionButton*/}
+        {/*      size="lg"*/}
+        {/*      onClick={primaryAction.onClick}*/}
+        {/*      href={primaryAction.href}*/}
+        {/*    >*/}
+        {/*      {primaryAction.label}*/}
+        {/*    </ActionButton>*/}
+        {/*  ))}*/}
 
-        {secondaryAction &&
-          (secondaryAction.component || (
-            <ActionButton
-              variant="outline"
-              size="lg"
-              onClick={secondaryAction.onClick}
-              href={secondaryAction.href}
-            >
-              {secondaryAction.label}
-            </ActionButton>
-          ))}
+        {/*{secondaryAction &&*/}
+        {/*  (secondaryAction.component || (*/}
+        {/*    <ActionButton*/}
+        {/*      variant="outline"*/}
+        {/*      size="lg"*/}
+        {/*      onClick={secondaryAction.onClick}*/}
+        {/*      href={secondaryAction.href}*/}
+        {/*    >*/}
+        {/*      {secondaryAction.label}*/}
+        {/*    </ActionButton>*/}
+        {/*  ))}*/}
       </div>
 
       {gettingStarted && (
         <Alert className="w-full max-w-3xl">
           <InfoIcon className="mr-2 h-4 w-4" />
-          <AlertTitle>Getting Started</AlertTitle>
+          <AlertTitle>开始尝试</AlertTitle>
           <AlertDescription>{gettingStarted}</AlertDescription>
         </Alert>
       )}
 
-      {videoSrc && <VideoPlayer videoSrc={videoSrc} />}
+      {/*{videoSrc && <VideoPlayer videoSrc={videoSrc} />}*/}
 
-      {!videoSrc && image && (
-        <div className="my-6 w-full max-w-3xl">
-          <Image
-            src={image.src}
-            alt={image.alt}
-            width={image.width}
-            height={image.height}
-            className="rounded-md"
-          />
-        </div>
-      )}
+      {/*{!videoSrc && image && (*/}
+      {/*  <div className="my-6 w-full max-w-3xl">*/}
+      {/*    <Image*/}
+      {/*      src={image.src}*/}
+      {/*      alt={image.alt}*/}
+      {/*      width={image.width}*/}
+      {/*      height={image.height}*/}
+      {/*      className="rounded-md"*/}
+      {/*    />*/}
+      {/*  </div>*/}
+      {/*)}*/}
 
-      {children && <div className="my-6 w-full max-w-3xl">{children}</div>}
+      {/*{children && <div className="my-6 w-full max-w-3xl">{children}</div>}*/}
 
-      {valuePropositions.length > 0 && (
-        <div className="my-6 grid w-full max-w-3xl grid-cols-1 gap-4 md:grid-cols-2">
-          {valuePropositions.map((prop, index) => (
-            <Alert key={index}>
-              {prop.icon}
-              <AlertTitle>{prop.title}</AlertTitle>
-              <AlertDescription>{prop.description}</AlertDescription>
-            </Alert>
-          ))}
-        </div>
-      )}
+      {/*{valuePropositions.length > 0 && (*/}
+      {/*  <div className="my-6 grid w-full max-w-3xl grid-cols-1 gap-4 md:grid-cols-2">*/}
+      {/*    {valuePropositions.map((prop, index) => (*/}
+      {/*      <Alert key={index}>*/}
+      {/*        {prop.icon}*/}
+      {/*        <AlertTitle>{prop.title}</AlertTitle>*/}
+      {/*        <AlertDescription>{prop.description}</AlertDescription>*/}
+      {/*      </Alert>*/}
+      {/*    ))}*/}
+      {/*  </div>*/}
+      {/*)}*/}
     </div>
   );
 }

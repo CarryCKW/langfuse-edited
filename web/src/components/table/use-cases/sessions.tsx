@@ -361,29 +361,29 @@ export default function SessionsTable({
 
   const columns: LangfuseColumnDef<SessionTableRow>[] = [
     selectActionColumn,
-    {
-      accessorKey: "bookmarked",
-      id: "bookmarked",
-      isFixedPosition: true,
-      header: "收藏",
-      size: 50,
-      cell: ({ row }) => {
-        const bookmarked: SessionTableRow["bookmarked"] =
-          row.getValue("bookmarked");
-        const sessionId: SessionTableRow["id"] = row.getValue("id");
-
-        return typeof sessionId === "string" &&
-          typeof bookmarked === "boolean" ? (
-          <StarSessionToggle
-            sessionId={sessionId}
-            projectId={projectId}
-            value={bookmarked}
-            size="icon-xs"
-          />
-        ) : undefined;
-      },
-      enableSorting: false,
-    },
+    // {
+    //   accessorKey: "bookmarked",
+    //   id: "bookmarked",
+    //   isFixedPosition: true,
+    //   header: "收藏",
+    //   size: 50,
+    //   cell: ({ row }) => {
+    //     const bookmarked: SessionTableRow["bookmarked"] =
+    //       row.getValue("bookmarked");
+    //     const sessionId: SessionTableRow["id"] = row.getValue("id");
+    //
+    //     return typeof sessionId === "string" &&
+    //       typeof bookmarked === "boolean" ? (
+    //       <StarSessionToggle
+    //         sessionId={sessionId}
+    //         projectId={projectId}
+    //         value={bookmarked}
+    //         size="icon-xs"
+    //       />
+    //     ) : undefined;
+    //   },
+    //   enableSorting: false,
+    // },
 
     {
       accessorKey: "id",
