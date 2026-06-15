@@ -47,10 +47,12 @@ export const LocalIsoDate = ({
   }
 
   const localDateString = formatLocalIsoDate(date, false, accuracy);
-  const utcDateString = formatLocalIsoDate(date, true, "millisecond");
+  // const utcDateString = formatLocalIsoDate(date, true, "millisecond");
+  const localDateStringFull = formatLocalIsoDate(date, false, "millisecond");
 
   return (
-    <span title={`UTC: ${utcDateString}`} className={className}>
+    // <span title={`UTC: ${utcDateString}`} className={className}>
+    <span title={localDateStringFull} className={className}>
       {localDateString}
     </span>
   );

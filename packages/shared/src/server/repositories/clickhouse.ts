@@ -501,7 +501,9 @@ export async function commandClickhouse(opts: {
 }
 
 export function parseClickhouseUTCDateTimeFormat(dateStr: string): Date {
-  return new Date(`${dateStr.replace(" ", "T")}Z`);
+  // ClickHouse 返回的时间已经是本地时区（如 Asia/Shanghai），不需要添加 Z 后缀
+  //   return new Date(`${dateStr.replace(" ", "T")}Z`);
+  return new Date(dateStr.replace(" ", "T"));
 }
 
 export function clickhouseCompliantRandomCharacters() {

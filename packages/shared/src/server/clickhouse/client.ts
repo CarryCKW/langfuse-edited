@@ -175,8 +175,16 @@ export const clickhouseClient = (
 
 /**
  * Accepts a JavaScript date and returns the DateTime in format YYYY-MM-DD HH:MM:SS
+ * Returns local time to match ClickHouse storage format (when ClickHouse timezone is Asia/Shanghai)
  */
 export const convertDateToClickhouseDateTime = (date: Date): string => {
-  // 2024-11-06T20:37:00.123Z -> 2024-11-06 21:37:00.123
-  return date.toISOString().replace("T", " ").replace("Z", "");
+  const pad = (num: number, len = 2) => String(num).padStart(len, "0");
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  const seconds = pad(date.getSeconds());
+  const ms = pad(date.getMilliseconds(), 3);
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${ms}`;
 };
