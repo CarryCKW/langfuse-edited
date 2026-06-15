@@ -225,10 +225,7 @@ export const SessionPage: React.FC<{
         // Expand peeked traces to the trace detail route; sessions list traces
         basePath: `/project/${projectId}/traces`,
       },
-      queryParams: ["observation", "display", "timestamp"],
-      extractParamsValuesFromRow: (row: any) => ({
-        timestamp: row.timestamp.toISOString(),
-      }),
+      queryParams: ["observation", "display"],
     });
 
   useEffect(() => {
