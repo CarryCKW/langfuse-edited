@@ -1073,10 +1073,11 @@ export default function TracesTable({
   );
 
   const peekNavigationProps = usePeekNavigation({
-    queryParams: ["observation", "display", "timestamp"],
-    extractParamsValuesFromRow: (row: TracesTableRow) => ({
-      timestamp: row.timestamp?.toISOString() || "",
-    }),
+    // queryParams: ["observation", "display", "timestamp"],
+    // extractParamsValuesFromRow: (row: TracesTableRow) => ({
+    //   timestamp: row.timestamp?.toISOString() || "",
+    // }),
+    queryParams: ["observation", "display"],
     expandConfig: {
       basePath: `/project/${projectId}/traces`,
     },
