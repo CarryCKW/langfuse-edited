@@ -216,6 +216,12 @@ spec:
           volumeMounts:
             - name: langfuse-storage
               mountPath: /app/langfuse-storage
+            - name: localtime
+              mountPath: /etc/localtime
+              readOnly: true
+            - name: timezone
+              mountPath: /etc/timezone
+              readOnly: true
           resources:
             requests:
               cpu: "1"
@@ -227,3 +233,11 @@ spec:
         - name: langfuse-storage
           persistentVolumeClaim:
             claimName: langfuse-storage-pvc
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+            type: File
+        - name: timezone
+          hostPath:
+            path: /etc/timezone
+            type: File

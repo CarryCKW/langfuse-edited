@@ -33,9 +33,9 @@ spec:
             - name: POSTGRES_DB
               value: postgres
             - name: TZ
-              value: UTC
+              value: Asia/Shanghai
             - name: PGTZ
-              value: UTC
+              value: Asia/Shanghai
           readinessProbe:
             exec:
               command:
@@ -59,6 +59,12 @@ spec:
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
+            - name: localtime
+              mountPath: /etc/localtime
+              readOnly: true
+            - name: timezone
+              mountPath: /etc/timezone
+              readOnly: true
           resources:
             requests:
               cpu: "500m"
@@ -68,10 +74,18 @@ spec:
               memory: "2Gi"
       volumes:
         - name: postgres-data
-          emptyDir: {}          
+          emptyDir: {}
           # hostPath:
           #  path: /mnt/data/langfuse-postgres
           #  type: DirectoryOrCreate
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+            type: File
+        - name: timezone
+          hostPath:
+            path: /etc/timezone
+            type: File
 ---
 apiVersion: v1
 kind: Service
