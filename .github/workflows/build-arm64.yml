@@ -13,38 +13,38 @@ on:
         default: 'v0529.arm64.1'
 
 jobs:
-#  build-web:
-#    name: Build langfuse-web ARM64
-#    runs-on: ubuntu-24.04-arm  # 原生 arm64 runner
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#
-#      - name: Set up Docker Buildx
-#        uses: docker/setup-buildx-action@v3
-#
-#      - name: Login to Quay.io
-#        uses: docker/login-action@v3
-#        with:
-#          registry: quay.io
-#          username: ${{ secrets.QUAY_USERNAME }}
-#          password: ${{ secrets.QUAY_PASSWORD }}
-#
-#      - name: Build and push Web image
-#        uses: docker/build-push-action@v5
-#        with:
-#          context: .
-#          file: web/Dockerfile
-#          platforms: linux/arm64
-#          push: true
-#          tags: quay.io/caigentle/langfuse-web-custom:${{ github.event.inputs.web_tag }}
-#          build-args: |
-#            NEXT_PUBLIC_BASE_PATH=/langfuse
-#            NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED=true
-#            NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL=https://10.151.18.110:31987/
-#            NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE=per_request
-#          cache-from: type=gha
-#          cache-to: type=gha,mode=max
+  build-web:
+    name: Build langfuse-web ARM64
+    runs-on: ubuntu-24.04-arm  # 原生 arm64 runner
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Quay.io
+        uses: docker/login-action@v3
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+
+      - name: Build and push Web image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: web/Dockerfile
+          platforms: linux/arm64
+          push: true
+          tags: quay.io/caigentle/langfuse-web-custom:${{ github.event.inputs.web_tag }}
+          build-args: |
+            NEXT_PUBLIC_BASE_PATH=/langfuse
+            NEXT_PUBLIC_EXTERNAL_AUTH_ENABLED=true
+            NEXT_PUBLIC_EXTERNAL_AUTH_LOGIN_REDIRECT_URL=https://10.151.18.110:31987/
+            NEXT_PUBLIC_EXTERNAL_AUTH_VALIDATION_MODE=per_request
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   build-worker:
     name: Build langfuse-worker ARM64
