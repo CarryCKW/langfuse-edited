@@ -222,15 +222,15 @@ export const ObservationPreview = ({
             {/*    />*/}
             {/*  </>*/}
             {/*)}*/}
-            {viewType === "focused" && showCommentButton && (
-              <CommentDrawerButton
-                projectId={preloadedObservation.projectId}
-                objectId={preloadedObservation.id}
-                objectType="OBSERVATION"
-                count={commentCounts?.get(preloadedObservation.id)}
-                size="sm"
-              />
-            )}
+            {/*{viewType === "focused" && showCommentButton && (*/}
+            {/*  <CommentDrawerButton*/}
+            {/*    projectId={preloadedObservation.projectId}*/}
+            {/*    objectId={preloadedObservation.id}*/}
+            {/*    objectType="OBSERVATION"*/}
+            {/*    count={commentCounts?.get(preloadedObservation.id)}*/}
+            {/*    size="sm"*/}
+            {/*  />*/}
+            {/*)}*/}
           </div>
         </div>
         <div className="grid w-full min-w-0 items-center justify-between px-2">

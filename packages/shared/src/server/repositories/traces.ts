@@ -854,13 +854,17 @@ export const getTracesIdentifierForSession = async (
     },
   });
 
-  return rows.map((row) => ({
-    id: row.id,
-    userId: row.user_id,
-    name: row.name,
-    timestamp: parseClickhouseUTCDateTimeFormat(row.timestamp),
-    environment: row.environment,
-  }));
+  return rows.map((row) => {
+    const parsedTimestamp = parseClickhouseUTCDateTimeFormat(row.timestamp);
+    console.log(`[DEBUG] getTracesIdentifierForSession - row.timestamp: ${row.timestamp}, parsed: ${parsedTimestamp.toISOString()}, local: ${parsedTimestamp.toString()}`);
+    return {
+      id: row.id,
+      userId: row.user_id,
+      name: row.name,
+      timestamp: parsedTimestamp,
+      environment: row.environment,
+    };
+  });
 };
 
 export const deleteTraces = async (projectId: string, traceIds: string[]) => {

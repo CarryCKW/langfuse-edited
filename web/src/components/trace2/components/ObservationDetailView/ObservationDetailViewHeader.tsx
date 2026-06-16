@@ -130,21 +130,21 @@ export const ObservationDetailViewHeader = memo(
             {/*    size="sm"*/}
             {/*  />*/}
             {/*</div>*/}
-            {observationWithIO && isGenerationLike(observationWithIO.type) && (
-              <JumpToPlaygroundButton
-                source="generation"
-                generation={observationWithIO}
-                analyticsEventName="trace_detail:test_in_playground_button_click"
-                size="sm"
-              />
-            )}
-            <CommentDrawerButton
-              projectId={projectId}
-              objectId={observation.id}
-              objectType="OBSERVATION"
-              count={commentCount}
-              size="sm"
-            />
+            {/*{observationWithIO && isGenerationLike(observationWithIO.type) && (*/}
+            {/*  <JumpToPlaygroundButton*/}
+            {/*    source="generation"*/}
+            {/*    generation={observationWithIO}*/}
+            {/*    analyticsEventName="trace_detail:test_in_playground_button_click"*/}
+            {/*    size="sm"*/}
+            {/*  />*/}
+            {/*)}*/}
+            {/*<CommentDrawerButton*/}
+            {/*  projectId={projectId}*/}
+            {/*  objectId={observation.id}*/}
+            {/*  objectType="OBSERVATION"*/}
+            {/*  count={commentCount}*/}
+            {/*  size="sm"*/}
+            {/*/>*/}
           </div>
         </div>
 

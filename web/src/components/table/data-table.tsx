@@ -459,7 +459,8 @@ function renderOrderingIndicator(orderBy?: OrderByState) {
   if (orderBy.order === "ASC") return <span className="ml-1">▲</span>;
   else
     return (
-      <span className="ml-1" title="Sort by this column">
+      <span className="ml-1" title="按照此列排序。">
+        {/*Sort by this column*/}
         ▼
       </span>
     );

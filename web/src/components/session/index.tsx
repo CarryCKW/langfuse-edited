@@ -225,6 +225,10 @@ export const SessionPage: React.FC<{
         // Expand peeked traces to the trace detail route; sessions list traces
         basePath: `/project/${projectId}/traces`,
       },
+        // queryParams: ["observation", "display", "timestamp"],
+        // extractParamsValuesFromRow: (row: any) => ({
+        //     timestamp: row.timestamp.toISOString(),
+        // }),
       queryParams: ["observation", "display"],
     });
 
@@ -336,14 +340,14 @@ export const SessionPage: React.FC<{
             {/*>*/}
             {/*  <Download className="h-4 w-4" />*/}
             {/*</Button>*/}
-            <CommentDrawerButton
-              key="comment"
-              variant="outline"
-              projectId={projectId}
-              objectId={sessionId}
-              objectType="SESSION"
-              count={getNumberFromMap(sessionCommentCounts.data, sessionId)}
-            />
+            {/*<CommentDrawerButton*/}
+            {/*  key="comment"*/}
+            {/*  variant="outline"*/}
+            {/*  projectId={projectId}*/}
+            {/*  objectId={sessionId}*/}
+            {/*  objectType="SESSION"*/}
+            {/*  count={getNumberFromMap(sessionCommentCounts.data, sessionId)}*/}
+            {/*/>*/}
             {/*<div className="flex items-start">*/}
             {/*  <AnnotateDrawer*/}
             {/*    projectId={projectId}*/}

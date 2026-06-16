@@ -94,13 +94,13 @@ export const TraceDetailViewHeader = memo(function TraceDetailViewHeader({
           {/*    size="sm"*/}
           {/*  />*/}
           {/*</div> // 原来Annoate 块*/}
-          <CommentDrawerButton
-            projectId={projectId}
-            objectId={trace.id}
-            objectType="TRACE"
-            count={commentCount}
-            size="sm"
-          />
+          {/*<CommentDrawerButton*/}
+          {/*  projectId={projectId}*/}
+          {/*  objectId={trace.id}*/}
+          {/*  objectType="TRACE"*/}
+          {/*  count={commentCount}*/}
+          {/*  size="sm"*/}
+          {/*/>*/}
         </div>
       </div>
 

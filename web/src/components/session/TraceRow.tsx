@@ -99,13 +99,13 @@ const TraceRow = React.memo(
                 {/*    environment: trace.environment,*/}
                 {/*  }}*/}
                 {/*/>*/}
-                <CommentDrawerButton
-                  projectId={projectId}
-                  variant="outline"
-                  objectId={trace.id}
-                  objectType="TRACE"
-                  count={getNumberFromMap(traceCommentCounts, trace.id)}
-                />
+                {/*<CommentDrawerButton*/}
+                {/*  projectId={projectId}*/}
+                {/*  variant="outline"*/}
+                {/*  objectId={trace.id}*/}
+                {/*  objectType="TRACE"*/}
+                {/*  count={getNumberFromMap(traceCommentCounts, trace.id)}*/}
+                {/*/>*/}
               </div>
             </div>
             {/*<div className="flex-1">*/}

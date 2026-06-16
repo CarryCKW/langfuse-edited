@@ -225,15 +225,15 @@ export const TracePreview = ({
             {/*    />*/}
             {/*  </>*/}
             {/*)}*/}
-            {viewType === "focused" && showCommentButton && (
-              <CommentDrawerButton
-                projectId={trace.projectId}
-                objectId={trace.id}
-                objectType="TRACE"
-                count={commentCounts?.get(trace.id)}
-                size="sm"
-              />
-            )}
+            {/*{viewType === "focused" && showCommentButton && (*/}
+            {/*  <CommentDrawerButton*/}
+            {/*    projectId={trace.projectId}*/}
+            {/*    objectId={trace.id}*/}
+            {/*    objectType="TRACE"*/}
+            {/*    count={commentCounts?.get(trace.id)}*/}
+            {/*    size="sm"*/}
+            {/*  />*/}
+            {/*)}*/}
           </div>
         </div>
         <div className="grid w-full min-w-0 items-center justify-between px-2">
