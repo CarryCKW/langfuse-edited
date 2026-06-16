@@ -219,9 +219,6 @@ spec:
             - name: localtime
               mountPath: /etc/localtime
               readOnly: true
-            - name: timezone
-              mountPath: /etc/timezone
-              readOnly: true
           resources:
             requests:
               cpu: "1"
@@ -236,8 +233,4 @@ spec:
         - name: localtime
           hostPath:
             path: /etc/localtime
-            type: File
-        - name: timezone
-          hostPath:
-            path: /etc/timezone
             type: File
