@@ -5,7 +5,7 @@ export const clickhouseStringDateSchema = z
   // ClickHouse returns local time (e.g., Asia/Shanghai) like '2024-05-23 18:33:41.602000'
   // Convert to ISO format without Z to preserve local time
   .transform((str) => str.replace(" ", "T"))
-  .pipe(z.string().datetime());
+  .pipe(z.string().datetime({ offset: true, local: true }));
 
 //https://clickhouse.com/docs/en/integrations/javascript#integral-types-int64-int128-int256-uint64-uint128-uint256
 // clickhouse returns int64 as string
