@@ -286,12 +286,17 @@ export function DataTable<TData extends object, TValue>({
     <>
       <div
         className={cn(
-          "flex w-full max-w-full flex-1 flex-col overflow-auto",
+          "flex w-full max-w-full min-h-0 flex-1 flex-col overflow-auto",
           className,
         )}
+        onWheel={(e) => {
+          // Ensure wheel events scroll the container
+          const target = e.currentTarget;
+          target.scrollTop += e.deltaY;
+        }}
       >
         <div
-          className={cn("relative min-h-full w-full overflow-auto border-t")}
+          className={cn("relative w-full border-t")}
           style={{ ...columnSizeVars }}
         >
           <Table>

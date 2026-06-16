@@ -168,17 +168,17 @@ export const observationFilterConfig: FilterConfig = {
     //   column: "scores_avg",
     //   label: "Numeric Scores",
     // },
-    {
-      type: "numeric" as const,
-      column: "commentCount",
-      label: "评论数量", //Comment Count
-      min: 0,
-      max: 100,
-    },
-    {
-      type: "string" as const,
-      column: "commentContent",
-      label: "评论内容", //Comment Content
-    },
+    // {
+    //   type: "numeric" as const,
+    //   column: "commentCount",
+    //   label: "评论数量", //Comment Count
+    //   min: 0,
+    //   max: 100,
+    // },
+    // {
+    //   type: "string" as const,
+    //   column: "commentContent",
+    //   label: "评论内容", //Comment Content
+    // },
   ],
 };

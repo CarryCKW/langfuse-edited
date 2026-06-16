@@ -125,23 +125,23 @@ export const GenerationLatencyChart = ({
 
   const data = [
     {
-      tabTitle: "50百分位", //50th Percentile
+      tabTitle: "p50", //50th Percentile
       data: getData("p50_latency"),
     },
     {
-      tabTitle: "75百分位", //Percentile
+      tabTitle: "p75", //Percentile
       data: getData("p75_latency"),
     },
     {
-      tabTitle: "90百分位", //Percentile
+      tabTitle: "p90", //Percentile
       data: getData("p90_latency"),
     },
     {
-      tabTitle: "95百分位", //Percentile
+      tabTitle: "p95", //Percentile
       data: getData("p95_latency"),
     },
     {
-      tabTitle: "99百分位", //Percentile
+      tabTitle: "p99", //Percentile
       data: getData("p99_latency"),
     },
   ];

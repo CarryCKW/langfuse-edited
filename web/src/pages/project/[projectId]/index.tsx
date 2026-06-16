@@ -216,11 +216,11 @@ export default function Dashboard() {
             {/*  }))}*/}
             {/*  className="my-0 w-auto overflow-hidden"*/}
             {/*/>*/}
-            <PopoverFilterBuilder
-              columns={filterColumns}
-              filterState={userFilterState}
-              onChange={useDebounce(setUserFilterState)}
-            />
+            {/*<PopoverFilterBuilder*/}
+            {/*  columns={filterColumns}*/}
+            {/*  filterState={userFilterState}*/}
+            {/*  onChange={useDebounce(setUserFilterState)}*/}
+            {/*/>*/}
           </>
         ),
         // actionButtonsRight: (

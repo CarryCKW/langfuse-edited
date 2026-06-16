@@ -44,7 +44,7 @@ const TraceRow = React.memo(
     return (
       <Card className="border-border shadow-none">
         <div className="grid md:grid-cols-[1fr_1px_358px] lg:grid-cols-[1fr_1px_28rem]">
-          <div className="overflow-hidden py-4 pl-4 pr-4">
+          <div className="py-4 pl-4 pr-4">
             <SessionIO
               traceId={trace.id}
               projectId={projectId}

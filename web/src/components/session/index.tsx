@@ -472,7 +472,7 @@ export const SessionIO = ({
     },
   );
   return (
-    <div className="flex w-full flex-col gap-2 overflow-hidden p-0">
+    <div className="flex w-full flex-col gap-2 p-0">
       {!trace.data ? (
         <JsonSkeleton
           className="h-full w-full overflow-hidden px-2 py-1"

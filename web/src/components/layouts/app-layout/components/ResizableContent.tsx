@@ -91,10 +91,14 @@ export function ResizableContent({ children }: PropsWithChildren) {
   // 👉 DESKTOP: Always render ResizablePanelGroup to prevent remounting children
   return (
     <ResizablePanelGroup direction="horizontal" className="flex h-full w-full">
-      <ResizablePanel ref={mainPanelRef} defaultSize={100} minSize={30}>
+      <ResizablePanel ref={mainPanelRef} defaultSize={100} minSize={30} className="overflow-hidden">
         <main
-          className="relative h-full w-full overflow-scroll"
-          style={{ overscrollBehaviorY: "none" }}
+          className="relative h-full w-full overflow-y-auto"
+          onWheel={(e) => {
+            // Ensure wheel events scroll the container
+            const target = e.currentTarget;
+            target.scrollTop += e.deltaY;
+          }}
         >
           {children}
         </main>

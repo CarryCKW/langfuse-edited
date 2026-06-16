@@ -56,18 +56,18 @@ export const traceFilterConfig: FilterConfig = {
     //   trueLabel: "已收藏", // Bookmarked
     //   falseLabel: "未收藏", //Not Bookmarked
     // },
-    {
-      type: "numeric" as const,
-      column: "commentCount",
-      label: "评论数量", //Comment Count
-      min: 0,
-      max: 100,
-    },
-    {
-      type: "string" as const,
-      column: "commentContent",
-      label: "评论内容", //Comment Content
-    },
+    // {
+    //   type: "numeric" as const,
+    //   column: "commentCount",
+    //   label: "评论数量", //Comment Count
+    //   min: 0,
+    //   max: 100,
+    // },
+    // {
+    //   type: "string" as const,
+    //   column: "commentContent",
+    //   label: "评论内容", //Comment Content
+    // },
     {
       type: "categorical" as const,
       column: "tags",

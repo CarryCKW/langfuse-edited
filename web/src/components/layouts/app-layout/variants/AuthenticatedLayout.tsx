@@ -108,7 +108,8 @@ export function AuthenticatedLayout({
                 secondaryNavItems={navigation.secondaryNavigation}
                 userNavProps={userNavProps}
               />
-              <SidebarInset className="h-screen-with-banner max-w-full md:peer-data-[state=collapsed]:w-[calc(100vw-var(--sidebar-width-icon))] md:peer-data-[state=expanded]:w-[calc(100vw-var(--sidebar-width))]">
+              {/*<SidebarInset className="h-screen-with-banner max-w-full md:peer-data-[state=collapsed]:w-[calc(100vw-var(--sidebar-width-icon))] md:peer-data-[state=expanded]:w-[calc(100vw-var(--sidebar-width))]">*/}
+              <SidebarInset className="h-screen-with-banner max-w-full min-h-0 overflow-hidden md:peer-data-[state=collapsed]:w-[calc(100vw-var(--sidebar-width-icon))] md:peer-data-[state=expanded]:w-[calc(100vw-var(--sidebar-width))]">
                 <ResizableContent>{children}</ResizableContent>
                 <Toaster visibleToasts={1} />
                 <CommandMenu mainNavigation={navigation.navigation} />
