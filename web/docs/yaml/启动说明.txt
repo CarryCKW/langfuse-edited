@@ -1,0 +1,74 @@
+部署到 k8s，修改完后，在你的 k8s 集群节点上执行：
+
+# 确保 kubectl 能访问你的集群
+kubectl cluster-info
+
+# 部署
+kubectl apply -f langfuse-k8s-deployment.yaml
+
+# 查看部署状态
+kubectl get pods -n langfuse
+
+# 查看日志
+kubectl logs -f deployment/langfuse-web -n langfuse
+
+# 删除任务
+kubectl delete -f langfuse-k8s-deployment.yaml
+
+#常用查看命令
+# 查看 pod 状态
+kubectl get pods -n langfuse
+
+# 查看 service
+kubectl get svc -n langfuse
+
+# 查看日志
+kubectl logs -f deployment/langfuse-web -n langfuse
+kubectl logs -f deployment/langfuse-worker -n langfuse
+
+# 进入 pod 调试
+kubectl exec -it deployment/langfuse-web -n langfuse -- /bin/sh
+
+
+---
+# 镜像改名并推送：
+
+docker tag quay.io/caigentle/langfuse-web-custom:v0608.arm64.1 registry.paas/cmss/langfuse-web-custom:v0608.arm64.1
+docker tag quay.io/caigentle/langfuse-worker-custom:v0529.arm64.1 registry.paas/cmss/langfuse-worker-custom:v0529.arm64.1
+docker tag quay.io/caigentle/postgres:17_arm64 registry.paas/cmss/postgres:17_arm64
+docker tag quay.io/caigentle/redis:7_arm64 registry.paas/cmss/redis:7_arm64
+
+docker push registry.paas/cmss/langfuse-web-custom:v0608.arm64.1
+docker push registry.paas/cmss/langfuse-worker-custom:v0529.arm64.1
+docker push registry.paas/cmss/postgres:17_arm64
+docker push registry.paas/cmss/redis:7_arm64
+
+# 密码
+CLICKHOUSE_PASSWORD: 请将 "YOUR_BASE64_ENCODED_PASSWORD" 替换为实际密码的 base64 编码
+
+clickhouse信息
+用户default
+密码admin
+YWRtaw4==
+
+
+
+kubectl rollout restart deployment langfuse-web -n langfuse
+---
+docker pull quay.io/caigentle/langfuse-web-custom:v0608.arm64.7.2
+docker tag quay.io/caigentle/langfuse-web-custom:v0608.arm64.7.2 registry.paas/cmss/langfuse-web-custom:v0608.arm64.7.2
+docker push registry.paas/cmss/langfuse-web-custom:v0608.arm64.7.2
+
+docker pull quay.io/caigentle/langfuse-worker-custom:v0529.arm64.7
+docker tag quay.io/caigentle/langfuse-worker-custom:v0529.arm64.7 registry.paas/cmss/langfuse-worker-custom:v0529.arm64.7
+docker push registry.paas/cmss/langfuse-worker-custom:v0529.arm64.7
+
+
+最新正常版：
+web:langfuse-web-custom:v0608.arm64.6
+worker:langfuse-worker-custom:v0529.arm64.1
+
+registry.paas/cmss/langfuse-web-custom:v0608.arm64.7
+registry.paas/cmss/langfuse-worker-custom:v0529.arm64.7
+
+

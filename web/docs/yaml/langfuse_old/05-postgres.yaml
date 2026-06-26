@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: langfuse
+  labels:
+    app: langfuse
+    component: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: langfuse
+      component: postgres
+  template:
+    metadata:
+      labels:
+        app: langfuse
+        component: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: registry.paas/cmss/postgres:17_arm64
+          imagePullPolicy: Always
+          ports:
+            - name: postgres
+              containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DB
+              value: postgres
+            - name: TZ
+              value: UTC
+            - name: PGTZ
+              value: UTC
+          readinessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - postgres
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 10
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - postgres
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 5
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+      volumes:
+        - name: postgres-data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: langfuse
+  labels:
+    app: langfuse
+    component: postgres
+spec:
+  type: ClusterIP
+  selector:
+    app: langfuse
+    component: postgres
+  ports:
+    - name: postgres
+      protocol: TCP
+      port: 5432
+      targetPort: postgres

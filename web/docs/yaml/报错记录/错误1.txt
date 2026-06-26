@@ -1,0 +1,85 @@
+错误1：
+root@y-psc-p4f1-pod6-pm-os01-zs-gpu-ironic-17 k8s]# kubectl logs -f deployment/langfuse-web -n langfuse
+Error: P1001
+Can’t reach database server at postgres:5432
+Please make sure your database server is running at postgres:5432.
+Prisma schema loaded from packages/shared/prisma/schema.prisma
+Datasource “db”: PostgreSQL database “postgres”, schema “public” at “postgres:5432”
+Error: P1001: Can’t reach database server at postgres:5432
+Please make sure your database server is running at postgres:5432.
+Applying database migrations failed. This is mostly caused by the database being unavailable.
+Exiting…
+错误2：
+kubectl logs -f deployment/langfuse-worker -n langfuse
+部分错误：
+at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-10T09:33:43.583Z error Redis error connect ECONNREFUSED 10.233.9.168:6379
+Error: connect ECONNREFUSED 10.233.9.168:6379
+at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-10T09:33:43.583Z error Queue job blobstorage-integration-queue errored: Error: connect ECONNREFUSED 10.233.9.168:6379 connect ECONNREFUSED 10.233.9.
+Error: connect ECONNREFUSED 10.233.9.168:6379
+at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-10T09:33:43.873Z error prisma:error
+Invalid `prisma.$queryRaw()` invocation:
+Can’t reach database server at `postgres:5432`
+Please make sure your database server is running at `postgres:5432`.
+2026-06-10T09:33:43.874Z error prisma:error
+Invalid `prisma.evalTemplate.findMany()` invocation:
+
+---
+使用的是web/docs/yaml/langfuse-k8s-deployment-2.yaml
+
+
+---
+
+错误原因分析
+
+  所有错误都是 数据库表不存在：
+  ┌─────────────────────────────────────────────────────┬────────────────────┐
+  │                        错误                         │        原因        │
+  ├─────────────────────────────────────────────────────┼────────────────────┤
+  │ table 'public.background_migrations' does not exist │ 数据库迁移表未创建 │
+  ├─────────────────────────────────────────────────────┼────────────────────┤
+  │ relation "models" does not exist                    │ 模型表未创建       │
+  ├─────────────────────────────────────────────────────┼────────────────────┤
+  │ table 'public.eval_templates' does not exist        │ 评估模板表未创建   │
+  ├─────────────────────────────────────────────────────┼────────────────────┤
+  │ table 'public.dashboard_widgets' does not exist     │ 仪表板组件表未创建 │
+  └─────────────────────────────────────────────────────┴────────────────────┘
+  根本原因
+
+  部署顺序问题 + emptyDir 导致数据丢失
+
+  1. 使用 emptyDir → 数据库每次重启都是空的
+  2. Web 负责运行数据库迁移（创建表）
+  3. Worker 先于 Web 启动 → 访问空数据库 → 报错
+
+  解决方案
+
+  方案 1：确保 Web 先启动（推荐）
+
+  # 1. 全部删除
+  kubectl delete -f .
+
+  # 2. 先启动 postgres、redis、web
+  kubectl apply -f 01-namespace.yaml
+  kubectl apply -f 02-configmap.yaml
+  kubectl apply -f 03-secret.yaml
+  kubectl apply -f 04-storage.yaml
+  kubectl apply -f 05-postgres.yaml
+  kubectl apply -f 06-redis.yaml
+  kubectl apply -f 07-langfuse-web.yaml
+
+  # 3. 等待 web 完全启动
+  kubectl get pods -n langfuse -w
+  # 看到 langfuse-web Running 后再继续
+
+  # 4. 再启动 worker
+  kubectl apply -f 08-langfuse-worker.yaml
+
+  方案 2：给 Worker 添加启动依赖
+
+  在 Worker 的 Deployment 中添加 initContainer，等待 Web 就绪。
+
+  ---
+  你现在想用哪种方案？还是先用方案 1 快速解决？
